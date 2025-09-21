@@ -1,0 +1,66 @@
+# --- Java / Maven ---
+target/
+!.mvn/wrapper/maven-wrapper.jar
+*.class
+*.log
+*.tmp
+hs_err_pid*
+replay_pid*
+
+# Maven/Tests reports
+/.idea/**/shelf/
+/.idea/**/workspace.xml
+/.idea/**/tasks.xml
+/.idea/**/dictionaries
+/.idea/**/libraries
+/.idea/**/httpRequests
+/.idea/**/dataSources
+/.idea/**/dataSources.local.xml
+/.idea/**/dataSources.ids
+/.idea/**/sqlDataSources.xml
+/.idea/**/dynamic.xml
+/.idea/**/gradle.xml
+/.idea/**/uiDesigner.xml
+/.idea/**/jarRepositories.xml
+/.idea/**/compiler.xml
+/.idea/**/modules.xml
+/.idea/
+.surefire-*
+/surefire-reports/
+/failsafe-reports/
+/jacoco.exec
+
+# --- STS / Eclipse / NetBeans ---
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+# --- VS Code ---
+.vscode/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+
+# --- Docker / Datos locales ---
+pgdata/
+*.pid
+*.seed
+
+# --- Env & Secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Node (por si agregan frontend) ---
+node_modules/

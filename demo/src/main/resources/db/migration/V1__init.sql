@@ -1,0 +1,4 @@
+CREATE TABLE rol (
+    id_rol SERIAL PRIMARY KEY,
+    nombre VARCHAR(100) UNIQUE NOT NULL
+);
