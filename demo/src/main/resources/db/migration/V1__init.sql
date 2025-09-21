@@ -1,4 +1,4 @@
-
+--v1__init.sql
 CREATE TABLE IF NOT EXISTS rol (
   id_rol     SERIAL PRIMARY KEY,
   nombre     VARCHAR(100) UNIQUE NOT NULL

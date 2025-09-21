@@ -40,7 +40,7 @@ SPRING_PROFILES_ACTIVE=docker
 
 ## 🐳 2. Levantar el proyecto con Docker
 
-### Desde demo/:
+### Desde demo/
 
 ``` bash
 docker compose build
@@ -108,6 +108,6 @@ docker compose logs -f app
 
 application.properties está configurado para leer las variables del .env.
 
-El healthcheck en docker-compose.yml asegura que la app arranque cuando Postgres ya está listo.
+El healthcheck en docker-compose.yml asegura que la app arranque cuando Postgres ya está listo. 
 
 Si obtienes 404 en /, asegúrate de tener un controlador simple como HelloController.
