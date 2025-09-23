@@ -25,14 +25,14 @@ En el directorio demo/ crea un archivo .env:
 
 ``` env
 # Base de datos
-POSTGRES_DB=sistemacontable
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
+POSTGRES_DB=<<nombre de la dataBase>>
+POSTGRES_USER=<<usuario>>
+POSTGRES_PASSWORD=<<contraseña>>
 
 # App (Spring Boot)
-SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/sistemacontable
-SPRING_DATASOURCE_USERNAME=postgres
-SPRING_DATASOURCE_PASSWORD=postgres
+SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/<<nombre de la dataBase>>
+SPRING_DATASOURCE_USERNAME=<<usuario>>
+SPRING_DATASOURCE_PASSWORD=<<contraseña>>
 SPRING_JPA_HIBERNATE_DDL_AUTO=update
 SPRING_JPA_SHOW_SQL=true
 SPRING_PROFILES_ACTIVE=docker
