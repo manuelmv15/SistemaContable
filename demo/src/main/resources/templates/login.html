@@ -1,62 +1,26 @@
-<!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Iniciar sesión</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="min-h-screen bg-gray-50 flex items-center justify-center">
-  <main class="w-full max-w-md mx-auto px-6">
-    <!-- “Logo” / placeholder -->
-    <div class="mx-auto mb-10 h-40 w-40 border-2 border-gray-400 rounded-xl relative">
-     <!--  <div class="absolute inset-0 before:absolute before:inset-0 before:border-t before:border-gray-400 before:rotate-45 after:absolute after:inset-0 after:border-t after:border-gray-400 after:-rotate-45"></div> -->
-    </div>
+<!doctype html>
+<html lang="es">
+<head><meta charset="utf-8"><title>Login</title></head>
+<body>
+<h1>Iniciar sesión</h1>
 
-    <!-- Card -->
-    <div class="bg-white shadow-xl rounded-2xl p-8">
-      <h1 class="text-2xl font-semibold text-center mb-8">Iniciar sesión</h1>
+<!-- lee ?error=... de la URL -->
+<script>
+    const params = new URLSearchParams(location.search);
+    if (params.has('error')) {
+      const div = document.createElement('div');
+      div.style.color = 'red';
+      div.textContent = decodeURIComponent(params.get('error'));
+      document.body.prepend(div);
+    }
+</script>
 
-      <form th:action="@{/login}" method="post" class="space-y-5">
-
-        <div>
-          <input
-            id="username"
-            name="username"
-            type="text"
-            placeholder="Ingrese su usuario"
-            class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          />
-        </div>
-
-        <div>
-          <input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="Ingrese su contraseña"
-            class="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          class="w-full rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 transition"
-        >
-          Entrar
-        </button>
-      </form>
-
-      <p id="msg" class="text-center text-sm text-red-600 mt-4"></p>
-
-    </div>
-
-    <p class="text-center text-xs text-gray-500 mt-6">
-      © Sistema Contable
-    </p>
-  </main>
-
+<form method="post" action="/auth/login">
+    <label>Usuario o correo:</label>
+    <input type="text" name="usernameOrEmail" required>
+    <label>Contraseña:</label>
+    <input type="password" name="password" required>
+    <button type="submit">Entrar</button>
+</form>
 </body>
 </html>
