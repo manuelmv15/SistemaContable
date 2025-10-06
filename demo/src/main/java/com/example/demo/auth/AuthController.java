@@ -26,8 +26,8 @@ public class AuthController {
             var user = authService.login(usernameOrEmail, password);
 
             // 🔒 Crear autenticación en el contexto de Spring Security
-            var rol = (user.getTipo() != null && user.getTipo().getNombre() != null)
-                    ? user.getTipo().getNombre().toUpperCase().replace(" ", "_")
+            var rol = (user.getRol() != null && user.getRol().getNombre() != null)
+                    ? user.getRol().getNombre().toUpperCase().replace(" ", "_")
                     : "USER";
 
             var authorities = java.util.List.of(
@@ -53,7 +53,7 @@ public class AuthController {
             );
 
             // ✅ Guardar datos del usuario en sesión
-            request.getSession().setAttribute("USER_ID", user.getId());
+            request.getSession().setAttribute("USER_ID", user.getIdUsuario());
             request.getSession().setAttribute("USERNAME", user.getUsername());
 
             // Redirigir al dashboard

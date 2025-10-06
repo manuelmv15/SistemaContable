@@ -19,7 +19,7 @@ public class AuthService {
 
     public usuarioModel login(String usernameOrEmail, String rawPassword) {
         var user = usuarioRepo.findByUsername(usernameOrEmail)
-                .or(() -> usuarioRepo.findByEmail(usernameOrEmail))
+                .or(() -> usuarioRepo.findById(Long.valueOf(usernameOrEmail)))
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
         if (!Boolean.TRUE.equals(user.getEstado())) {

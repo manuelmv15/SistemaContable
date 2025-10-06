@@ -21,8 +21,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
 
         // Spring antepone "ROLE_" automáticamente a lo que pongas en roles()
-        String rol = (u.getTipo() != null && u.getTipo().getNombre() != null)
-                ? u.getTipo().getNombre().toUpperCase().replace(" ", "_")
+        String rol = (u.getRol() != null && u.getRol().getNombre() != null)
+                ? u.getRol().getNombre().toUpperCase().replace(" ", "_")
                 : "USER";
 
         return User.withUsername(u.getUsername())

@@ -12,11 +12,11 @@ public class LoginResponse {
 
     public static LoginResponse from(usuarioModel u) {
         var r = new LoginResponse();
-        r.id = u.getId();
+        r.id = u.getIdUsuario();
         r.nombre = u.getNombre();
         r.email = u.getEmail();
         r.username = u.getUsername();
-        r.rol = (u.getTipo() != null) ? u.getTipo().getNombre() : null;
+        r.rol = (u.getRol() != null) ? u.getRol().getNombre() : null;
         r.estado = Boolean.TRUE.equals(u.getEstado());
         return r;
     }

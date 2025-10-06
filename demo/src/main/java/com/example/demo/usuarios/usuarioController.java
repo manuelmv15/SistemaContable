@@ -35,14 +35,14 @@ public class usuarioController {
     @PostMapping
     public ResponseEntity<?> crear(@RequestBody usuarioModel u) {
         // Validar rol existente
-        Long rolId = (u.getTipo() != null) ? u.getTipo().getId() : null;
+        Long rolId = (u.getRol() != null) ? u.getRol().getIdRol() : null;
         if (rolId == null) return ResponseEntity.badRequest().body("Debe especificar tipo.id (rol).");
 
         rolModel rol = rolRepo.findById(rolId).orElse(null);
         if (rol == null) return ResponseEntity.badRequest().body("El rol especificado no existe.");
 
         // (opcional) aquí deberías encriptar contraseña con BCrypt
-        u.setTipo(rol);
+        u.setRol(rol);
         return ResponseEntity.ok(usuarioRepo.save(u));
     }
 
@@ -54,8 +54,8 @@ public class usuarioController {
             u.setUsername(datos.getUsername());
             u.setEstado(datos.getEstado());
 
-            if (datos.getTipo() != null && datos.getTipo().getId() != null) {
-                rolRepo.findById(datos.getTipo().getId()).ifPresent(u::setTipo);
+            if (datos.getRol() != null && datos.getRol().getIdRol() != null) {
+                rolRepo.findById(datos.getRol().getIdRol()).ifPresent(u::setRol);
             }
             // (opcional) manejar cambio de contraseña en un endpoint aparte
             return ResponseEntity.ok(usuarioRepo.save(u));
