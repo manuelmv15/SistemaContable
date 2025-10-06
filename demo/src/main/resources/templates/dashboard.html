@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar sesión</title>
+    <title>Dashboard</title>
 </head>
 <body>
-<h1>dashboard</h1>
-
+    <h1>Bienvenido, <span th:text="${usuario.nombre}"></span></h1>
+    <h2>Tu rol: <span th:text="${usuario.rol.nombre}"></span></h2>
 </body>
 </html>
