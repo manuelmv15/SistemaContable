@@ -57,6 +57,7 @@ pgdata/
 *.pid
 *.seed
 
+
 # --- Env & Secrets ---
 .env
 .env.*
@@ -64,3 +65,5 @@ pgdata/
 
 # --- Node (por si agregan frontend) ---
 node_modules/
+
+.idea
