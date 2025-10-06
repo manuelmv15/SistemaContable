@@ -1,113 +1,65 @@
-# Sistema Contable – Spring Boot + PostgreSQL (Docker)
+# Sistema Contable — Spring Boot + PostgreSQL + Docker
 
-Proyecto basado en Spring Boot con PostgreSQL usando Docker Compose y migraciones con Flyway.
-No necesitas tener Java ni Postgres instalados en tu máquina.
-
-``` swift
-
-📁 Estructura mínima
-
-demo/
-├─ docker-compose.yml
-├─ Dockerfile
-├─ pom.xml
-├─ mvnw / mvnw.cmd
-└─ src/
-   ├─ main/java/com/example/demo/...
-   └─ main/resources/
-      ├─ application.properties
-      └─ db/migration/V1__init.sql
-```
-
-## 1. Configurar variables de entorno
-
-En el directorio demo/ crea un archivo .env:
-
-``` env
-# Base de datos
-POSTGRES_DB=<<nombre de la dataBase>>
-POSTGRES_USER=<<usuario>>
-POSTGRES_PASSWORD=<<contraseña>>
-
-# App (Spring Boot)
-SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/<<nombre de la dataBase>>
-SPRING_DATASOURCE_USERNAME=<<usuario>>
-SPRING_DATASOURCE_PASSWORD=<<contraseña>>
-SPRING_JPA_HIBERNATE_DDL_AUTO=update
-SPRING_JPA_SHOW_SQL=true
-SPRING_PROFILES_ACTIVE=docker
-```
-
-## 🐳 2. Levantar el proyecto con Docker
-
-### Desde demo/
+## Descargar y desplegar el proyecto
 
 ``` bash
-docker compose build
+git clone https://github.com/manuelmv15/SistemaContable.git
+cd SistemaContable
+```
+
+El proyecto incluye un archivo llamado '.env.examlple' crea un archivo '.env' copialo y cambia las credensiales
+
+**A la hora de levantar el proyecto se crear automaticamente las tablas junto con las inserciones**
+Para ejecutar con Docker solo necesitas Docker/Compose.
+
+Docker 24+ y Docker Compose v2
+
+## Despliegue con Docker
+
+```bahs
+docker compose down -v        # (opcional) limpia contenedores/volúmenes previos
+docker compose build --no-cache
 docker compose up -d
 ```
 
-Ver logs de la aplicación:
+*la primera ves puede llegar a tardar varios segundos ya que*  descargará imágenes y ejecutará migraciones Flyway automáticamente.
 
-``` bash
-docker compose logs -f app
+verificar si se levantaron los dos contenedores con:
+
+```bash
+docker ps
 ```
 
-Cuando aparezca:
+vera algo como
 
-Tomcat started on port(s): 8080
-Started SistemaContableApplication...
-
-La app estará disponible en: [http://localhost:8080](http://localhost:8080).
-
-## 🗄️ 4. Migraciones con Flyway
-
-Los scripts están en src/main/resources/db/migration/.
-Flyway los ejecuta automáticamente al iniciar la app.
-
-Ejemplo: V1__init.sql crea todas las tablas.
-
-Para revisar las tablas en Postgres:
-
-``` bash
-docker exec -it pg_sistemacontable psql -U postgres -d sistemacontable
-
-# Dentro de psql:
-
-\dt
-select * from rol;
+```bash
+CONTAINER ID   IMAGE          COMMAND                  CREATED         STATUS                    PORTS                                         NAMES
+d96a1e3c3ea3   proyecto-app   "sh -c 'java $JAVA_O…"   4 minutes ago   Up 14 seconds             0.0.0.0:8080->8080/tcp, [::]:8080->8080/tcp   app_sistemacontable
+fb2b424d003a   postgres:16    "docker-entrypoint.s…"   4 minutes ago   Up 20 seconds (healthy)   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp   pg_sistemacontable
 ```
 
-## 🔧 5. Comandos útiles
+La app quedará accesible en:  [http://localhost:8080](http://localhost:8080)
 
-Parar contenedores
+### Detener
 
-``` bash
-docker compose down
+```bash
+docker compose down 
 ```
 
-Parar y borrar datos (⚠️ elimina el volumen de Postgres)
+## Estructura del proyecto
 
-``` bash
-docker compose down -v
+``` swift
+├── docker-compose.yml
+├── Dockerfile
+├── pom.xml
+├── README.md
+├── src
+   ├── main
+       ├── java/com/example/demo
+       │   └── SistemaContableApplication.java
+       └── resources
+           ├── application.properties
+           ├── db/migration/
+           └── templates/
+
 ```
-
-Reconstruir solo la app (tras cambios en el código)
-
-``` bash
-docker compose up -d --build app
-```
-
-Ver logs
-
-``` bsah
-docker compose logs -f app
-```
-
-📌 Notas
-
-application.properties está configurado para leer las variables del .env.
-
-El healthcheck en docker-compose.yml asegura que la app arranque cuando Postgres ya está listo. 
-
-Si obtienes 404 en /, asegúrate de tener un controlador simple como HelloController.
