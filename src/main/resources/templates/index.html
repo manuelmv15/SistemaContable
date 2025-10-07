@@ -1,11 +1,160 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Iniciar sesión</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+            /* font-size: 1.2rem; */
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            color: black;
+        }
+
+        .header {
+            background-color: #72b4b4;
+            height: 70px;
+            width: 100%;
+
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: flex-end;
+
+            padding: 20px;
+        }
+
+        .caja {
+            display: flex;
+            flex-direction: column;
+
+            justify-content: center;
+            align-items: center;
+
+            font-size: 1.4rem;
+        }
+
+        .info {
+            display: grid;
+            grid-template-columns: 1fr;
+
+            width: 850px;
+            /* border: 1px solid black; */
+            padding: 20px;
+            gap: 20px;
+
+            position: relative;
+        }
+
+        .listas {
+            padding-left: 30px;
+            color: blue;
+        }
+
+        .info img {
+            width: 100%;
+            height: 400px;
+            border: 1px solid blue;
+        }
+    </style>
 </head>
+
 <body>
-<h1>Index</h1>
+
+    <div class="header">
+        <a href="login.html"><img src="../static/img/acceso.png" alt=""></a>
+    </div>
+
+    <div class="caja">
+
+        <div class="info">
+            <h2>Historia de la Contabilidad...</h2>
+
+            <h3>Puntos claves</h3>
+
+            <div class="listas">
+                <ul>
+                    <li>Es una disciplina financiera esencial para registrar y analizar las transacciones económicas y
+                        financieras de una entidad o empresa.</li>
+                    <li>Es el arte de gestionar el dinero de una empresa.</li>
+                    <li>Registra los movimientos de dinero, permite conocer el dinero disponible y las deudas
+                        pendientes.
+                    </li>
+                    <li>Los elementos principales de la contabilidad son el activo, el pasivos y el patrimonio neto.
+                    </li>
+                    <li>Existen diversos tipos de contabilidad, como la fiscal, gerencial (para directivos),
+                        contabilidad de
+                        costes o contabilidad financiera.</li>
+                </ul>
+            </div>
+
+            <img src="https://economipedia.com/wp-content/uploads/Contabilidad-Que-es.jpg"
+                alt="Conceptos de contabilidad">
+
+            <h2>Elementos patrimoniales y estados financieros</h2>
+
+            <p>Dentro de la contabilidad existen tanto elementos patrimoniales como estados financieros. Son dos
+                conceptos
+                de suma importancia y sobre los que se articula toda la base de la misma.</p>
+
+            <p>Los elementos patrimoniales son: </p>
+
+            <div class="listas">
+
+                <ul>
+                    <li><span style="color: blue;">Activo</span></li>
+                    <li><span style="color: blue;">Pasivo</span></li>
+                    <li><span style="color: blue;">Capital</span></li>
+                </ul>
+            </div>
+
+            <p>Por su lado los estados financieros pueden ser: </p>
+
+            <div class="listas">
+                <ul>
+                    <li><span style="color: blue;">Balance general o de situación.</span></li>
+                    <li><span style="color: blue;">Cuenta de resultados o cuenta de pérdida o ganancias.</span></li>
+                    <li><span style="color: blue;">Estado de cambios en el patrimonio neto.</span></li>
+                    <li><span style="color: blue;">Estados de flujo de efectivo.</span></li>
+                </ul>
+            </div>
+
+            <h2>Tipos de contabilidad</h2>
+
+            <p>Claro que, como hemos podido comprobar son muchos los detalles que deben tenerse en cuenta en un
+                registro. De la misma manera, son bastantes las áreas de la empresa sobre las que se debe realizar un
+                registro contable.</p>
+
+            <p>Así pues, se han desarrollado diferentes tipos de contabilidad. Por ejemplo, no es lo mismo la
+                contabilidad pública que la contabilidad de costes. En esta línea no utiliza las mismas partidas
+                contables una empresa financiera que una empresa agrícola.</p>
+
+            <p>No obstante, dicho esto, podríamos decir que la contabilidad se puede dividir en función de tres
+                detalles:</p>
+
+            <div class="listas">
+                <ul>
+                    <li>En función de su naturaleza: Aquí hablamos de si es pública o privada.</li>
+                    <li>Por el tipo de actividad económica: Por ejemplo, existe la contabilidad industrial, la la
+                        petrolera, la comercial, etc.</li>
+                    <li>En función del campo en que se aplica: Dependiendo de la especialización podemos diferenciar
+                        entre contabilidad fiscal, gerencial (para directivos), contabilidad de costes o contabilidad
+                        financiera.</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
 
 </body>
+
 </html>
