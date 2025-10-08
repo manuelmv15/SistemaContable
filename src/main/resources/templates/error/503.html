@@ -1,10 +1,278 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>503 - Servicio No Disponible</title>
 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -300px;
+            right: -300px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            bottom: -200px;
+            left: -200px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.05);
+            }
+        }
+
+        .error-container {
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 550px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-code {
+            font-size: 120px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .error-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+
+            0%,
+            50%,
+            100% {
+                opacity: 1;
+            }
+
+            25%,
+            75% {
+                opacity: 0.3;
+            }
+        }
+
+        h1 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .error-message {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+
+        .maintenance-info {
+            background-color: #e3f2fd;
+            border-left: 4px solid #4facfe;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+            text-align: left;
+        }
+
+        .maintenance-info h3 {
+            color: #1976d2;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .maintenance-info p {
+            color: #555;
+            font-size: 14px;
+            margin: 0;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(79, 172, 254, 0.5);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #4facfe;
+            border: 2px solid #4facfe;
+        }
+
+        .btn-secondary:hover {
+            background: #4facfe;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #999;
+            font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+            .error-container {
+                padding: 40px 25px;
+            }
+
+            .error-code {
+                font-size: 80px;
+            }
+
+            .error-icon {
+                font-size: 60px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error-container">
+        <div class="error-icon">🔧</div>
+        <div class="error-code">503</div>
+        <h1>Servicio No Disponible</h1>
+        <p class="error-message">
+            El servicio no está disponible temporalmente debido a mantenimiento o sobrecarga del servidor.
+            Por favor, intenta nuevamente en unos minutos.
+        </p>
+
+        <div class="maintenance-info">
+            <h3>🔔 Mantenimiento Programado</h3>
+            <p>Estamos trabajando para mejorar tu experiencia. El servicio estará disponible pronto.</p>
+        </div>
+
+        <div class="button-group">
+            <a href="javascript:location.reload()" class="btn btn-primary">Reintentar</a>
+            <a href="/" class="btn btn-secondary">Volver al Inicio</a>
+        </div>
+
+        <div class="footer-note">
+            <p>Tiempo estimado de restauración: 15-30 minutos</p>
+        </div>
+    </div>
+
+    <script>
+        // Auto-reload cada 30 segundos
+        setTimeout(function () {
+            location.reload();
+        }, 30000);
+    </script>
 </body>
+
 </html>

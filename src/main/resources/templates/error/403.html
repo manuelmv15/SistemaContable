@@ -1,26 +1,248 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <title>403 - Acceso Denegado</title>
-    <style>
-        body {
-          background-color: #0e0e0e;
-          color: #00ff99;
-          font-family: monospace;
-          text-align: center;
-          padding-top: 10%;
-        }
-        h1 { font-size: 3rem; }
-        a {
-          color: #00ff99;
-          text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>403 - Acceso Denegado</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Círculos decorativos de fondo */
+    body::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      top: -300px;
+      right: -300px;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    body::after {
+      content: '';
+      position: absolute;
+      width: 400px;
+      height: 400px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 50%;
+      bottom: -200px;
+      left: -200px;
+      animation: float 8s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+
+      50% {
+        transform: translateY(-20px) scale(1.05);
+      }
+    }
+
+    .error-container {
+      background-color: rgba(255, 255, 255, 0.98);
+      padding: 50px 40px;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 550px;
+      width: 90%;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .error-code {
+      font-size: 120px;
+      font-weight: 700;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 20px;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .error-icon {
+      font-size: 80px;
+      margin-bottom: 20px;
+      animation: shake 0.5s ease-in-out;
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      25% {
+        transform: translateX(-10px);
+      }
+
+      75% {
+        transform: translateX(10px);
+      }
+    }
+
+    h1 {
+      color: #333;
+      font-size: 28px;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .error-message {
+      color: #666;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+    }
+
+    .btn-secondary:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    .footer-note {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+      color: #999;
+      font-size: 13px;
+    }
+
+    @media (max-width: 480px) {
+      .error-container {
+        padding: 40px 25px;
+      }
+
+      .error-code {
+        font-size: 80px;
+      }
+
+      .error-icon {
+        font-size: 60px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      .button-group {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+    }
+  </style>
 </head>
+
 <body>
-<h1>Acceso Denegado (403)</h1>
-<p>No tienes permiso para ver esta página.</p>
-<p><a href="/">Volver al inicio</a></p>
+  <div class="error-container">
+    <div class="error-icon">🚫</div>
+    <div class="error-code">403</div>
+    <h1>Acceso Denegado</h1>
+    <p class="error-message">
+      Lo sentimos, no tienes los permisos necesarios para acceder a este recurso.
+      Si crees que esto es un error, por favor contacta al administrador del sistema.
+    </p>
+
+    <div class="button-group">
+      <a href="/" class="btn btn-primary">Volver al Inicio</a>
+      <a href="javascript:history.back()" class="btn btn-secondary">Página Anterior</a>
+    </div>
+
+    <div class="footer-note">
+      <p>Si necesitas acceso, contacta al administrador del sistema</p>
+    </div>
+  </div>
 </body>
+
 </html>

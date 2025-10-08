@@ -1,10 +1,356 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error - Sistema Contable</title>
 
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #72b4b4 0%, #5a9090 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            top: -300px;
+            right: -300px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 50%;
+            bottom: -200px;
+            left: -200px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-20px) scale(1.05);
+            }
+        }
+
+        .error-container {
+            background-color: rgba(255, 255, 255, 0.98);
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px) rotate(-5deg);
+            }
+
+            75% {
+                transform: translateX(10px) rotate(5deg);
+            }
+        }
+
+        h1 {
+            color: #333;
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            background: linear-gradient(135deg, #72b4b4 0%, #5a9090 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .error-type {
+            display: inline-block;
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            border: 1px solid #ffeaa7;
+        }
+
+        .error-message {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #72b4b4;
+            text-align: left;
+        }
+
+        .error-details {
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .error-details h3 {
+            color: #72b4b4;
+            font-size: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .error-details ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .error-details li {
+            color: #555;
+            font-size: 14px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .error-details li:last-child {
+            border-bottom: none;
+        }
+
+        .error-details strong {
+            color: #333;
+            margin-right: 8px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #72b4b4 0%, #5a9090 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(114, 180, 180, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(114, 180, 180, 0.5);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #72b4b4;
+            border: 2px solid #72b4b4;
+        }
+
+        .btn-secondary:hover {
+            background: #72b4b4;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: white;
+            color: #dc3545;
+            border: 2px solid #dc3545;
+        }
+
+        .btn-danger:hover {
+            background: #dc3545;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .footer-note {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #999;
+            font-size: 13px;
+        }
+
+        .support-link {
+            color: #72b4b4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .support-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            .error-container {
+                padding: 40px 25px;
+            }
+
+            .error-icon {
+                font-size: 60px;
+            }
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error-container">
+        <div class="error-icon">⚠️</div>
+        <h1>¡Oops! Algo salió mal</h1>
+
+        <div class="error-type">Error en la aplicación</div>
+
+        <div class="error-message">
+            <strong>Descripción:</strong> Ha ocurrido un error inesperado al procesar tu solicitud.
+            Por favor, revisa los detalles a continuación e intenta nuevamente.
+        </div>
+
+        <div class="error-details">
+            <h3>📋 Detalles del Error</h3>
+            <ul>
+                <li><strong>Código:</strong> <span id="errorCode">ERR_UNKNOWN</span></li>
+                <li><strong>Timestamp:</strong> <span id="timestamp"></span></li>
+                <li><strong>Ruta:</strong> <span id="path">/</span></li>
+                <li><strong>Método:</strong> <span id="method">GET</span></li>
+            </ul>
+        </div>
+
+        <div class="button-group">
+            <a href="/" class="btn btn-primary">Volver al Inicio</a>
+            <a href="javascript:history.back()" class="btn btn-secondary">Página Anterior</a>
+            <a href="javascript:location.reload()" class="btn btn-danger">Reintentar</a>
+        </div>
+
+        <div class="footer-note">
+            <p>¿Necesitas ayuda? Contacta a <a href="mailto:soporte@sistemacontable.com" class="support-link">soporte
+                    técnico</a></p>
+            <p style="margin-top: 10px; font-size: 11px;">ID de Sesión: <span id="sessionId"></span></p>
+        </div>
+    </div>
+
+    <script>
+        // Obtener parámetros de la URL
+        const params = new URLSearchParams(location.search);
+
+        // Actualizar detalles del error si están disponibles
+        if (params.has('code')) {
+            document.getElementById('errorCode').textContent = params.get('code');
+        }
+
+        if (params.has('path')) {
+            document.getElementById('path').textContent = decodeURIComponent(params.get('path'));
+        }
+
+        if (params.has('method')) {
+            document.getElementById('method').textContent = params.get('method');
+        }
+
+        // Actualizar mensaje de error personalizado
+        if (params.has('message')) {
+            const messageDiv = document.querySelector('.error-message');
+            messageDiv.innerHTML = '<strong>Descripción:</strong> ' + decodeURIComponent(params.get('message'));
+        }
+
+        // Generar timestamp actual
+        const now = new Date();
+        document.getElementById('timestamp').textContent = now.toLocaleString('es-ES', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        });
+
+        // Generar ID de sesión aleatorio
+        const sessionId = 'SID-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        document.getElementById('sessionId').textContent = sessionId;
+    </script>
 </body>
+
 </html>
