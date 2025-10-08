@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+    <nav th:fragment="navbar" class="col-md-3 col-lg-2 sidebar">
+        <h4 class="text-center mb-4">Administrador</h4>
+
+        <a href="dashboard" class="active">Dashboard</a>
+        <a href="Gestionar-Usuarios">Gestionar Usuarios</a>
+        <a href="Clasificacion-Documentos">Clasificación de Documentos</a>
+        <a href="Periodos-Contables">Períodos Contables</a>
+        <a href="Consultar-Auditorias">Consultar Auditorías</a>
+        <a href="Gestionar-cuentas">Gestionar cuentas</a>
+
+        <hr>
+        <a href="/logout" class="text-danger">Cerrar Sesión</a>
+    </nav>
+</body>
+</html>

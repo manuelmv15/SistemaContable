@@ -2,18 +2,16 @@
 package com.example.demo.controllers;
 
 import com.example.demo.usuarios.usuarioService;
-import com.example.demo.usuarios.usuarioModel;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 // ✅ IMPORT CORRECTO:
-import org.springframework.ui.Model;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Controller
 public class ViewController {
@@ -22,6 +20,10 @@ public class ViewController {
     @GetMapping("/auth/login")
     public String mostrarLogin() {
         return "login"; // templates/login.html
+    }
+    @GetMapping("/index")
+    public String mostrarIndex() {
+        return "index"; // templates/login.html
     }
 
     private final usuarioService usuarioService;
@@ -45,6 +47,14 @@ public class ViewController {
             case "ROLE_AUDITOR" -> "redirect:/auditor/dashboard";
             default -> "redirect:/auth/login";
         };
+    }
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // destruye la sesión
+        }
+        return "redirect:/index";
     }
 
 }
