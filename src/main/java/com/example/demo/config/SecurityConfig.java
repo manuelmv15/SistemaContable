@@ -8,6 +8,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 
 @Configuration
 public class SecurityConfig {
@@ -30,19 +31,33 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        // handler para 403 -> forward a /error/403
+        var denied = new org.springframework.security.web.access.AccessDeniedHandlerImpl();
+        denied.setErrorPage("/error/403");
+
         http
-                .csrf(csrf -> csrf.disable()) // desactiva CSRF (para APIs REST)
+                .csrf(csrf -> csrf.disable())
                 .authenticationProvider(authProvider())
                 .authorizeHttpRequests(auth -> auth
-                        // 🔓 rutas públicas
-                        .requestMatchers("/auth/**", "/public/**", "/", "/index.html").permitAll()
-                        // 🔒 todo lo demás requiere autenticación
+                        // públicas (incluye errores)
+                        .requestMatchers("/error/**", "/auth/**", "/public/**", "/", "/index.html",
+                                "/css/**", "/js/**", "/images/**", "/favicon.ico").permitAll()
+
+                        // por rol
+                        .requestMatchers("/superadmin/**").hasRole("SUPERADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/contador/**").hasRole("CONTADOR")
+                        .requestMatchers("/auditor/**").hasRole("AUDITOR")
+
+                        // resto
                         .anyRequest().authenticated()
                 )
-                // deshabilita login básico (evita el popup)
+                .exceptionHandling(ex -> ex.accessDeniedHandler(denied))
                 .httpBasic(h -> h.disable())
                 .formLogin(f -> f.disable());
 
         return http.build();
     }
+
+
 }
