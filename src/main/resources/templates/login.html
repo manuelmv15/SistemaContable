@@ -1,11 +1,92 @@
 <!doctype html>
 <html lang="es">
-<head><meta charset="utf-8"><title>Login</title></head>
-<body>
-<h1>Iniciar sesión</h1>
 
-<!-- lee ?error=... de la URL -->
-<script>
+<head>
+  <meta charset="utf-8">
+  <title>Login</title>
+  <link rel="shortcut icon" href="favicon.ico" type="">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      padding: 0;
+      margin: 0;
+      font-size: 1.1rem;
+      font-family: Arial, Helvetica, sans-serif;
+      color: black;
+    }
+
+    body {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      justify-content: center;
+      align-items: center;
+      background-image: url("https://wallpapers.com/images/hd/accounting-financial-statements-zwb30cl3yxvh7f59.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(94, 88, 88, 0.486);
+      backdrop-filter: blur(3px);
+      z-index: -1;
+    }
+
+    .form {
+      width: 400px;
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+
+      justify-content: center;
+      align-items: center;
+
+      gap: 20px;
+      background-color: rgba(255, 255, 255, 0.74);
+
+      /* border: 1px solid black; */
+      border-radius: 15px;
+      box-shadow: 8px 8px 10px rgba(0, 0, 0, 0.493);
+    }
+
+    .form button {
+      cursor: pointer;
+      width: 82%;
+      margin-top: 30px;
+      height: 50px;
+      background-color: rgb(78, 78, 202);
+      color: white;
+      border-radius: 7px;
+    }
+
+    .form button:hover {
+      background-color: rgb(54, 54, 177);
+    }
+
+    .form input {
+      padding: 10px;
+      border-radius: 9px;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <!-- lee ?error=... de la URL -->
+  <script>
     const params = new URLSearchParams(location.search);
     if (params.has('error')) {
       const div = document.createElement('div');
@@ -13,14 +94,21 @@
       div.textContent = decodeURIComponent(params.get('error'));
       document.body.prepend(div);
     }
-</script>
+  </script>
 
-<form method="post" action="/auth/login">
+  <form class="form" method="post" action="/auth/login">
+
+    <caption>Ingrese sus credenciales</caption>
+
     <label>Usuario o correo:</label>
     <input type="text" name="usernameOrEmail" required>
     <label>Contraseña:</label>
     <input type="password" name="password" required>
-    <button type="submit">Entrar</button>
-</form>
+    <button type="submit">ENTRAR</button>
+
+    <a href=""></a>
+  </form>
+
 </body>
+
 </html>
