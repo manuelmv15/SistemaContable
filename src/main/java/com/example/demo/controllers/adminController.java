@@ -38,15 +38,10 @@ public class adminController {
         return "admin/Gestionar-Usuarios";
     }
 
-    @GetMapping("/Consultar-Auditorias")
-    public String consultarAuditorias() {
-        return "admin/Consultar-Auditorias";
-    }
 
-    @GetMapping("/Gestionar-cuentas")
-    public String GestionarCuentas() {
-        return "admin/Gestionar-cuentas";
-    }
 }
+
+
+
 
 

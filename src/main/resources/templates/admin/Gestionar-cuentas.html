@@ -101,16 +101,16 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- listaCuentas: List<CuentaContable> con campo tipo.nombre -->
-                            <tr th:each="c : ${listaCuentas}" th:attr="data-tipo=${c.tipo.idTipoCuenta}">
+                            <!-- listaCuentas: List<CuentaContable> (propiedades camelCase) -->
+                            <tr th:each="c : ${listaCuentas}" th:attr="data-tipo=${c.tipo != null ? c.tipo.idTipoCuenta : ''}">
                                 <td th:text="${c.idCuenta}">10</td>
                                 <td th:text="${c.codigo}">1101</td>
                                 <td th:text="${c.nombre}">Caja</td>
-                                <td th:text="${c.tipo.nombre}">Activo</td>
+                                <td th:text="${c.tipo != null ? c.tipo.nombre : '—'}">Activo</td>
                                 <td class="text-nowrap">
                                     <button class="btn btn-outline-primary btn-sm"
                                             data-bs-toggle="modal" data-bs-target="#modalCuenta"
-                                            th:attr="data-id=${c.idCuenta},data-codigo=${c.codigo},data-nombre=${c.nombre},data-tipo=${c.tipo.idTipoCuenta}"
+                                            th:attr="data-id=${c.idCuenta},data-codigo=${c.codigo},data-nombre=${c.nombre},data-tipo=${c.tipo != null ? c.tipo.idTipoCuenta : ''}"
                                             onclick="editarCuenta(this)">Editar</button>
 
                                     <form th:action="@{|/admin/cuentas-contables/${c.idCuenta}|}" method="post" class="d-inline"
@@ -179,7 +179,10 @@
                         <label class="form-label">Tipo de cuenta</label>
                         <select name="tipoId" id="cuentaTipo" class="form-select" required>
                             <option value="">— Seleccione —</option>
-                            <option th:each="t : ${listaTipos}" th:value="${t.idTipoCuenta}" th:text="${t.nombre}"></option>
+                            <option th:each="t : ${listaTipos}"
+                                    th:value="${t.idTipoCuenta}"
+                                    th:text="${t.nombre}">
+                            </option>
                         </select>
                     </div>
                 </div>
@@ -241,7 +244,7 @@
       document.getElementById('cuentaMethod').value='put';
       document.getElementById('cuentaCodigo').value = btn.getAttribute('data-codigo');
       document.getElementById('cuentaNombre').value = btn.getAttribute('data-nombre');
-      document.getElementById('cuentaTipo').value   = btn.getAttribute('data-tipo');
+      document.getElementById('cuentaTipo').value   = btn.getAttribute('data-tipo') || '';
     }
 </script>
 </body>

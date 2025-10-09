@@ -21,7 +21,9 @@ public class ViewController {
     public String mostrarLogin() {
         return "login"; // templates/login.html
     }
-    @GetMapping("/index")
+
+
+    @GetMapping("/")
     public String mostrarIndex() {
         return "index"; // templates/login.html
     }
@@ -54,7 +56,7 @@ public class ViewController {
         if (session != null) {
             session.invalidate(); // destruye la sesión
         }
-        return "redirect:/index";
+        return "redirect:/";
     }
 
 }
