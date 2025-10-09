@@ -12,10 +12,14 @@
     </style>
 </head>
 <body>
+
+
 <div class="container py-4">
+
+    <div th:replace="admin/fragments/navbar :: navbar"></div>
+
     <div class="d-flex align-items-center justify-content-between mb-3">
         <h2 class="m-0">Administrar Cuentas</h2>
-        <a th:href="@{/admin}" class="btn btn-outline-secondary btn-sm">Volver</a>
     </div>
 
     <div class="row g-4">
@@ -59,7 +63,9 @@
                                 </td>
                             </tr>
                             <!-- Si no hay datos -->
-                            <tr th:if="${#lists.isEmpty(listaTipos)}"><td colspan="3" class="text-center text-muted">Sin datos</td></tr>
+                            <tr th:if="${#lists.isEmpty(listaTipos)}">
+                                <td colspan="3" class="text-center text-muted">Sin datos</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -84,7 +90,9 @@
                         <div class="col-sm-6">
                             <select id="filtroTipo" class="form-select form-select-sm" onchange="filtraPorTipo()">
                                 <option value="">— Filtrar por Tipo —</option>
-                                <option th:each="t : ${listaTipos}" th:value="${t.idTipoCuenta}" th:text="${t.nombre}"></option>
+                                <option th:each="t : ${listaTipos}"
+                                        th:value="${t.idTipoCuenta}"
+                                        th:text="${t.nombre}"></option>
                             </select>
                         </div>
                     </div>
@@ -101,8 +109,9 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <!-- listaCuentas: List<CuentaContable> (propiedades camelCase) -->
-                            <tr th:each="c : ${listaCuentas}" th:attr="data-tipo=${c.tipo != null ? c.tipo.idTipoCuenta : ''}">
+                            <!-- listaCuentas: List<CuentaContable> -->
+                            <tr th:each="c : ${listaCuentas}"
+                                th:attr="data-tipo=${c.tipo != null ? c.tipo.idTipoCuenta : ''}">
                                 <td th:text="${c.idCuenta}">10</td>
                                 <td th:text="${c.codigo}">1101</td>
                                 <td th:text="${c.nombre}">Caja</td>
@@ -110,7 +119,10 @@
                                 <td class="text-nowrap">
                                     <button class="btn btn-outline-primary btn-sm"
                                             data-bs-toggle="modal" data-bs-target="#modalCuenta"
-                                            th:attr="data-id=${c.idCuenta},data-codigo=${c.codigo},data-nombre=${c.nombre},data-tipo=${c.tipo != null ? c.tipo.idTipoCuenta : ''}"
+                                            th:attr="data-id=${c.idCuenta},
+                                   data-codigo=${c.codigo},
+                                   data-nombre=${c.nombre},
+                                   data-tipo=${c.tipo != null ? c.tipo.idTipoCuenta : ''}"
                                             onclick="editarCuenta(this)">Editar</button>
 
                                     <form th:action="@{|/admin/cuentas-contables/${c.idCuenta}|}" method="post" class="d-inline"
@@ -121,15 +133,17 @@
                                     </form>
                                 </td>
                             </tr>
-                            <tr th:if="${#lists.isEmpty(listaCuentas)}"><td colspan="5" class="text-center text-muted">Sin datos</td></tr>
+                            <tr th:if="${#lists.isEmpty(listaCuentas)}">
+                                <td colspan="5" class="text-center text-muted">Sin datos</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </div><!-- /.row -->
+</div><!-- /.container -->
 
 <!-- ===== Modal: Tipo de Cuenta ===== -->
 <div class="modal fade" id="modalTipo" tabindex="-1" aria-hidden="true">
