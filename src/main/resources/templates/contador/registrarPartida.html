@@ -17,87 +17,97 @@
 
             <div th:replace="contador/fragments/sidebar :: sidebar"></div>
 
-            <!-- MAIN CONTENT -->
+            <!-- ¿ cooking o cooked ? -->
+
             <main class="col p-4 overflow-auto" style="max-height: 100vh;">
+
                 <div class="container">
+
                     <form class="entry-form">
-                        <!-- Basic Information -->
+
                         <div class="form-section">
+
                             <h2>Información Básica</h2>
+
                             <div class="form-grid">
+
+                                <!-- CAMPOS DE LA PARTIDA -->
                                 <div class="form-group">
-                                    <label for="date">Fecha</label>
-                                    <input type="date" id="date" required>
+                                    <label for="fecha">Fecha</label>
+                                    <input type="fecha" id="fecha" required>
                                 </div>
+
                                 <div class="form-group">
-                                    <label for="reference">Número de Referencia</label>
-                                    <input type="text" id="reference" placeholder="Ej: AST-001" required>
+                                    <label for="num-referencia">Número de Referencia</label>
+                                    <input type="text" id="num-referencia" placeholder="Ej: AST-001" required>
                                 </div>
                                 
                                 <div class="form-group span-2">
-                                    <label for="description">Descripción</label>
-                                    <textarea id="description" rows="3"
+                                    <label for="descripcion">Descripción</label>
+                                    <textarea id="descripcion" rows="3"
                                         placeholder="Descripción detallada de la operación" required></textarea>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Account Entries -->
                         <div class="form-section">
                             <h2>Cuentas y Movimientos</h2>
 
                             <div class="entry-item">
+
                                 <div class="entry-header">
                                     <h3>Debe</h3>
-                                    <button type="button" class="add-btn">+
-                                        Agregar Cuenta</button>
+                                    <button type="button" class="add-btn">Agregar Cuenta</button>
                                 </div>
+
+                                <!-- CAMPOS DEL DEBE  -->
                                 <div class="account-entries">
                                     <div class="account-row">
                                         <div class="form-group">
                                             <label>Código de Cuenta</label>
-                                            <input type="text" placeholder="Ej: 1105">
+                                            <input type="text" name="codigo-cuenta-debe" id="codigo-cuenta-debe" placeholder="Ej: 1105">
                                         </div>
+
                                         <div class="form-group">
                                             <label>Nombre de Cuenta</label>
-                                            <input type="text" placeholder="Ej: Caja General">
+                                            <input type="text" name="nombre-cuenta" id="nombre-cuenta-debe" placeholder="Ej: Caja General">
                                         </div>
                                         <div class="form-group">
                                             <label>Monto</label>
-                                            <input type="number" step="0.01" placeholder="0.00">
+                                            <input type="number" name="monto-cuenta" id="monto-cuenta-debe" step="0.01" placeholder="0.00">
                                         </div>
-                                        <button type="button" class="remove-btn">×</button>
+                                        <button type="button" class="remove-btn">Eliminar</button>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="entry-item">
+
+                                <!-- CAMPOS DEL HABER -->
                                 <div class="entry-header">
                                     <h3>Haber</h3>
-                                    <button type="button" class="add-btn">+
-                                        Agregar Cuenta</button>
+                                    <button type="button" class="add-btn">Agregar Cuenta</button>
                                 </div>
                                 <div class="account-entries">
                                     <div class="account-row">
                                         <div class="form-group">
                                             <label>Código de Cuenta</label>
-                                            <input type="text" placeholder="Ej: 4105">
+                                            <input type="text" name="codigo-cuenta-haber" placeholder="Ej: 4105">
                                         </div>
                                         <div class="form-group">
                                             <label>Nombre de Cuenta</label>
-                                            <input type="text" placeholder="Ej: Ingresos por Ventas">
+                                            <input type="text" name="nombre-cuenta-haber" placeholder="Ej: Ingresos por Ventas">
                                         </div>
                                         <div class="form-group">
                                             <label>Monto</label>
-                                            <input type="number" step="0.01" placeholder="0.00">
+                                            <input type="number" name="monto-cuenta-haber" step="0.01" placeholder="0.00">
                                         </div>
-                                        <button type="button" class="remove-btn">×</button>
+                                        <button type="button" class="remove-btn">Eliminar</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Balance Summary -->
+                        
                         <div class="form-section">
                             <div class="balance-summary">
                                 <div class="balance-item">
