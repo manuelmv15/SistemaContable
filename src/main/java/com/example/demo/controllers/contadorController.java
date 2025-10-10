@@ -21,7 +21,7 @@ public class contadorController {
     //Referencia de ruta a la vista /contador/subirDocumento.html
     @GetMapping("/contador/subir-doc")
     public String subirDocs(){
-        return "contador/subirDocs";
+        return "contador/subirDocumento";
     }
 
     //Referencia de ruta a la vista /contador/generarReportes.html

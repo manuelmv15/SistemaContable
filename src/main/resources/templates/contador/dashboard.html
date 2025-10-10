@@ -6,6 +6,8 @@
     <title>Panel del Contador</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="icon" href="/icons/dashboard.png" sizes="96x96">
+
 
 
 </head>
@@ -17,13 +19,14 @@
         <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px;">
 
             <!-- Reemplazar el sidebar -->
-            <div th:replace="contador/fragments/sidebar :: sidebar"></div> 
+            <div th:replace="contador/fragments/sidebar :: sidebar"></div>
 
             <main class="p-4 col bg-light">
 
                 <div class="mb-4">
                     <h2>Bienvenido al sistema</h2>
-                    <p class="fs-5 text-white mb-0 badge text-bg-secondary text-wrap fs-6">Panel de control <span></span></p>
+                    <p class="fs-5 text-white mb-0 badge text-bg-secondary text-wrap fs-6">Panel de control
+                        <span></span></p>
 
                     <p class="text-muted text-end">Usuario activo: <strong>CONTADOR</strong></p>
                 </div>
@@ -46,7 +49,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">Subir documento</h5>
                                 <p class="card-text">Cargar documentos PDF como soporte de las partidas contables</p>
-                                <a href="#" class="btn btn-light btn-sm w-100">Subir</a>
+                                <a href="/contador/subir-doc" class="btn btn-light btn-sm w-100">Subir</a>
                             </div>
                         </div>
                     </div>
