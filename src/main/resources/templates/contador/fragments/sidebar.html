@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <aside th:fragment="sidebar" class="col-12 col-md-3 col-lg-2 bg-dark text-white p-3">
+
+        <div class="d-flex h-100" style="flex-direction: column; justify-content: space-between;">
+
+            <nav>
+                <h2 class="fs-4">Acciones</h2>
+
+                <ul class="nav flex-column py-3">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/contador/dashboard">
+                            <i class="bi bi-people"></i> Panel principal
+                        </a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/contador/registrarPartida">
+                            <i class="bi bi-people"></i> Registrar partidas
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">
+                            <i class="bi bi-file-earmark-text"></i> Subir documentos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">
+                            <i class="bi bi-calendar-range"></i> Generar reportes
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">
+                            <i class="bi bi-search"></i> Libro diario
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="#">
+                            <i class="bi bi-calculator"></i> Libro mayor
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="d-flex justify-content-center pb-2">
+                <a href="/logout" class="btn btn-danger w-100">Cerrar sesión</a>
+            </div>
+        </div>
+
+
+    </aside>
+</body>
+
+</html>

@@ -9,4 +9,9 @@ public class auditorController {
     public String adminDashboard() {
         return "auditor/dashboard";
     }
+
+    @GetMapping("/auditor/test")
+    public String test() {
+        return "auditor/test";
+    }
 }

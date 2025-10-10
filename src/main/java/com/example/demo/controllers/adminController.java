@@ -32,6 +32,11 @@ public class adminController {
         return "admin/Periodos-Contables";
     }
 
+    @GetMapping("/Consultar-Auditorias")
+    public String consultarAuditorias() {
+        return "admin/Consultar-Auditorias";
+    }
+
     @GetMapping("/Gestionar-Usuarios")
     public String gestionarUsuarios(Model model) {
         model.addAttribute("usuarios", usuarioService.findAll());
