@@ -1,11 +1,143 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
-</head>
-<body>
+    <title>Panel del Contador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 
-    <h1>contador</h1>
+
+</head>
+
+<body style="overflow: hidden;">
+
+    <div class="container-fluid row g-0">
+
+        <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px;">
+
+            <aside class="col-12 col-md-3 col-lg-2 bg-dark text-white p-3">
+
+                <div class="d-flex h-100" style="flex-direction: column; justify-content: space-between;">
+                    <nav>
+                        <h2 class="fs-4">Acciones</h2>
+
+                        <ul class="nav flex-column py-3">
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#">
+                                    <i class="bi bi-people"></i> Registrar partidas
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#">
+                                    <i class="bi bi-file-earmark-text"></i> Subir documentos
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#">
+                                    <i class="bi bi-calendar-range"></i> Generar reportes
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#">
+                                    <i class="bi bi-search"></i> Libro diario
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="#">
+                                    <i class="bi bi-calculator"></i> Libro mayor
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    <div class="d-flex justify-content-center pb-2">
+                        <a href="/" class="btn btn-danger w-100">Cerrar sesión</a>
+                    </div>
+                </div>
+
+
+            </aside>
+
+            <main class="p-4 col bg-light">
+
+                <div class="mb-4">
+                    <h2>Bienvenido al sistema</h2>
+                    <p class="fs-5 text-secondary mb-0">Panel de control <span></span></p>
+
+                    <p class="text-muted text-end">Usuario activo: <strong>CONTADOR</strong></p>
+                </div>
+
+
+
+                <div class="row g-4">
+
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card text-bg-primary">
+                            <div class="card-body">
+                                <h5 class="card-title">Registrar partida</h5>
+                                <p class="card-text">Registrar nuevas partidas contables con fecha, concepto y cuentas
+                                    haber/debe</p>
+                                <a href="#" class="btn btn-light btn-sm">Registrar</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card text-bg-primary h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Subir documento</h5>
+                                <p class="card-text">Cargar documentos PDF como soporte de las partidas contables</p>
+                                <a href="#" class="btn btn-light btn-sm">Subir</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card text-bg-primary h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Generar reporte</h5>
+                                <p class="card-text">Crear reportes por periodo y exportar PDF/Excel.</p>
+                                <a href="#" class="btn btn-light btn-sm">Generar</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row g-4 pt-3">
+
+                    <div class="col-6">
+                        <div class="card text-bg-primary h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Libro diario</h5>
+                                <p class="card-text">Consultar y gestionar el libro diario de operaciones.</p>
+                                <a href="#" class="btn btn-light btn-sm">Gestionar</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="card text-bg-primary h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Libro mayor</h5>
+                                <p class="card-text">Visualizar el libro mayor y balances de cuentas.</p>
+                                <a href="#" class="btn btn-light btn-sm">Gestionar</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </main>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>
