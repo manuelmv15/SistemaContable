@@ -1,0 +1,353 @@
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Selector Card */
+.selector-card {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px 0 hsl(215, 25%, 15%, 0.1);
+}
+
+.selector-card h2 {
+    color: hsl(215, 25%, 15%);
+    font-size: 1.125rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.selector-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 1rem;
+    align-items: end;
+}
+
+.selector-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.selector-group label {
+    color: hsl(215, 25%, 15%);
+    font-weight: 500;
+    font-size: 0.875rem;
+}
+
+.selector-group select,
+.selector-group input {
+    padding: 0.625rem;
+    border: 1px solid hsl(214, 32%, 91%);
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    background: white;
+}
+
+.selector-group select:focus,
+.selector-group input:focus {
+    outline: none;
+    border-color: hsl(213, 94%, 68%);
+    box-shadow: 0 0 0 3px hsl(213, 94%, 68%, 0.1);
+}
+
+.selector-actions {
+    display: flex;
+    align-items: flex-end;
+}
+
+/* Account Info Card */
+.account-info-card {
+    background: linear-gradient(135deg, hsl(213, 94%, 95%), hsl(213, 94%, 98%));
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px 0 hsl(215, 25%, 15%, 0.1);
+}
+
+.account-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.account-header h2 {
+    color: hsl(213, 94%, 68%);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 0.25rem;
+}
+
+.account-code {
+    color: hsl(215, 16%, 47%);
+    font-size: 0.875rem;
+    font-family: monospace;
+}
+
+.balance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.balance-item {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.375rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.balance-item.highlight {
+    background: hsl(213, 94%, 68%);
+}
+
+.balance-item.highlight .balance-label,
+.balance-item.highlight .balance-amount {
+    color: white;
+}
+
+.balance-label {
+    font-size: 0.875rem;
+    color: hsl(215, 16%, 47%);
+    font-weight: 500;
+}
+
+.balance-amount {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: hsl(215, 25%, 15%);
+    font-family: monospace;
+}
+
+.balance-amount.debit {
+    color: hsl(142, 76%, 36%);
+}
+
+.balance-amount.credit {
+    color: hsl(0, 84%, 60%);
+}
+
+/* Table Card */
+.table-card {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px 0 hsl(215, 25%, 15%, 0.1);
+}
+
+.table-card h2 {
+    color: hsl(215, 25%, 15%);
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+}
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, hsl(213, 94%, 68%), hsl(213, 94%, 62%));
+    color: white;
+    border: none;
+    padding: 0.625rem 1.25rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, hsl(213, 94%, 62%), hsl(213, 94%, 56%));
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px hsl(213, 94%, 68%, 0.15);
+}
+
+/* Table */
+.table-container {
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+
+.movements-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+}
+
+.movements-table thead {
+    background: hsl(210, 40%, 96%);
+}
+
+.movements-table th {
+    padding: 0.75rem;
+    text-align: left;
+    font-weight: 600;
+    color: hsl(215, 25%, 15%);
+    border-bottom: 2px solid hsl(214, 32%, 91%);
+    white-space: nowrap;
+}
+
+.movements-table td {
+    padding: 0.75rem;
+    border-bottom: 1px solid hsl(214, 32%, 91%);
+    color: hsl(215, 25%, 15%);
+}
+
+.movement-row:hover {
+    background: hsl(213, 94%, 98%);
+}
+
+.balance-row {
+    background: hsl(210, 40%, 96%);
+    font-weight: 600;
+}
+
+.totals-row {
+    background: hsl(213, 94%, 95%);
+    font-weight: bold;
+    border-top: 2px solid hsl(213, 94%, 68%);
+}
+
+.ref-cell {
+    font-family: monospace;
+    font-weight: 500;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.amount {
+    font-family: monospace;
+    font-weight: 500;
+}
+
+.amount.debit {
+    color: hsl(142, 76%, 36%);
+}
+
+.amount.credit {
+    color: hsl(0, 84%, 60%);
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid hsl(214, 32%, 91%);
+}
+
+.pagination-btn {
+    background: white;
+    color: hsl(213, 94%, 68%);
+    border: 1px solid hsl(214, 32%, 91%);
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background: hsl(210, 40%, 96%);
+}
+
+.pagination-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.pagination-info {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.pagination-page {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+}
+
+.pagination-page:hover {
+    background: hsl(210, 40%, 96%);
+}
+
+.pagination-page.active {
+    background: hsl(213, 94%, 68%);
+    color: white;
+    font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .selector-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .selector-actions {
+        grid-column: span 2;
+        justify-content: flex-end;
+    }
+
+    .balance-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .selector-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .selector-actions {
+        grid-column: span 1;
+    }
+
+    .balance-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .account-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .table-card {
+        padding: 1rem;
+    }
+
+    .movements-table {
+        font-size: 0.75rem;
+    }
+
+    .movements-table th,
+    .movements-table td {
+        padding: 0.5rem;
+    }
+
+    .pagination {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .selector-card,
+    .account-info-card,
+    .table-card {
+        padding: 1rem;
+    }
+}
