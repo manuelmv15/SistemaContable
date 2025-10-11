@@ -21,7 +21,7 @@ public class AdminCatalogoCuentasController {
         this.cuentaSrv = cuentaSrv;
     }
 
-    // === Vista principal ===
+
     @GetMapping("/Gestionar-cuentas")
     public String gestionarCuentas(Model model,
                                    @RequestParam(required = false) String msg,
@@ -33,7 +33,7 @@ public class AdminCatalogoCuentasController {
         return "admin/Gestionar-cuentas";
     }
 
-    // -------- Tipos de cuenta --------
+
     @PostMapping("/tipos-cuenta")
     public String crearTipo(@RequestParam String nombre, RedirectAttributes ra) {
         try {
@@ -81,7 +81,7 @@ public class AdminCatalogoCuentasController {
             var c = new CuentaContable();
             c.setCodigo(codigo);
             c.setNombre(nombre);
-            c.setTipo(new TipoCuenta(tipoId)); // solo referencia por id
+            c.setTipo(new TipoCuenta(tipoId)); 
             cuentaSrv.crear(c);
             ra.addAttribute("msg", "Cuenta creada");
         } catch (Exception e) {
