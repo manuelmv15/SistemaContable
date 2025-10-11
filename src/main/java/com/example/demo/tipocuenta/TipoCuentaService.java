@@ -14,7 +14,9 @@ public class TipoCuentaService {
         this.repo = repo;
     }
 
-    public List<TipoCuenta> listar() { return repo.findAll(); }
+    public List<TipoCuenta> listar() {
+        return repo.findAll();
+    }
 
     public TipoCuenta obtener(Long id) {
         return repo.findById(id).orElseThrow(() -> new IllegalArgumentException("TipoCuenta no existe"));

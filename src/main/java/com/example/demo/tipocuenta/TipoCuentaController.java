@@ -21,7 +21,9 @@ public class TipoCuentaController {
 
     //obtiene un tipo de cuenta referenciado por su id
     @GetMapping("/{id}")
-    public TipoCuenta get(@PathVariable Long id) { return service.obtener(id); }
+    public TipoCuenta get(@PathVariable Long id) { 
+        return service.obtener(id); 
+    }
 
     //crea un nuevo tipo de cuenta y retorna la entidad creada con su id
     @PostMapping
