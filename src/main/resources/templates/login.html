@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="UTF-8">
@@ -310,28 +310,32 @@
   <div class="login-container">
     <div class="logo-section">
       <h1>Ingrese sus credenciales</h1>
+        <!-- Script para mostrar mensajes de error o éxito -->
+        <script>
+            const params = new URLSearchParams(location.search);
+
+            if (params.has('error')) {
+              const div = document.createElement('div');
+              div.className = 'error-message';
+              div.textContent = decodeURIComponent(params.get('error'));
+              document.currentScript.parentElement.insertAdjacentElement('afterend', div);
+            }
+
+            if (params.has('success')) {
+              const div = document.createElement('div');
+              div.className = 'success-message';
+              div.textContent = decodeURIComponent(params.get('success'));
+              document.currentScript.parentElement.insertAdjacentElement('afterend', div);
+            }
+        </script>
     </div>
 
-    <!-- Script para mostrar mensajes de error o éxito -->
-    <script>
-      const params = new URLSearchParams(location.search);
 
-      if (params.has('error')) {
-        const div = document.createElement('div');
-        div.className = 'error-message';
-        div.textContent = decodeURIComponent(params.get('error'));
-        document.currentScript.parentElement.insertAdjacentElement('afterend', div);
-      }
 
-      if (params.has('success')) {
-        const div = document.createElement('div');
-        div.className = 'success-message';
-        div.textContent = decodeURIComponent(params.get('success'));
-        document.currentScript.parentElement.insertAdjacentElement('afterend', div);
-      }
-    </script>
+      <form method="post" th:action="@{/auth/login}">
 
-    <form method="post" action="/auth/login">
+
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
       <div class="form-group">
         <label for="usernameOrEmail">Usuario o correo electrónico</label>
         <input type="text" id="usernameOrEmail" name="usernameOrEmail" placeholder="Ingresa tu usuario o correo"

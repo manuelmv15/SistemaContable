@@ -37,6 +37,10 @@ public class usuarioModel {
     public Long getIdUsuario() { return idUsuario; }
     public void setIdUsuario(Long idUsuario) { this.idUsuario = idUsuario; }
 
+    public void setUsuario(String username) {
+        this.username = username;
+    }
+
 
     public String getNombre() { return nombre; }
     public void setNombre(String nombre) { this.nombre = nombre; }
@@ -55,4 +59,6 @@ public class usuarioModel {
 
     public rolModel getRol() { return rol; }
     public void setRol(rolModel rol) { this.rol = rol; }
+
+
 }

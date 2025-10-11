@@ -1,10 +1,22 @@
 package com.example.demo.usuarios;
 
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.example.demo.usuarios.usuarioModel;
+import org.springframework.data.jpa.repository.*;
+import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.EntityGraph;
+
 import java.util.Optional;
 
+@Repository
 public interface usuarioRepository extends JpaRepository<usuarioModel, Long> {
-    Optional<usuarioModel> findByUsername(String username); // campo 'username'
+
+    @EntityGraph(attributePaths = "rol")
+    Optional<usuarioModel> findByUsername(String username);
+
+    @EntityGraph(attributePaths = "rol")
     Optional<usuarioModel> findByEmail(String email);
+
+    // Si tu login acepta usuario o email:
+    @EntityGraph(attributePaths = "rol")
     Optional<usuarioModel> findByUsernameOrEmail(String username, String email);
 }
