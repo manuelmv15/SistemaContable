@@ -1,51 +1,254 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Clasificación de documentos</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Clasificaciones y Documentos Fuente</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="icon" href="/icons/dashboard.png" sizes="96x96">
+
     <style>
-        body {
-            background-color: #f8f9fa;
+        :root {
+          --sidebar-bg: #212529;
+          --sidebar-link: #adb5bd;
+          --sidebar-hover: #495057;
         }
+        body { background: #f8f9fa; }
+
         .sidebar {
-            min-height: 100vh;
-            background-color: #212529;
-            color: #fff;
-            padding-top: 20px;
+          min-height: 100vh;
+          background: var(--sidebar-bg);
+          color: #fff;
+          padding-top: 20px;
         }
         .sidebar a {
-            color: #adb5bd;
-            display: block;
-            padding: 10px 20px;
-            text-decoration: none;
+          color: var(--sidebar-link);
+          display: block;
+          padding: 10px 20px;
+          text-decoration: none;
+          border-radius: .5rem;
         }
         .sidebar a:hover, .sidebar .active {
-            background-color: #495057;
-            color: #fff;
+          background: var(--sidebar-hover);
+          color: #fff;
         }
-        .content {
-            padding: 30px;
+
+        .content { padding: 30px; min-height: 100vh; }
+        .card { border-radius: 15px; }
+        .table thead th { white-space: nowrap; }
+        .table tbody tr[hidden] { display: none !important; }
+        .btn-icon { display: inline-flex; align-items: center; gap: .4rem; }
+    </style>
+
+    <style>
+        :root {
+          --sidebar-bg: #212529;
+          --sidebar-link: #adb5bd;
+          --sidebar-hover: #495057;
         }
-        .card {
-            border-radius: 15px;
-        }
+        body { background:#f8f9fa; }
+        .card { border-radius:14px; }
+        .table thead th { white-space:nowrap; }
+        .btn-icon { display:inline-flex; align-items:center; gap:.4rem; }
     </style>
 </head>
+
 <body>
 <div class="container-fluid">
     <div class="row">
-        <!-- Sidebar -->
-        <div th:replace="admin/fragments/navbar :: navbar"></div>
+        <!-- Sidebar / Navbar fragment -->
+        <div th:replace="~{admin/fragments/navbar :: navbar}"></div>
 
         <!-- Contenido principal -->
-        <main class="col-md-9 col-lg-10 content">
+        <main class="col-md-9 col-lg-10 p-4">
 
+            <!-- Alertas -->
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+            <div th:if="${ok}" class="alert alert-success" th:text="${ok}"></div>
+
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div>
+                    <h2 class="m-0">Clasificaciones y Documentos</h2>
+                    <small class="text-muted">Administra las clasificaciones; los documentos son solo de lectura</small>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- ================== Clasificaciones (CRUD parcial: crear/editar) ================== -->
+                <section class="col-lg-4">
+                    <div class="card shadow-sm">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <strong>Clasificaciones</strong>
+                            <button type="button" class="btn btn-primary btn-sm"
+                                    data-bs-toggle="modal" data-bs-target="#modalClas"
+                                    onclick="nuevaClasificacion()">
+                                Nuevo
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <input type="text" class="form-control form-control-sm mb-2" placeholder="Buscar..."
+                                   oninput="filtraTabla(this,'#tablaClas')">
+
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle" id="tablaClas">
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th style="width:130px">Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="c : ${listaClasificaciones}">
+                                        <td th:text="${c.idClasificacion}">1</td>
+                                        <td th:text="${c.nombre}">Facturas</td>
+                                        <td class="text-nowrap">
+                                            <button type="button" class="btn btn-outline-primary btn-sm btn-icon"
+                                                    data-bs-toggle="modal" data-bs-target="#modalClas"
+                                                    th:attr="data-id=${c.idClasificacion},data-nombre=${c.nombre},data-desc=${c.descripcion}"
+                                                    onclick="editarClasificacion(this)">
+                                                Editar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(listaClasificaciones)}">
+                                        <td colspan="3" class="text-center text-muted">Sin datos</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ================== Documentos Fuente (solo lectura) ================== -->
+                <section class="col-lg-8">
+                    <div class="card shadow-sm">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <strong>Documentos Fuente</strong>
+
+                            <!-- Filtro por clasificación -->
+                            <form class="d-flex gap-2" method="get" th:action="@{/admin/Clasificacion-Documentos}">
+                                <select name="clasificacionId" class="form-select form-select-sm">
+                                    <option value="">— Todas —</option>
+                                    <option th:each="c : ${listaClasificaciones}"
+                                            th:value="${c.idClasificacion}"
+                                            th:text="${c.nombre}"
+                                            th:selected="${filtroClasificacionId == c.idClasificacion}"></option>
+                                </select>
+                                <button class="btn btn-outline-secondary btn-sm" type="submit">Filtrar</button>
+                            </form>
+                        </div>
+
+                        <div class="card-body">
+                            <input type="text" class="form-control form-control-sm mb-2" placeholder="Buscar..."
+                                   oninput="filtraTabla(this,'#tablaDocs')">
+
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle" id="tablaDocs">
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Clasificación</th>
+                                        <th>Ruta PDF</th>
+                                        <th>Descripción</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="d : ${listaDocumentos}">
+                                        <td th:text="${d.idDocumento}">10</td>
+                                        <td th:text="${d.nombre}">Factura 001</td>
+                                        <td th:text="${d.clasificacion != null ? d.clasificacion.nombre : '—'}">Facturas</td>
+                                        <td>
+                                            <a th:if="${d.rutaPdf}" th:href="${d.rutaPdf}" target="_blank" th:text="${d.rutaPdf}"></a>
+                                            <span th:if="${!d.rutaPdf}">—</span>
+                                        </td>
+                                        <td th:text="${d.descripcion}">…</td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(listaDocumentos)}">
+                                        <td colspan="5" class="text-center text-muted">Sin documentos</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </main>
     </div>
 </div>
 
+<!-- ================== Modal Crear/Editar Clasificación ================== -->
+<div class="modal fade" id="modalClas" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="post" class="modal-content" id="formClas" th:action="@{/admin/clasificaciones}">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tituloClas">Nueva Clasificación</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+                <!-- En modo crear este hidden se desactiva (POST real); en editar se habilita (PUT) -->
+                <input type="hidden" name="_method" id="clasMethod" value="put" disabled />
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                <div class="mb-3">
+                    <label class="form-label" for="clasNombre">Nombre</label>
+                    <input name="nombre" id="clasNombre" class="form-control" required maxlength="100">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="clasDesc">Descripción</label>
+                    <input name="descripcion" id="clasDesc" class="form-control" maxlength="255">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" type="submit">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Búsqueda genérica por texto
+    function filtraTabla(input, tableSelector) {
+      const q = input.value.toLowerCase();
+      document.querySelectorAll(tableSelector + ' tbody tr').forEach(tr => {
+        tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+    }
+
+    // Modo "Nuevo" => POST /admin/clasificaciones
+    function nuevaClasificacion() {
+      const form = document.getElementById('formClas');
+      form.setAttribute('action', '/admin/clasificaciones'); // POST
+      const method = document.getElementById('clasMethod');
+      method.disabled = true; // sin _method => POST real
+
+      document.getElementById('tituloClas').textContent = 'Nueva Clasificación';
+      document.getElementById('clasNombre').value = '';
+      document.getElementById('clasDesc').value = '';
+    }
+
+    // Modo "Editar" => PUT /admin/clasificaciones/{id}
+    function editarClasificacion(btn) {
+      const id   = btn.getAttribute('data-id');
+      const nom  = btn.getAttribute('data-nombre') || '';
+      const desc = btn.getAttribute('data-desc') || '';
+
+      const form = document.getElementById('formClas');
+      form.setAttribute('action', '/admin/clasificaciones/' + id); // PUT
+
+      const method = document.getElementById('clasMethod');
+      method.disabled = false;   // habilita _method=put
+      method.value = 'put';
+
+      document.getElementById('tituloClas').textContent = 'Editar Clasificación';
+      document.getElementById('clasNombre').value = nom;
+      document.getElementById('clasDesc').value = desc;
+    }
+</script>
 </body>
 </html>

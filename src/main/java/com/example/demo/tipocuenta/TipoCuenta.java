@@ -17,10 +17,9 @@ public class TipoCuenta {
     @Column(name = "nombre", nullable = false, length = 80)
     private String nombre;
 
-    // ✅ Constructor vacío obligatorio para JPA
+
     public TipoCuenta() {}
 
-    // ✅ Constructor opcional para cuando solo quieres referenciar por ID
     public TipoCuenta(Long idTipoCuenta) {
         this.idTipoCuenta = idTipoCuenta;
     }
