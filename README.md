@@ -49,7 +49,6 @@ SPRING_JPA_SHOW_SQL=true
 
 # --- Perfil activo ---
 SPRING_PROFILES_ACTIVE=docker
-<<<<<<< HEAD
 ```
 
 *A la hora de levantar el proyecto se crear automaticamente las tablas junto con las inserciones*.
