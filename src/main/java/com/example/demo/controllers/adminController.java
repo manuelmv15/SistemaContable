@@ -55,7 +55,8 @@ public class adminController {
     public String dashboard() {
         return "admin/dashboard";
     }
-    // ===== LISTA Y VISTA PRINCIPAL =====
+
+
     @GetMapping("/Clasificacion-Documentos")
     public String vista(@RequestParam(name = "clasificacionId", required = false) Long clasificacionId,
                         Model model) {
@@ -70,11 +71,11 @@ public class adminController {
         model.addAttribute("listaDocumentos", documentos);
         model.addAttribute("filtroClasificacionId", clasificacionId);
 
-        // Debe existir templates/admin/Clasificacion-Documentos.html
+
         return "admin/Clasificacion-Documentos";
     }
 
-    // ===== CREAR CLASIFICACIÓN (POST) =====
+
     @PostMapping("/clasificaciones")
     public String crear(@RequestParam String nombre,
                         @RequestParam(required = false) String descripcion,
@@ -84,7 +85,7 @@ public class adminController {
         return "redirect:/admin/Clasificacion-Documentos";
     }
 
-    // ===== EDITAR CLASIFICACIÓN (PUT) =====
+    
     @PutMapping("/clasificaciones/{id}")
     public String editar(@PathVariable Long id,
                          @RequestParam String nombre,
