@@ -2,7 +2,6 @@
 
 ## creado por
 
-
 ### Carlos Manuel Melendez Villatoro #MV23036
 
 ### Cristian Alexis Ventura Ventura #VV23011
@@ -74,12 +73,10 @@ docker compose up -d
 La app quedará accesible en:  [http://localhost:8080](http://localhost:8080)
 
 la primera ves puede llegar a tardar varios segundos ya que  descargará imágenes y ejecutará migraciones Flyway automáticamente.
->>>>>>> f1e48e7748ee292a1d7e45224c31b4c50ce4870f
 
 ## comandos utiles
 
 Para la app
-<<<<<<< HEAD
 
 ```bash
 # Levantar (en segundo plano)
@@ -106,8 +103,8 @@ docker compose exec db psql -U "$POSTGRES_USER" -d "$POSTGRES_DB"
 
 ### base de datos
 
-``` mermaid
-
+```mermaid
+erDiagram
     rol ||--o{ usuario : tiene
     usuario ||--o{ evento : registra
     usuario ||--o{ partida : crea
