@@ -9,11 +9,7 @@ public interface CuentaContableRepository extends JpaRepository<CuentaContable, 
     Optional<CuentaContable> findByCodigo(String codigo);
     boolean existsByCodigo(String codigo);
 
-    // Opción 1 (con el nombre real del id en TipoCuenta)
     List<CuentaContable> findByTipo_IdTipoCuentaOrderByCodigoAsc(Long idTipoCuenta);
-
-    // Opción 2 (si prefieres pasar la entidad)
-    // List<CuentaContable> findByTipoOrderByCodigoAsc(TipoCuenta tipo);
 
     List<CuentaContable> findByNombreContainingIgnoreCaseOrderByCodigoAsc(String q);
 }

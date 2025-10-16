@@ -19,13 +19,13 @@ public class ViewController {
 
     @GetMapping("/auth/login")
     public String mostrarLogin() {
-        return "login"; // templates/login.html
+        return "login";
     }
 
 
     @GetMapping("/")
     public String mostrarIndex() {
-        return "index"; // templates/login.html
+        return "index";
     }
 
     private final usuarioService usuarioService;

@@ -62,7 +62,6 @@ CREATE TABLE IF NOT EXISTS periodocontable (
   fecha_inicio TIMESTAMP NOT NULL,
   fecha_fin    TIMESTAMP NOT NULL,
   CONSTRAINT ck_periodo_rango CHECK (fecha_fin > fecha_inicio)
-  -- (Opcional) puedes asegurar no solapar periodos con EXCLUDE si más adelante lo necesitas
 );
 
 CREATE TABLE IF NOT EXISTS partida (

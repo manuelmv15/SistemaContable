@@ -16,7 +16,6 @@ public interface usuarioRepository extends JpaRepository<usuarioModel, Long> {
     @EntityGraph(attributePaths = "rol")
     Optional<usuarioModel> findByEmail(String email);
 
-    // Si tu login acepta usuario o email:
     @EntityGraph(attributePaths = "rol")
     Optional<usuarioModel> findByUsernameOrEmail(String username, String email);
 }

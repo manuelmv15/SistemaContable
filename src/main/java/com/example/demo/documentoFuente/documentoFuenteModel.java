@@ -14,7 +14,6 @@ public class documentoFuenteModel {
     @Column(name = "id_documento")
     private Long idDocumento;
 
-    // TODO: cuando tengas la entidad Partida, cambia esto a @ManyToOne
     @Column(name = "partida_id")
     private Long partidaId;
 
@@ -38,7 +37,6 @@ public class documentoFuenteModel {
     @Column(name = "ruta_pdf", length = 255)
     private String rutaPdf;
 
-    // Getters/Setters
     public Long getIdDocumento() { return idDocumento; }
     public void setIdDocumento(Long idDocumento) { this.idDocumento = idDocumento; }
 

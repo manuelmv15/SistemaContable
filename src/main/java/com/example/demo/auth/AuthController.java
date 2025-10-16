@@ -3,7 +3,10 @@ package com.example.demo.auth;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
@@ -15,7 +18,7 @@ public class AuthController {
         this.authService = authService;
     }
 
-    // Procesa el login del formulario
+
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     public ResponseEntity<?> loginForm(
             @RequestParam String usernameOrEmail,
@@ -25,7 +28,7 @@ public class AuthController {
         try {
             var user = authService.login(usernameOrEmail, password);
 
-            // 🔒 Crear autenticación en el contexto de Spring Security
+
             var rol = (user.getRol() != null && user.getRol().getNombre() != null)
                     ? user.getRol().getNombre().toUpperCase().replace(" ", "_")
                     : "USER";
@@ -52,17 +55,17 @@ public class AuthController {
                     context
             );
 
-            // ✅ Guardar datos del usuario en sesión
+
             request.getSession().setAttribute("USER_ID", user.getIdUsuario());
             request.getSession().setAttribute("USERNAME", user.getUsername());
 
-            // Redirigir al dashboard
+
             return ResponseEntity.status(302)
                     .header("Location", "/dashboard")
                     .build();
 
         } catch (RuntimeException ex) {
-            // ❌ Si falla, redirige al login con mensaje de error
+
             return ResponseEntity.status(302)
                     .header("Location", "/auth/login?error=" + ex.getMessage())
                     .build();

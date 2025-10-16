@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -32,11 +33,9 @@ public class usuarioService {
         return usuarioRepository.findAll();
     }
 
-    //problemas con esta funcion
     public Optional<usuarioModel> findByUsername(String username) {
-        // usa el nombre del campo de tu entidad: findByUsername o findByUsuario
+
         return usuarioRepository.findByUsername(username);
-        // o: return usuarioRepository.findByUsuario(username);
     }
 
 
@@ -53,7 +52,7 @@ public class usuarioService {
         var u = new usuarioModel();
         u.setNombre(nombre);
         u.setEmail(email);
-        u.setUsername(username); // <-- CAMBIO CLAVE
+        u.setUsername(username);
         u.setEstado(true);
         u.setContrasenia(passwordEncoder.encode(defaultPassword));
         u.setRol(rol);
@@ -66,14 +65,13 @@ public class usuarioService {
         var u = usuarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no existe"));
         u.setEstado(Boolean.FALSE.equals(u.getEstado()));
-        // JPA flush automático por @Transactional
     }
 
     @Transactional
     public void cambiarPassword(Long idUsuario, String nueva) {
         var u = usuarioRepository.findById(idUsuario)
                 .orElseThrow(() -> new IllegalArgumentException("Usuario no existe"));
-        u.setContrasenia(passwordEncoder.encode(nueva));  // hash con BCrypt
+        u.setContrasenia(passwordEncoder.encode(nueva));
 
     }
     @Transactional

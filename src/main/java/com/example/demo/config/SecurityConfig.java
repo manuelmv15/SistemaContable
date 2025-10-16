@@ -22,7 +22,6 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 @Configuration
 public class SecurityConfig {
@@ -35,8 +34,6 @@ public class SecurityConfig {
     public SecurityConfig(CustomUserDetailsService uds) {
         this.uds = uds;
     }
-
-    // === Beans ===
 
     @Bean
     public PasswordEncoder passwordEncoder() {
