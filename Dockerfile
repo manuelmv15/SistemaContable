@@ -1,25 +1,34 @@
-# ====== Build stage ======
+# syntax=docker/dockerfile:1.7
+
+# ====== Build ======
 FROM maven:3.9-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# Copia solo lo necesario para cachear dependencias
+# Copia solo el pom primero para maximizar caché de capas
 COPY pom.xml .
-RUN mvn -q -B -DskipTests dependency:go-offline
 
-# Ahora copia el código y construye
-COPY src src
-RUN mvn -q -B -DskipTests package
+# Resolución mínima de dependencias (evita go-offline)
+# - Usa cache mount para ~/.m2 y paralelismo 1 hilo/CPU
+ENV MAVEN_OPTS="-Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+RUN --mount=type=cache,target=/root/.m2,sharing=locked \
+    mvn -q -B -T 1C -DskipTests dependency:resolve
 
-# ====== Run stage (imagen liviana) ======
+# Ahora sí, copia el código y empaqueta
+COPY src ./src
+RUN --mount=type=cache,target=/root/.m2,sharing=locked \
+    mvn -q -B -T 1C -DskipTests clean package
+
+# ====== Runtime ======
+# Usa Temurin JRE para que tengas shell si lo necesitas
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 
-# Copia el jar construido
-COPY --from=build /app/target/*.jar app.jar
+# Copia el jar resultante
+COPY --from=build /app/target/*.jar /app/app.jar
 
-# Opcional: flags JVM y perfil
-ENV JAVA_OPTS="" \
-    SPRING_PROFILES_ACTIVE=docker
+# Opcionales
+ENV SPRING_PROFILES_ACTIVE=docker \
+    JAVA_OPTS=""
 
 EXPOSE 8080
-ENTRYPOINT ["sh","-c","java $JAVA_OPTS -jar app.jar"]
+ENTRYPOINT ["sh","-c","java $JAVA_OPTS -jar /app/app.jar"]
