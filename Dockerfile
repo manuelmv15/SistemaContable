@@ -30,5 +30,10 @@ COPY --from=build /app/target/*.jar /app/app.jar
 ENV SPRING_PROFILES_ACTIVE=docker \
     JAVA_OPTS=""
 
+<<<<<<< HEAD
 EXPOSE 8080
 ENTRYPOINT ["sh","-c","java $JAVA_OPTS -jar /app/app.jar"]
+=======
+EXPOSE 8090
+ENTRYPOINT ["sh","-c","java $JAVA_OPTS -jar app.jar"]
+>>>>>>> e8daaf1 (local: cambio puertos 8090:8080 y perfil docker)

@@ -30,7 +30,7 @@ services:
       SPRING_JPA_SHOW_SQL: ${SPRING_JPA_SHOW_SQL}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     ports:
-      - "8080:8080"
+      - "8090:8080"
 
 volumes:
   pgdata:
