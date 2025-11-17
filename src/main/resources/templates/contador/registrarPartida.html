@@ -1,145 +1,316 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Registrar partidas</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/registrar-partida.css">
-    <link rel="icon" href="/icons/dashboard.png" sizes="96x96">
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="/css/registrar-partida.css" />
+    <link rel="icon" href="/icons/dashboard.png" sizes="96x96" />
+  </head>
 
-<body class="bg-light" style="overflow: hidden;">
-
+  <body class="bg-light" style="overflow: hidden">
     <div class="container-fluid row g-0">
-        <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px;">
+      <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px">
+        <div th:replace="contador/fragments/sidebar :: sidebar"></div>
 
-            <div th:replace="contador/fragments/sidebar :: sidebar"></div>
+        <!-- ¿ cooking o cooked ? -->
 
-            <!-- ¿ cooking o cooked ? -->
+        <main class="col p-4 overflow-auto" style="max-height: 100vh">
+          <div class="container">
+            <form class="entry-form">
+              <div class="form-section">
+                <h2>Información Básica</h2>
 
-            <main class="col p-4 overflow-auto" style="max-height: 100vh;">
+                <div class="form-grid">
+                  <!-- CAMPOS DE LA PARTIDA -->
 
-                <div class="container">
+                  <div class="form-group">
+                    <label for="date">Ingrese la fecha</label>
+                    <input class="w-100" type="date" id="fecha" required />
+                  </div>
 
-                    <form class="entry-form">
-
-                        <div class="form-section">
-
-                            <h2>Información Básica</h2>
-
-                            <div class="form-grid">
-
-                                <!-- CAMPOS DE LA PARTIDA -->
-                                <div class="form-group">
-                                    <label for="fecha">Fecha</label>
-                                    <input type="fecha" id="fecha" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="num-referencia">Número de Referencia</label>
-                                    <input type="text" id="num-referencia" placeholder="Ej: AST-001" required>
-                                </div>
-                                
-                                <div class="form-group span-2">
-                                    <label for="descripcion">Descripción</label>
-                                    <textarea id="descripcion" rows="3"
-                                        placeholder="Descripción detallada de la operación" required></textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form-section">
-                            <h2>Cuentas y Movimientos</h2>
-
-                            <div class="entry-item">
-
-                                <div class="entry-header">
-                                    <h3>Debe</h3>
-                                    <button type="button" class="add-btn">Agregar Cuenta</button>
-                                </div>
-
-                                <!-- CAMPOS DEL DEBE  -->
-                                <div class="account-entries">
-                                    <div class="account-row">
-                                        <div class="form-group">
-                                            <label>Código de Cuenta</label>
-                                            <input type="text" name="codigo-cuenta-debe" id="codigo-cuenta-debe" placeholder="Ej: 1105">
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label>Nombre de Cuenta</label>
-                                            <input type="text" name="nombre-cuenta" id="nombre-cuenta-debe" placeholder="Ej: Caja General">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Monto</label>
-                                            <input type="number" name="monto-cuenta" id="monto-cuenta-debe" step="0.01" placeholder="0.00">
-                                        </div>
-                                        <button type="button" class="remove-btn">x</button>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="entry-item">
-
-                                <!-- CAMPOS DEL HABER -->
-                                <div class="entry-header">
-                                    <h3>Haber</h3>
-                                    <button type="button" class="add-btn">Agregar Cuenta</button>
-                                </div>
-                                <div class="account-entries">
-                                    <div class="account-row">
-                                        <div class="form-group">
-                                            <label>Código de Cuenta</label>
-                                            <input type="text" name="codigo-cuenta-haber" placeholder="Ej: 4105">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Nombre de Cuenta</label>
-                                            <input type="text" name="nombre-cuenta-haber" placeholder="Ej: Ingresos por Ventas">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Monto</label>
-                                            <input type="number" name="monto-cuenta-haber" step="0.01" placeholder="0.00">
-                                        </div>
-                                        <button type="button" class="remove-btn">x</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-section">
-                            <div class="balance-summary">
-                                <div class="balance-item">
-                                    <span>Total Debe:</span>
-                                    <span class="amount">$0.00</span>
-                                </div>
-                                <div class="balance-item">
-                                    <span>Total Haber:</span>
-                                    <span class="amount">$0.00</span>
-                                </div>
-                                <div class="balance-item balance-difference">
-                                    <span>Diferencia:</span>
-                                    <span class="amount">$0.00</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Actions -->
-                        <div class="form-actions">
-                            <button type="button" class="cancel-btn">Cancelar</button>
-                            <button type="submit" class="submit-btn">Registrar
-                                Partida</button>
-                        </div>
-                    </form>
+                  <div class="form-group span-2">
+                    <label for="descripcion">Descripción</label>
+                    <textarea
+                      id="descripcion"
+                      rows="3"
+                      placeholder="Descripción detallada de la operación"
+                      required
+                    ></textarea>
+                  </div>
                 </div>
-            </main>
-        </div>
+              </div>
+
+              <div class="form-section">
+                <h2>Cuentas y Movimientos</h2>
+
+                <div id="contenedorDebe" class="entry-item">
+                  <div class="entry-header">
+                    <h3>Debe</h3>
+                    <button
+                      type="button"
+                      id="agregarCuentaDebe"
+                      class="add-btn"
+                    >
+                      Agregar Cuenta
+                    </button>
+                  </div>
+
+                  <!-- CAMPOS DEL DEBE  -->
+
+                  <div class="account-entries">
+                    <div class="account-row">
+                      <div class="form-group">
+                        <label>Código de Cuenta</label>
+                        <input
+                          type="text"
+                          name="codigo-cuenta-debe"
+                          id="codigo-cuenta-debe"
+                          placeholder="Ej: 1105"
+                        />
+                      </div>
+
+                      <div class="form-group">
+                        <label>Nombre de Cuenta</label>
+                        <input
+                          type="text"
+                          name="nombre-cuenta"
+                          id="nombre-cuenta-debe"
+                          placeholder="Ej: Caja General"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Monto</label>
+                        <input
+                          type="number"
+                          name="monto-cuenta"
+                          id="monto-cuenta-debe"
+                          step="0.01"
+                          placeholder="0.00"
+                        />
+                      </div>
+
+                      <button type="button" class="remove-btn">x</button>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="contenedorHaber" class="entry-item">
+                  <!-- CAMPOS DEL HABER -->
+                  <div class="entry-header">
+                    <h3>Haber</h3>
+                    <button
+                      type="button"
+                      id="agregarCuentaHaber"
+                      class="add-btn"
+                    >
+                      Agregar Cuenta
+                    </button>
+                  </div>
+
+                  <div class="account-entries">
+                    <div class="account-row">
+                      <div class="form-group">
+                        <label>Código de Cuenta</label>
+                        <input
+                          type="text"
+                          name="codigo-cuenta-haber"
+                          placeholder="Ej: 4105"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Nombre de Cuenta</label>
+                        <input
+                          type="text"
+                          name="nombre-cuenta-haber"
+                          placeholder="Ej: Ingresos por Ventas"
+                        />
+                      </div>
+                      <div class="form-group">
+                        <label>Monto</label>
+                        <input
+                          type="number"
+                          name="monto-cuenta-haber"
+                          step="0.01"
+                          placeholder="0.00"
+                        />
+                      </div>
+                      <button type="button" class="remove-btn">x</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-section">
+                <div class="balance-summary">
+                  <div class="balance-item">
+                    <span>Total Debe:</span>
+                    <span class="amount">$0.00</span>
+                  </div>
+                  <div class="balance-item">
+                    <span>Total Haber:</span>
+                    <span class="amount">$0.00</span>
+                  </div>
+                  <div class="balance-item balance-difference">
+                    <span>Diferencia:</span>
+                    <span class="amount">$0.00</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Actions -->
+              <div class="form-actions">
+                <button type="button" id="cancelar" class="cancel-btn">
+                  Cancelar
+                </button>
+                <button type="submit" class="submit-btn">
+                  Registrar Partida
+                </button>
+              </div>
+            </form>
+          </div>
+        </main>
+      </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-        crossorigin="anonymous"></script>
-</body>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
 
+    <script>
+      //Borrar el contenido de los inputs
+      let botonCancelar = document.getElementById("cancelar");
+
+      botonCancelar.addEventListener("click", () => {
+        let campos = document.querySelectorAll("input, textarea");
+
+        campos.forEach((campo) => {
+          campo.value = "";
+        });
+      });
+
+      //Funcionalidad de los botones agregar cuenta y eliminar
+      
+      //Agregar cuenta DEBE
+      let btnAddCuentaDebe = document.getElementById("agregarCuentaDebe");
+      let contenedorHaber = document.getElementById("contenedorHaber");
+      let contenedorDebe = document.getElementById("contenedorDebe");
+
+      btnAddCuentaDebe.addEventListener("click", () => {
+
+        let contenedorNuevo = document.createElement("div");
+
+        contenedorNuevo.innerHTML = `
+            <div class="account-entries">
+                      <div class="account-row">
+                        <div class="form-group">
+                          <label>Código de Cuenta</label>
+                          <input
+                            type="text"
+                            name="codigo-cuenta-haber"
+                            placeholder="Ej: 1105"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label>Nombre de Cuenta</label>
+                          <input
+                            type="text"
+                            name="nombre-cuenta-haber"
+                            placeholder="Ej: Caja general"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label>Monto</label>
+                          <input
+                            type="number"
+                            name="monto-cuenta-haber"
+                            step="0.01"
+                            placeholder="0.00"
+                          />
+                        </div>
+                        <button type="button" class="remove-btn">x</button>
+                      </div>
+                    </div>
+            `;
+
+        contenedorDebe.appendChild(contenedorNuevo);
+      });
+
+      //Agregar cuenta HABER
+      let btnAddCuentaHaber = document.getElementById("agregarCuentaHaber");
+
+      btnAddCuentaHaber.addEventListener("click", () => {
+        
+        let contenedorNuevo = document.createElement("div");
+
+        contenedorNuevo.innerHTML = `
+            <div class="account-entries">
+                      <div class="account-row">
+                        <div class="form-group">
+                          <label>Código de Cuenta</label>
+                          <input
+                            type="text"
+                            name="codigo-cuenta-haber"
+                            placeholder="Ej: 4105"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label>Nombre de Cuenta</label>
+                          <input
+                            type="text"
+                            name="nombre-cuenta-haber"
+                            placeholder="Ej: Ingresos por Ventas"
+                          />
+                        </div>
+                        <div class="form-group">
+                          <label>Monto</label>
+                          <input
+                            type="number"
+                            name="monto-cuenta-haber"
+                            step="0.01"
+                            placeholder="0.00"
+                          />
+                        </div>
+                        <button type="button" class="remove-btn">x</button>
+                      </div>
+                    </div>
+            `;
+
+        contenedorHaber.appendChild(contenedorNuevo);
+      });
+
+      //Eliminar un div de una cuenta
+      document.addEventListener("click", function (event) {
+
+        const bloquesDebe = contenedorDebe.querySelectorAll(".account-entries");
+        const bloquesHaber = contenedorHaber.querySelectorAll(".account-entries");
+
+        console.log(bloquesDebe.length, bloquesHaber.length);
+
+        if (bloquesDebe.length > 0 || bloquesHaber.length > 0) {
+
+          if (event.target.classList.contains("remove-btn")) {
+
+            const fila = event.target.closest(".account-entries");
+
+            if (fila) {
+              fila.remove();
+            }
+          }
+        }
+
+        else{
+            alert('Debe existir al menos un registro.');
+        }
+      });
+
+    </script>
+  </body>
 </html>
