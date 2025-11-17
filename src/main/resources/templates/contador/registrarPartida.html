@@ -21,17 +21,18 @@
         <!-- ¿ cooking o cooked ? -->
 
         <main class="col p-4 overflow-auto" style="max-height: 100vh">
-          <div class="container">
+
+          <div class="">
             <form class="entry-form">
               <div class="form-section">
-                <h2>Información Básica</h2>
+                <h2 class="text-center">Información Básica</h2>
 
                 <div class="form-grid">
                   <!-- CAMPOS DE LA PARTIDA -->
 
-                  <div class="form-group">
+                  <div class="form-group span-2">
                     <label for="date">Ingrese la fecha</label>
-                    <input class="w-100" type="date" id="fecha" required />
+                    <input type="date" id="fecha" required />
                   </div>
 
                   <div class="form-group span-2">
@@ -47,7 +48,7 @@
               </div>
 
               <div class="form-section">
-                <h2>Cuentas y Movimientos</h2>
+                <h2>Movimientos</h2>
 
                 <div id="contenedorDebe" class="entry-item">
                   <div class="entry-header">
@@ -306,9 +307,6 @@
           }
         }
 
-        else{
-            alert('Debe existir al menos un registro.');
-        }
       });
 
     </script>
