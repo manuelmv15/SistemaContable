@@ -2,11 +2,11 @@
 
 ## creado por
 
-### Carlos Manuel Melendez Villatoro #MV23036
+- Carlos Manuel Melendez Villatoro #MV23036
 
-### Cristian Alexis Ventura Ventura #VV23011
+- Cristian Alexis Ventura Ventura #VV23011
 
-### César Josue Zuleta Villalobos #ZV23005
+- César Josue Zuleta Villalobos #ZV23005
 
 ## Requisitos y versiones
 
@@ -51,7 +51,7 @@ SPRING_JPA_SHOW_SQL=true
 SPRING_PROFILES_ACTIVE=docker
 ```
 
-*A la hora de levantar el proyecto se crear automaticamente las tablas junto con las inserciones*.
+*A la hora de levantar el proyecto sé crear automaticamente las tablas junto con las inserciones*.
 
 ### Esto crea 3 perfiles automaticamente, los cuales son
 
@@ -69,7 +69,7 @@ docker compose up -d
 
 *la primera ves puede llegar a tardar varios segundos ya que*  descargará imágenes y ejecutará migraciones Flyway automáticamente.
 
-La app quedará accesible en:  [http://localhost:8080](http://localhost:8080)
+La app quedará accesible en:  [http://localhost:8090](http://localhost:8090)
 
 la primera ves puede llegar a tardar varios segundos ya que  descargará imágenes y ejecutará migraciones Flyway automáticamente.
 
