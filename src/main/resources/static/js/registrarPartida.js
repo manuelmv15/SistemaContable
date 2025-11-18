@@ -1,4 +1,4 @@
-//Borrar el contenido de los inputs
+//------------ FUNCIONALIDAD DEL BOTON DE CANCELAR --------------------
 let botonCancelar = document.getElementById("cancelar");
 
 botonCancelar.addEventListener("click", () => {
@@ -9,9 +9,7 @@ botonCancelar.addEventListener("click", () => {
   });
 });
 
-//Funcionalidad de los botones agregar cuenta y eliminar
-
-//Agregar cuenta DEBE
+//------------ FUNCIONALIDAD DEL BOTON DE AGREGAR EN EL HABER --------------------
 let btnAddCuentaDebe = document.getElementById("agregarCuentaDebe");
 let contenedorDebe = document.getElementById("contenedorDebe");
 
@@ -45,7 +43,7 @@ btnAddCuentaDebe.addEventListener("click", () => {
   cargarCuentasEnSelect("selectDebe");
 });
 
-//Agregar cuenta HABER
+//------------ FUNCIONALIDAD DEL BOTON DE AGREGAR EN EL HABER --------------------
 let btnAddCuentaHaber = document.getElementById("agregarCuentaHaber");
 let contenedorHaber = document.getElementById("contenedorHaber");
 
@@ -80,7 +78,7 @@ btnAddCuentaHaber.addEventListener("click", () => {
   cargarCuentasEnSelect("selectHaber");
 });
 
-//Eliminar un div de una cuenta
+//------------ FUNCIONALIDAD DEL BOTON DE ELIMINAR DE CADA DIV --------------------
 document.addEventListener("click", function (event) {
   const bloquesDebe = contenedorDebe.querySelectorAll(".account-entries");
   const bloquesHaber = contenedorHaber.querySelectorAll(".account-entries");
@@ -98,6 +96,7 @@ document.addEventListener("click", function (event) {
   }
 });
 
+//------------ CARGAR SELECTS DE LAS CUENTAS CUANDO CARGUE EL DOM --------------------
 document.addEventListener("DOMContentLoaded", function () {
   // Cargar cuentas en ambos selects
   cargarCuentasEnSelect("selectDebe");
@@ -129,10 +128,12 @@ function cargarCuentasEnSelect(selectId) {
     })
     .catch((error) => console.error("Error:", error));
 }
+
+//------------ CALCULAR LOS TOTALES DEL DEBE Y HABER --------------------
 let btnCalcularTotal = document.getElementById("btnTotales");
 
 btnCalcularTotal.addEventListener("click", (e) => {
-  e.preventDefault();
+  e.preventDefault(); //para que el form no se envie y mantenga los datos
 
   let montosDebe = document.querySelectorAll('input[name="monto-cuenta-debe"]');
   let montosHaber = document.querySelectorAll(
@@ -158,5 +159,5 @@ btnCalcularTotal.addEventListener("click", (e) => {
   document.getElementById("diferencia").textContent =
     "$" + diferencia.toFixed(2);
 
-  console.log(totalDebe, totalHaber, diferencia);
-});
+  console.log(totalDebe, totalHaber, diferencia); //DEBUG
+}); 
