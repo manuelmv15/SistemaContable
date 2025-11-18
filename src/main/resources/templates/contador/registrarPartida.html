@@ -21,7 +21,7 @@
         <!-- ¿ cooking o cooked ? -->
 
         <main class="col p-4 overflow-auto" style="max-height: 100vh">
-          <div class="">
+          <div class="container">
             <form class="entry-form">
               <div class="form-section">
                 <h2 class="text-center">Información de partida</h2>
@@ -47,7 +47,7 @@
               </div>
 
               <div class="form-section">
-                <h2>Movimientos</h2>
+                <h2 class="text-center">Detalle de partida</h2>
 
                 <div id="contenedorDebe" class="entry-item">
                   <div class="entry-header">
@@ -65,7 +65,7 @@
 
                   <div class="account-entries">
                     <div class="account-row">
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label>Código de Cuenta</label>
                         <input
                           type="text"
@@ -73,9 +73,9 @@
                           id="codigoCuenta_Debe"
                           placeholder="Ej: 1105"
                         />
-                      </div>
+                      </div> -->
 
-                      <div class="form-group">
+                      <!-- <div class="form-group">
                         <label>Nombre de Cuenta</label>
                         <input
                           type="text"
@@ -84,8 +84,13 @@
                           placeholder="Ej: Caja General"
                         />
 
+                      </div> -->
+
+                      <div class="form-group">
+                        <label for="nombre">Código y nombre de la cuenta</label>
                         <select name="selectDebe" id="selectDebe"></select>
                       </div>
+
                       <div class="form-group">
                         <label>Monto</label>
                         <input
@@ -318,7 +323,7 @@
           .then((cuentas) => {
 
             const select = document.getElementById(selectId);
-            
+
             select.innerHTML =
               '<option value="">Seleccione una cuenta</option>';
 
