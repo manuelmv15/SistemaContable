@@ -14,14 +14,15 @@
   </head>
 
   <body class="bg-light" style="overflow: hidden">
-    <div class="container-fluid row g-0">
+
+    <div class="row g-0">
       <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px">
         <div th:replace="contador/fragments/sidebar :: sidebar"></div>
 
         <!-- ¿ cooking o cooked ? -->
 
         <main class="col p-4 overflow-auto" style="max-height: 100vh">
-          <div class="container">
+          <div class="container-fluid">
             <form class="entry-form">
               <div class="form-section">
                 <h2 class="text-center">Información de partida</h2>
@@ -46,10 +47,12 @@
                 </div>
               </div>
 
-              <div class="form-section">
-                <h2 class="text-center">Detalle de partida</h2>
+              <div class="form-section row">
 
-                <div id="contenedorDebe" class="entry-item">
+                <h2>Detalle de partida</h2>
+
+                <div id="contenedorDebe" class="entry-item col">
+                  
                   <div class="entry-header">
                     <h3>Debe</h3>
                     <button
@@ -64,7 +67,7 @@
                   <!-- CAMPOS DEL DEBE  -->
 
                   <div class="account-entries">
-                    <div class="account-row">
+                    <div class="account-row ">
                       <!-- <div class="form-group">
                         <label>Código de Cuenta</label>
                         <input
@@ -107,7 +110,7 @@
                   </div>
                 </div>
 
-                <div id="contenedorHaber" class="entry-item">
+                <div id="contenedorHaber" class="entry-item col">
                   <!-- CAMPOS DEL HABER -->
                   <div class="entry-header">
                     <h3>Haber</h3>
@@ -122,7 +125,8 @@
 
                   <div class="account-entries">
                     <div class="account-row">
-                      <div class="form-group">
+
+                      <!--<div class="form-group">
                         <label>Código de Cuenta</label>
                         <input
                           type="text"
@@ -137,7 +141,13 @@
                           name="nombre-cuenta-haber"
                           placeholder="Ej: Ingresos por Ventas"
                         />
+                      </div> -->
+
+                      <div class="form-group">
+                        <label for="nombre">Código y nombre de la cuenta</label>
+                        <select name="selectHaber" id="selectHaber"></select>
                       </div>
+
                       <div class="form-group">
                         <label>Monto</label>
                         <input
@@ -207,95 +217,78 @@
 
       //Agregar cuenta DEBE
       let btnAddCuentaDebe = document.getElementById("agregarCuentaDebe");
-      let contenedorHaber = document.getElementById("contenedorHaber");
       let contenedorDebe = document.getElementById("contenedorDebe");
 
       btnAddCuentaDebe.addEventListener("click", () => {
         let contenedorNuevo = document.createElement("div");
+        contenedorNuevo.classList.add('account-entries');
 
         contenedorNuevo.innerHTML = `
-            <div class="account-entries">
-                      <div class="account-row">
-                        <div class="form-group">
-                          <label>Código de Cuenta</label>
-                          <input
-                            type="text"
-                            name="codigo-cuenta-haber"
-                            placeholder="Ej: 1105"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label>Nombre de Cuenta</label>
-                          <input
-                            type="text"
-                            name="nombre-cuenta-haber"
-                            placeholder="Ej: Caja general"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label>Monto</label>
-                          <input
-                            type="number"
-                            name="monto-cuenta-haber"
-                            step="0.01"
-                            placeholder="0.00"
-                          />
-                        </div>
-                        <button type="button" class="remove-btn">x</button>
-                      </div>
-                    </div>
-            `;
+          <div class="account-row mt-3">
+            
+            <div class="form-group">
+              <label for="nombre">Código y nombre de la cuenta</label>
+              <select name="selectDebe" id="selectDebe"></select>
+            </div>
+
+            <div class="form-group">
+              <label>Monto</label>
+              <input
+                type="number"
+                name="monto-cuenta-haber"
+                step="0.01"
+                placeholder="0.00"
+              />
+            </div>
+            <button type="button" class="remove-btn">x</button>
+          </div>
+        `;
 
         contenedorDebe.appendChild(contenedorNuevo);
+
+        //Cargar el select de Debe
+        cargarCuentasEnSelect("selectDebe");
       });
 
       //Agregar cuenta HABER
       let btnAddCuentaHaber = document.getElementById("agregarCuentaHaber");
+      let contenedorHaber = document.getElementById("contenedorHaber");
 
       btnAddCuentaHaber.addEventListener("click", () => {
         let contenedorNuevo = document.createElement("div");
+        contenedorNuevo.classList.add('account-entries');
 
         contenedorNuevo.innerHTML = `
-            <div class="account-entries">
-                      <div class="account-row">
-                        <div class="form-group">
-                          <label>Código de Cuenta</label>
-                          <input
-                            type="text"
-                            name="codigo-cuenta-haber"
-                            placeholder="Ej: 4105"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label>Nombre de Cuenta</label>
-                          <input
-                            type="text"
-                            name="nombre-cuenta-haber"
-                            placeholder="Ej: Ingresos por Ventas"
-                          />
-                        </div>
-                        <div class="form-group">
-                          <label>Monto</label>
-                          <input
-                            type="number"
-                            name="monto-cuenta-haber"
-                            step="0.01"
-                            placeholder="0.00"
-                          />
-                        </div>
-                        <button type="button" class="remove-btn">x</button>
-                      </div>
-                    </div>
-            `;
+            <div class="account-row mt-3">
+            
+            <div class="form-group">
+              <label for="nombre">Código y nombre de la cuenta</label>
+              <select name="selectHaber" id="selectHaber"></select>
+            </div>
+
+            <div class="form-group">
+              <label>Monto</label>
+              <input
+                type="number"
+                name="monto-cuenta-haber"
+                step="0.01"
+                placeholder="0.00"
+              />
+            </div>
+            <button type="button" class="remove-btn">x</button>
+          </div>
+          `;
 
         contenedorHaber.appendChild(contenedorNuevo);
+
+        //Cargar el select de Haber
+        cargarCuentasEnSelect("selectHaber");
       });
 
       //Eliminar un div de una cuenta
       document.addEventListener("click", function (event) {
         const bloquesDebe = contenedorDebe.querySelectorAll(".account-entries");
-        const bloquesHaber =
-          contenedorHaber.querySelectorAll(".account-entries");
+        const bloquesHaber = contenedorHaber.querySelectorAll(".account-entries");
 
         console.log(bloquesDebe.length, bloquesHaber.length);
 
@@ -311,6 +304,7 @@
       });
 
       document.addEventListener("DOMContentLoaded", function () {
+
         // Cargar cuentas en ambos selects
         cargarCuentasEnSelect("selectDebe");
         cargarCuentasEnSelect("selectHaber");
@@ -322,19 +316,26 @@
           .then((response) => response.json())
           .then((cuentas) => {
 
-            const select = document.getElementById(selectId);
+            let selects = document.querySelectorAll(`#${selectId}`);
 
-            select.innerHTML =
-              '<option value="">Seleccione una cuenta</option>';
+            console.log(selects.length);
 
-            cuentas.forEach((cuenta) => {
-              const option = document.createElement("option");
-              option.value = cuenta.idCuenta;
-              option.textContent = `${cuenta.codigo} - ${cuenta.nombre}`;
-              option.dataset.codigo = cuenta.codigo;
-              option.dataset.nombre = cuenta.nombre;
-              select.appendChild(option);
-            });
+            selects.forEach((select) => {
+
+                select.innerHTML ='<option value="">Seleccione una cuenta</option>';
+
+              cuentas.forEach((cuenta) => {
+
+                let option = document.createElement("option");
+
+                option.value = cuenta.idCuenta;
+                option.textContent = `${cuenta.codigo} - ${cuenta.nombre}`;
+                option.dataset.codigo = cuenta.codigo;
+                option.dataset.nombre = cuenta.nombre;
+
+                select.appendChild(option);
+              });
+            })
           }).catch((error) => console.error("Error:", error));
       }
     </script>
