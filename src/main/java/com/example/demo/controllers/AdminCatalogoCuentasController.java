@@ -1,13 +1,20 @@
 package com.example.demo.controllers;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import com.example.demo.cuentacontable.CuentaContable;
 import com.example.demo.cuentacontable.CuentaContableService;
 import com.example.demo.tipocuenta.TipoCuenta;
 import com.example.demo.tipocuenta.TipoCuentaService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin")
@@ -16,12 +23,13 @@ public class AdminCatalogoCuentasController {
     private final TipoCuentaService tipoSrv;
     private final CuentaContableService cuentaSrv;
 
+    //Tipo de cuenta y cuentas
     public AdminCatalogoCuentasController(TipoCuentaService tipoSrv, CuentaContableService cuentaSrv) {
         this.tipoSrv = tipoSrv;
         this.cuentaSrv = cuentaSrv;
     }
 
-
+    //
     @GetMapping("/Gestionar-cuentas")
     public String gestionarCuentas(Model model,
                                    @RequestParam(required = false) String msg,
