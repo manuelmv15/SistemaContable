@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -16,16 +16,88 @@
         <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px;">
             <div th:replace="auditor/fragments/sidebar :: sidebar"></div>
 
-            <main class="p-4 col bg-light">
+            <main class="col-md-9 col-lg-10 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="m-0">Libro mayor</h3>
+                    <div class="btn-group">
+                        <a class="btn btn-outline-primary btn-sm"
+                           th:href="@{/admin/libro-mayor/export(tipo='pdf', periodoId=${periodoId}, cuentaId=${cuentaId})}">PDF</a>
+                        <a class="btn btn-outline-success btn-sm"
+                           th:href="@{/admin/libro-mayor/export(tipo='csv', periodoId=${periodoId}, cuentaId=${cuentaId})}">CSV</a>
+                    </div>
+                </div>
 
+                <!-- Filtros -->
+                <form class="card card-body mb-3" method="get" th:action="@{/admin/libro-mayor}">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Período</label>
+                            <select name="periodoId" class="form-select">
+                                <option value="">— Seleccione —</option>
+                                <option th:each="per : ${periodos}"
+                                        th:value="${per.idPeriodo}"
+                                        th:selected="${periodoId} == ${per.idPeriodo}"
+                                        th:text="${#temporals.format(per.fechaInicio,'yyyy-MM-dd')} + ' a ' + ${#temporals.format(per.fechaFin,'yyyy-MM-dd')}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-5">
+                            <label class="form-label">Cuenta contable</label>
+                            <select name="cuentaId" class="form-select">
+                                <option value="">— Todas —</option>
+                                <option th:each="c : ${cuentas}"
+                                        th:value="${c.idCuenta}"
+                                        th:selected="${cuentaId} == ${c.idCuenta}"
+                                        th:text="${c.codigo} + ' - ' + ${c.nombre}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button class="btn btn-primary w-100">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
 
-
-                <!-- CODIGO PARA EL AUDITOR -->
-
-
-                
-
-
+                <!-- Mayor por cuenta -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Partida</th>
+                                    <th>Descripción</th>
+                                    <th class="text-end">Debe</th>
+                                    <th class="text-end">Haber</th>
+                                    <th class="text-end">Saldo</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="l : ${mayores}">
+                                    <td th:text="${#temporals.format(l.fecha,'yyyy-MM-dd')}">2025-01-01</td>
+                                    <td th:text="${l.partidaCodigo}">P-0001</td>
+                                    <td th:text="${l.descripcion}">-</td>
+                                    <td class="text-end" th:text="${#numbers.formatDecimal(l.debe,1,2)}">0.00</td>
+                                    <td class="text-end" th:text="${#numbers.formatDecimal(l.haber,1,2)}">0.00</td>
+                                    <td class="text-end" th:text="${#numbers.formatDecimal(l.saldo,1,2)}">0.00</td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(mayores)}">
+                                    <td colspan="6" class="text-center text-muted">Sin movimientos para los filtros.</td>
+                                </tr>
+                                </tbody>
+                                <tfoot th:if="${!#lists.isEmpty(mayores)}">
+                                <tr>
+                                    <th colspan="3" class="text-end">Saldos finales</th>
+                                    <th class="text-end" th:text="${#numbers.formatDecimal(totalDebe,1,2)}">0.00</th>
+                                    <th class="text-end" th:text="${#numbers.formatDecimal(totalHaber,1,2)}">0.00</th>
+                                    <th class="text-end" th:text="${#numbers.formatDecimal(saldoFinal,1,2)}">0.00</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
     </div>

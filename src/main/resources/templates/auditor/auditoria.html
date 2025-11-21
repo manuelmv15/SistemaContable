@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -16,16 +16,100 @@
         <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px;">
             <div th:replace="auditor/fragments/sidebar :: sidebar"></div>
 
-            <main class="p-4 col bg-light">
+            <main class="col-md-9 col-lg-10 p-4">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="m-0">Auditoría</h3>
+                    <div class="btn-group">
+                        <a class="btn btn-outline-primary btn-sm"
+                           th:href="@{/admin/auditoria/export(tipo='pdf', usuario=${usuario}, accion=${accion}, desde=${desde}, hasta=${hasta})}">PDF</a>
+                        <a class="btn btn-outline-success btn-sm"
+                           th:href="@{/admin/auditoria/export(tipo='csv', usuario=${usuario}, accion=${accion}, desde=${desde}, hasta=${hasta})}">CSV</a>
+                    </div>
+                </div>
 
+                <!-- Filtros -->
+                <form class="card card-body mb-3" method="get" th:action="@{/admin/auditoria}">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label class="form-label">Usuario</label>
+                            <select class="form-select" name="usuario">
+                                <option value="">— Todos —</option>
+                                <option th:each="u : ${usuarios}"
+                                        th:value="${u.idUsuario}"
+                                        th:selected="${usuario} == ${u.idUsuario}"
+                                        th:text="${u.username}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Acción</label>
+                            <select class="form-select" name="accion">
+                                <option value="">— Todas —</option>
+                                <option th:each="a : ${acciones}" th:value="${a}" th:selected="${accion} == ${a}" th:text="${a}"></option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Desde</label>
+                            <input type="date" class="form-control" name="desde" th:value="${desde}">
+                        </div>
+                        <div class="col-md-2">
+                            <label class="form-label">Hasta</label>
+                            <input type="date" class="form-control" name="hasta" th:value="${hasta}">
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button class="btn btn-primary w-100">Buscar</button>
+                        </div>
+                    </div>
+                </form>
 
+                <!-- Resultados -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead>
+                                <tr>
+                                    <th>Fecha/Hora</th>
+                                    <th>Usuario</th>
+                                    <th>Acción</th>
+                                    <th>Detalle</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="e : ${eventos}">
+                                    <td th:text="${#temporals.format(e.fecha,'yyyy-MM-dd HH:mm')}">2025-01-01 08:32</td>
+                                    <td th:text="${e.usuario}">admin</td>
+                                    <td><span class="badge text-bg-secondary" th:text="${e.accion}">CREAR</span></td>
+                                    <td th:text="${e.detalle}">-</td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(eventos)}">
+                                    <td colspan="4" class="text-center text-muted">Sin eventos que mostrar.</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
 
-                <!-- CODIGO PARA EL AUDITOR -->
-
-                
-
-
-
+                        <!-- Paginacion simple -->
+                        <nav th:if="${totalPaginas > 1}">
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item" th:classappend="${paginaActual == 1} ? 'disabled'">
+                                    <a class="page-link"
+                                       th:href="@{/admin/auditoria(p=${paginaActual-1},usuario=${usuario},accion=${accion},desde=${desde},hasta=${hasta})}">&laquo;</a>
+                                </li>
+                                <li class="page-item" th:each="i : ${#numbers.sequence(1,totalPaginas)}"
+                                    th:classappend="${i == paginaActual} ? 'active'">
+                                    <a class="page-link"
+                                       th:text="${i}"
+                                       th:href="@{/admin/auditoria(p=${i},usuario=${usuario},accion=${accion},desde=${desde},hasta=${hasta})}">1</a>
+                                </li>
+                                <li class="page-item" th:classappend="${paginaActual == totalPaginas} ? 'disabled'">
+                                    <a class="page-link"
+                                       th:href="@{/admin/auditoria(p=${paginaActual+1},usuario=${usuario},accion=${accion},desde=${desde},hasta=${hasta})}">&raquo;</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
             </main>
         </div>
     </div>
