@@ -5,108 +5,42 @@ let selectHaber = document.querySelectorAll('select[name=selectHaber]');
 let selectDebe = document.querySelectorAll('select[name=selectDebe]');
 
 botonCancelar.addEventListener("click", () => {
-
   let campos = document.querySelectorAll("input, textarea");
 
   campos.forEach((campo) => {
     campo.value = "";
   });
 
-  contenedorDebe.innerHTML = `
-          <div id="contenedorDebe" class="entry-item col mb-0">
-                  
-                  <div class="entry-header">
-                    <h3>Debe</h3>
-                    <button
-                      type="button"
-                      id="agregarCuentaDebe"
-                      class="add-btn"
-                    >
-                      Agregar Cuenta
-                    </button>
-                  </div>
+  // Dejar solo el primero y vaciarlo
+  selectDebe.forEach((select, index) => {
+    if (index === 0) {
+      select.innerHTML = ""; // limpia las opciones
+      cargarCuentasEnSelect(select); // recarga las cuentas
+    } else {
+      select.parentElement.parentElement.remove(); // elimina el bloque extra
+    }
+  });
 
-                  <!-- CAMPOS DEL DEBE  -->
-                  <div class="account-entries">
-                    <div class="account-row item-contenedor-debe">
-
-                      <div class="form-group">
-                        <label for="nombre">Código y nombre de la cuenta</label>
-                        <select name="selectDebe"></select>
-                      </div>
-
-                      <div class="form-group">
-                        <label>Monto</label>
-                        <input
-                          type="number"
-                          name="monto-cuenta-debe"
-                          step="0.01"
-                          placeholder="0.00"
-                        />
-                      </div>
-
-                      <button type="button" class="remove-btn">x</button>
-                    </div>
-                  </div>
-                </div>
-        `;
-
-    contenedorHaber.innerHTML = `
-          <div id="contenedorHaber" class="entry-item col mb-0">
-
-                  <!-- CAMPOS DEL HABER -->
-                  <div class="entry-header">
-                    <h3>Haber</h3>
-                    <button
-                      type="button"
-                      id="agregarCuentaHaber"
-                      class="add-btn"
-                    >
-                      Agregar Cuenta
-                    </button>
-                  </div>
-
-                  <div class="account-entries">
-                    <div class="account-row item-contenedor-haber">
-
-                      <div class="form-group">
-                        <label for="nombre">Código y nombre de la cuenta</label>
-                        <select name="selectHaber"></select>
-                      </div>
-
-                      <div class="form-group">
-                        <label>Monto</label>
-                        <input
-                          type="number"
-                          name="monto-cuenta-haber"
-                          step="0.01"
-                          placeholder="0.00"
-                        />
-                      </div>
-                      <button type="button" class="remove-btn">x</button>
-                    </div>
-                  </div>
-                </div>
-        `;
-
-    let selectLimpioDebe = contenedorDebe.querySelector('select[name=selectDebe]');
-    let selectLimpioHaber = contenedorHaber.querySelector('select[name=selectHaber]');
-
-    cargarCuentasEnSelect(selectLimpioDebe);
-    cargarCuentasEnSelect(selectLimpioHaber);
+  selectHaber.forEach((select, index) => {
+    if (index === 0) {
+      select.innerHTML = "";
+      cargarCuentasEnSelect(select);
+    } else {
+      select.parentElement.parentElement.remove();
+    }
+  });
 });
 
-//------------ FUNCIONALIDAD DEL BOTON DE AGREGAR EN EL DEBE --------------------
-let btnAddCuentaDebe = document.getElementById("agregarCuentaDebe");
+//-------------------------- FUNCIONALIDAD DE LOS BOTONES DE AGREGAR----------------------------
 let contenedorDebe = document.getElementById("contenedorDebe");
+let contenedorHaber = document.getElementById("contenedorHaber");
 
-btnAddCuentaDebe.addEventListener("click", () => {
-
+function agregarElementoDebe(){
   let contenedorNuevo = document.createElement("div");
   contenedorNuevo.classList.add("account-entries");
 
   contenedorNuevo.innerHTML = `
-          <div class="account-row mt-3 item-contenedor-debe">
+          <div class="account-row mb-3 item-contenedor-debe">
             
             <div class="form-group">
               <label for="nombre">Código y nombre de la cuenta</label>
@@ -130,19 +64,15 @@ btnAddCuentaDebe.addEventListener("click", () => {
 
   //Cargar el select de Debe
   cargarCuentasEnSelect(nuevoSelect);
-});
+}
 
-//------------ FUNCIONALIDAD DEL BOTON DE AGREGAR EN EL HABER --------------------
-let aggCuenta = document.getElementById("agregarCuentaHaber");
-let contenedorHaber = document.getElementById("contenedorHaber");
-
-aggCuenta.addEventListener("click", () => {
+function agregarElementoHaber() {
 
   let contenedorNuevo = document.createElement("div");
   contenedorNuevo.classList.add("account-entries");
 
   contenedorNuevo.innerHTML = `
-            <div class="account-row mt-3 item-contenedor-haber">
+            <div class="account-row mb-3 item-contenedor-haber">
             
             <div class="form-group">
               <label for="nombre">Código y nombre de la cuenta</label>
@@ -167,8 +97,7 @@ aggCuenta.addEventListener("click", () => {
 
   //Cargar el select de Haber
   cargarCuentasEnSelect(nuevoSelect);
-
-});
+}
 
 //------------ FUNCIONALIDAD DEL BOTON DE ELIMINAR DE CADA DIV --------------------
 document.addEventListener("click", function (event) {
