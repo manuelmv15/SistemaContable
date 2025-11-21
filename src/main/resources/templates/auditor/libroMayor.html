@@ -21,14 +21,14 @@
                     <h3 class="m-0">Libro mayor</h3>
                     <div class="btn-group">
                         <a class="btn btn-outline-primary btn-sm"
-                           th:href="@{/admin/libro-mayor/export(tipo='pdf', periodoId=${periodoId}, cuentaId=${cuentaId})}">PDF</a>
+                           th:href="@{/auditor/libro-mayor/export(tipo='pdf', periodoId=${periodoId}, cuentaId=${cuentaId})}">PDF</a>
                         <a class="btn btn-outline-success btn-sm"
-                           th:href="@{/admin/libro-mayor/export(tipo='csv', periodoId=${periodoId}, cuentaId=${cuentaId})}">CSV</a>
+                           th:href="@{/auditor/libro-mayor/export(tipo='csv', periodoId=${periodoId}, cuentaId=${cuentaId})}">CSV</a>
                     </div>
                 </div>
 
                 <!-- Filtros -->
-                <form class="card card-body mb-3" method="get" th:action="@{/admin/libro-mayor}">
+                <form class="card card-body mb-3" method="get" th:action="@{/auditor/libro-mayor}">
                     <div class="row g-3">
                         <div class="col-md-4">
                             <label class="form-label">Período</label>

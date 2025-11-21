@@ -21,14 +21,14 @@
                     <h3 class="m-0">Auditoría</h3>
                     <div class="btn-group">
                         <a class="btn btn-outline-primary btn-sm"
-                           th:href="@{/admin/auditoria/export(tipo='pdf', usuario=${usuario}, accion=${accion}, desde=${desde}, hasta=${hasta})}">PDF</a>
+                           th:href="@{/auditor/auditoria/export(tipo='pdf', usuario=${usuario}, accion=${accion}, desde=${desde}, hasta=${hasta})}">PDF</a>
                         <a class="btn btn-outline-success btn-sm"
-                           th:href="@{/admin/auditoria/export(tipo='csv', usuario=${usuario}, accion=${accion}, desde=${desde}, hasta=${hasta})}">CSV</a>
+                           th:href="@{/auditor/auditoria/export(tipo='csv', usuario=${usuario}, accion=${accion}, desde=${desde}, hasta=${hasta})}">CSV</a>
                     </div>
                 </div>
 
                 <!-- Filtros -->
-                <form class="card card-body mb-3" method="get" th:action="@{/admin/auditoria}">
+                <form class="card card-body mb-3" method="get" th:action="@{/auditor/auditoria}">
                     <div class="row g-3">
                         <div class="col-md-3">
                             <label class="form-label">Usuario</label>
@@ -94,17 +94,17 @@
                             <ul class="pagination pagination-sm mb-0">
                                 <li class="page-item" th:classappend="${paginaActual == 1} ? 'disabled'">
                                     <a class="page-link"
-                                       th:href="@{/admin/auditoria(p=${paginaActual-1},usuario=${usuario},accion=${accion},desde=${desde},hasta=${hasta})}">&laquo;</a>
+                                       th:href="@{/auditor/auditoria(p=${paginaActual-1},usuario=${usuario},accion=${accion},desde=${desde},hasta=${hasta})}">&laquo;</a>
                                 </li>
                                 <li class="page-item" th:each="i : ${#numbers.sequence(1,totalPaginas)}"
                                     th:classappend="${i == paginaActual} ? 'active'">
                                     <a class="page-link"
                                        th:text="${i}"
-                                       th:href="@{/admin/auditoria(p=${i},usuario=${usuario},accion=${accion},desde=${desde},hasta=${hasta})}">1</a>
+                                       th:href="@{/auditor/auditoria(p=${i},usuario=${usuario},accion=${accion},desde=${desde},hasta=${hasta})}">1</a>
                                 </li>
                                 <li class="page-item" th:classappend="${paginaActual == totalPaginas} ? 'disabled'">
                                     <a class="page-link"
-                                       th:href="@{/admin/auditoria(p=${paginaActual+1},usuario=${usuario},accion=${accion},desde=${desde},hasta=${hasta})}">&raquo;</a>
+                                       th:href="@{/auditor/auditoria(p=${paginaActual+1},usuario=${usuario},accion=${accion},desde=${desde},hasta=${hasta})}">&raquo;</a>
                                 </li>
                             </ul>
                         </nav>

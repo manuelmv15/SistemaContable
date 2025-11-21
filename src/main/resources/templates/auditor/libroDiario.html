@@ -21,14 +21,14 @@
                     <h3 class="m-0">Libro diario</h3>
                     <div class="btn-group">
                         <a class="btn btn-outline-primary btn-sm"
-                           th:href="@{/admin/libro-diario/export(tipo='pdf', periodoId=${periodoId}, desde=${desde}, hasta=${hasta})}">PDF</a>
+                           th:href="@{/auditor/libro-diario/export(tipo='pdf', periodoId=${periodoId}, desde=${desde}, hasta=${hasta})}">PDF</a>
                         <a class="btn btn-outline-success btn-sm"
-                           th:href="@{/admin/libro-diario/export(tipo='csv', periodoId=${periodoId}, desde=${desde}, hasta=${hasta})}">CSV</a>
+                           th:href="@{/auditor/libro-diario/export(tipo='csv', periodoId=${periodoId}, desde=${desde}, hasta=${hasta})}">CSV</a>
                     </div>
                 </div>
 
                 <!-- Filtros -->
-                <form class="card card-body mb-3" method="get" th:action="@{/admin/libro-diario}">
+                <form class="card card-body mb-3" method="get" th:action="@{/auditor/libro-diario}">
                     <div class="row g-3">
                         <div class="col-md-4">
                             <label class="form-label">Período</label>
