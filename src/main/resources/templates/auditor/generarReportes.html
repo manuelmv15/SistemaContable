@@ -10,13 +10,14 @@
     <link rel="icon" href="/icons/dashboard.png" sizes="96x96">
 </head>
 
-<body style="overflow: hidden;">
+<body class="bg-light" style="overflow: hidden">
 
-    <div class="container-fluid row g-0">
+    <div class="row g-0">
+
         <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px;">
             <div th:replace="auditor/fragments/sidebar :: sidebar"></div>
 
-            <main class="p-4 col bg-light">
+            <main class="col p-4 overflow-auto" style="max-height: 100vh">
 
 
 
