@@ -1,0 +1,14 @@
+.card-hover {
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.card-hover:hover {
+    transform: translateY(-9px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.card-custom {
+    background-color: #cfe2ff;
+    color: #084298;
+    border: none;
+}
