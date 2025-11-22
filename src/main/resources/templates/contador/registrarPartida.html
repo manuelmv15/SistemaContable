@@ -14,22 +14,22 @@
   </head>
 
   <body class="bg-light" style="overflow: hidden">
-
     <div class="container-fluid row g-0">
       <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px">
         <div th:replace="contador/fragments/sidebar :: sidebar"></div>
 
         <!-- ¿ cooking o cooked ? -->
 
-        <main class="col-md-9 col-lg-10 p-4 overflow-auto" style="max-height: 100vh">
-
+        <main
+          class="col-md-9 col-lg-10 p-4 overflow-auto"
+          style="max-height: 100vh"
+        >
           <div class="container-fluid">
             <form class="entry-form">
               <div class="form-section">
                 <h2 class="text-center">Información de partida</h2>
 
                 <div class="form-grid">
-
                   <!-- CAMPOS DE LA PARTIDA -->
                   <div class="form-group span-2">
                     <label for="date">Ingrese la fecha</label>
@@ -49,18 +49,16 @@
               </div>
 
               <div class="form-section row mb-0">
-
                 <h2>Detalle de partida</h2>
 
                 <div id="contenedorDebe" class="entry-item col mb-0">
-                  
                   <div class="entry-header">
                     <h3>Debe</h3>
                     <button
                       type="button"
                       id="agregarCuentaDebe"
                       class="add-btn"
-                      onclick="agregarElementoDebe()"
+                      onclick=""
                     >
                       Agregar Cuenta
                     </button>
@@ -69,10 +67,14 @@
                   <!-- CAMPOS DEL DEBE  -->
                   <div class="account-entries">
                     <div class="account-row mb-3 item-contenedor-debe">
-
                       <div class="form-group">
-                        <label for="nombre">Código y nombre de la cuenta</label>
-                        <select name="selectDebe"></select>
+                        <label>Código y nombre de la cuenta</label>
+                        <select name="selectHaber" id="selectHaber" class="">
+                          <option value="" selected disabled>Seleccione una cuenta</option>
+                          <option th:each="cuenta : ${todasLasCuentas}" th:value="${cuenta.idCuenta}"
+                            th:text="${cuenta.codigo + ' - ' + cuenta.nombre}">
+                          </option>
+                        </select>
                       </div>
 
                       <div class="form-group">
@@ -91,7 +93,6 @@
                 </div>
 
                 <div id="contenedorHaber" class="entry-item col mb-0">
-
                   <!-- CAMPOS DEL HABER -->
                   <div class="entry-header">
                     <h3>Haber</h3>
@@ -99,7 +100,7 @@
                       type="button"
                       id="agregarCuentaHaber"
                       class="add-btn"
-                      onclick="agregarElementoHaber()"
+                      onclick=""
                     >
                       Agregar Cuenta
                     </button>
@@ -107,12 +108,17 @@
 
                   <div class="account-entries">
                     <div class="account-row mb-3 item-contenedor-haber">
-
+                    
+                      <!-- HABER -->
                       <div class="form-group">
-                        <label for="nombre">Código y nombre de la cuenta</label>
-                        <select name="selectHaber"></select>
+                        <label for="selectHaber">Código y nombre de la cuenta</label>
+                        <select name="selectHaber" id="selectHaber" class="">
+                          <option value="" selected disabled>Seleccione una cuenta</option>
+                          <option th:each="cuenta : ${todasLasCuentas}" th:value="${cuenta.idCuenta}"
+                            th:text="${cuenta.codigo + ' - ' + cuenta.nombre}"></option>
+                        </select>
                       </div>
-
+                    
                       <div class="form-group">
                         <label>Monto</label>
                         <input
@@ -139,7 +145,7 @@
               </div>
             </form>
 
-            <table class="table mt-4 ">
+            <table class="table mt-4">
               <thead class="thead-dark">
                 <th>Fecha</th>
                 <th>Detalle o Descripción</th>
@@ -147,8 +153,7 @@
                 <th>Debe</th>
                 <th>Haber</th>
               </thead>
-              <tbody id="detalle_partida">
-              </tbody>
+              <tbody id="detalle_partida"></tbody>
             </table>
           </div>
         </main>

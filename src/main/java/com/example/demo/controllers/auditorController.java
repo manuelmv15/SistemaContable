@@ -1,11 +1,14 @@
 package com.example.demo.controllers;
 
-import com.example.demo.cuentacontable.CuentaContableService;
-import com.example.demo.perdiodoContable.PeriodoContableService; // <-- si tu paquete se llama distinto, corrígelo aquí
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Controller; // <-- si tu paquete se llama distinto, corrígelo aquí
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.demo.cuentacontable.CuentaContableService;
+import com.example.demo.perdiodoContable.PeriodoContableService;
 
 @Controller
 @RequestMapping("/auditor")
