@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta charset="UTF-8">
@@ -17,17 +17,103 @@
         <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px;">
             <div th:replace="auditor/fragments/sidebar :: sidebar"></div>
 
+<<<<<<< HEAD
             <main class="col p-4 overflow-auto" style="max-height: 100vh">
+=======
+>>>>>>> feat/guardar-partida
 
 
+                <main class="col-md-9 col-lg-10 p-4 overflow-auto" style="max-height: 100vh">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h3 class="m-0">Generar reportes</h3>
 
-                <!-- CODIGO PARA EL AUDITOR -->
+                    </div>
+
+                    <div th:if="${ok}" class="alert alert-success" th:text="${ok}"></div>
+                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+                    <!-- Filtros -->
+                    <form class="card card-body mb-3" method="get" th:action="@{/auditor/reportes}">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">Período contable</label>
+                                <select name="periodoId" class="form-select">
+                                    <option value="">— Todos —</option>
+                                    <option th:each="per : ${periodos}"
+                                            th:value="${per.idPeriodo}"
+                                            th:selected="${periodoId} == ${per.idPeriodo}"
+                                            th:text="${#temporals.format(per.fechaInicio,'yyyy-MM-dd')} + ' a ' + ${#temporals.format(per.fechaFin,'yyyy-MM-dd')}">
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Desde</label>
+                                <input type="date" class="form-control" name="desde" th:value="${desde}">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">Hasta</label>
+                                <input type="date" class="form-control" name="hasta" th:value="${hasta}">
+                            </div>
+                            <div class="col-md-2 d-flex align-items-end">
+                                <button class="btn btn-primary w-100">Aplicar</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <!-- Resultados -->
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h6 class="m-0">Resultados</h6>
+                                <div class="btn-group">
+                                    <a class="btn btn-outline-primary btn-sm"
+                                       th:href="@{/auditor/reportes/export(tipo='pdf', periodoId=${periodoId}, desde=${desde}, hasta=${hasta})}">
+                                        Exportar PDF
+                                    </a>
+                                    <a class="btn btn-outline-success btn-sm"
+                                       th:href="@{/auditor/reportes/export(tipo='csv', periodoId=${periodoId}, desde=${desde}, hasta=${hasta})}">
+                                        Exportar CSV
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="table-responsive">
+                                <table class="table table-sm align-middle">
+                                    <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Nombre</th>
+                                        <th>Tipo</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tbody>
+                                <tr th:each="r : ${reportes}">
+                                    <td th:text="${r.codigo}">1101</td>
+                                    <td th:text="${r.nombre}">Caja</td>
+                                    <td th:text="${r.tipo != null ? r.tipo.nombre : '—'}">Activo</td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(reportes)}">
+                                    <td colspan="3" class="text-muted">Sin resultados</td>
+                                </tr>
+                                </tbody>
+
+                                    <tfoot th:if="${!#lists.isEmpty(reportes)}">
+                                    <tr>
+                                        <th colspan="3" class="text-end">Totales</th>
+                                        <th class="text-end" th:text="${#numbers.formatDecimal(totalDebe,1,2)}">0.00</th>
+                                        <th class="text-end" th:text="${#numbers.formatDecimal(totalHaber,1,2)}">0.00</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </main>
 
                 
 
 
-
-            </main>
         </div>
     </div>
 

@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <title>Gestionar libro mayor</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/libro-mayor.css">
+    <link rel="stylesheet" href="/css/contador/libro-mayor.css">
     <link rel="icon" href="/icons/libro.png" sizes="96x96">
 </head>
-
-<body class="bg-light" style="overflow: hidden;">
-
+<body class="bg-light">
     <div class="container-fluid row g-0">
         <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px;">
 
+            <!-- SIDEBAR -->
             <div th:replace="contador/fragments/sidebar :: sidebar"></div>
 
             <!-- MAIN CONTENT -->
@@ -22,10 +20,10 @@
                 <header class="top-header">
                     <h1 class="page-title">Libro Mayor</h1>
                 </header>
-
                 <div class="content">
                     <div class="container">
-                        <!-- Account Selector -->
+                        
+                        <!-- SELECTOR DE CUENTA -->
                         <div class="selector-card">
                             <h2>Seleccionar Cuenta Contable</h2>
                             <div class="selector-grid">
@@ -33,26 +31,10 @@
                                     <label for="account-code">Código de
                                         Cuenta</label>
                                     <select id="account-code">
-                                        <option value>Seleccione una
-                                            cuenta...</option>
-                                        <option value="1105">1105 - Caja
-                                            General</option>
-                                        <option value="1110">1110 -
-                                            Bancos</option>
-                                        <option value="1305">1305 - Clientes
-                                            Nacionales</option>
-                                        <option value="1435">1435 -
-                                            Inventario de Mercancía</option>
-                                        <option value="2205">2205 -
-                                            Proveedores Nacionales</option>
-                                        <option value="2408">2408 - IVA por
-                                            Pagar</option>
-                                        <option value="4135">4135 - Ingresos
-                                            por Ventas</option>
-                                        <option value="5105">5105 - Sueldos
-                                            y Salarios</option>
-                                        <option value="5120">5120 - Gastos
-                                            de Publicidad</option>
+                                        <option value="" disabled>Seleccione una cuenta</option>
+                                        <option th:each="cuenta : ${todasLasCuentas}" th:value="${cuenta.idCuenta}"
+                                            th:text="${cuenta.codigo + ' - ' + cuenta.nombre}">
+                                        </option>
                                     </select>
                                 </div>
                                 <div class="selector-group">
@@ -70,7 +52,7 @@
                             </div>
                         </div>
 
-                        <!-- Account Info Card -->
+                        <!-- TARJETA DE INFORMACION DE CUENTAS -->
                         <div class="account-info-card">
                             <div class="account-header">
                                 <div>
@@ -103,7 +85,7 @@
                             </div>
                         </div>
 
-                        <!-- Movements Table -->
+                        <!-- TABLA DE MOVIMIENTOS -->
                         <div class="table-card">
                             <h2>Movimientos de la Cuenta</h2>
 
@@ -227,7 +209,7 @@
                                 </table>
                             </div>
 
-                            <!-- Pagination -->
+                            <!-- PAGINACION -->
                             <div class="pagination">
                                 <button class="pagination-btn" disabled>←
                                     Anterior</button>

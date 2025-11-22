@@ -57,7 +57,7 @@ public class CuentaContableService {
         return repo.findByTipo_IdTipoCuentaOrderByCodigoAsc(tipoId);
     }
 
-    public List<CuentaContable> buscar(String q) {
+    public List<CuentaContable> buscar(Long periodoId, String q, String hasta) {
         return repo.findByNombreContainingIgnoreCaseOrderByCodigoAsc(q == null ? "" : q);
     }
 }

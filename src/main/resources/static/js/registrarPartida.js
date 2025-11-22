@@ -1,161 +1,150 @@
 //------------ FUNCIONALIDAD DEL BOTON DE CANCELAR --------------------
-let botonCancelar = document.getElementById("cancelar");
+const botonCancelar = document.getElementById("cancelar");
+const formPartida = document.querySelector('.entry-form');
 
-let selectHaber = document.querySelectorAll('select[name=selectHaber]');
-let selectDebe = document.querySelectorAll('select[name=selectDebe]');
+//función auxiliar para limpiar un contenedor específico
+//dejará solo el primer elemento con clase '.account-entries' y borrará el resto
+function limpiarContenedor(contenedorId) {
+
+    const contenedor = document.getElementById(contenedorId);
+    if (!contenedor) return;
+
+    const filas = contenedor.querySelectorAll('.account-entries');
+
+    for (let i = filas.length - 1; i > 0; i--) {
+        filas[i].remove();
+    }
+
+    const primerSelect = filas[0].querySelector('select');
+    if (primerSelect) primerSelect.selectedIndex = 0;
+}
 
 botonCancelar.addEventListener("click", () => {
-  let campos = document.querySelectorAll("input, textarea");
 
-  campos.forEach((campo) => {
-    campo.value = "";
-  });
+  formPartida.reset();
 
-  // Dejar solo el primero y vaciarlo
-  selectDebe.forEach((select, index) => {
-    if (index === 0) {
-      select.innerHTML = ""; // limpia las opciones
-      cargarCuentasEnSelect(select); // recarga las cuentas
-    } else {
-      select.parentElement.parentElement.remove(); // elimina el bloque extra
-    }
-  });
+  limpiarContenedor('contenedorDebe');
+  limpiarContenedor('contenedorHaber');
 
-  selectHaber.forEach((select, index) => {
-    if (index === 0) {
-      select.innerHTML = "";
-      cargarCuentasEnSelect(select);
-    } else {
-      select.parentElement.parentElement.remove();
-    }
-  });
+  console.log("formulario reseteado a su estado inicial.");
 });
 
 //-------------------------- FUNCIONALIDAD DE LOS BOTONES DE AGREGAR----------------------------
 let contenedorDebe = document.getElementById("contenedorDebe");
 let contenedorHaber = document.getElementById("contenedorHaber");
 
-function agregarElementoDebe(){
-  let contenedorNuevo = document.createElement("div");
-  contenedorNuevo.classList.add("account-entries");
+document.addEventListener('click', (e) => {
 
-  contenedorNuevo.innerHTML = `
-          <div class="account-row mb-3 item-contenedor-debe">
-            
-            <div class="form-group">
-              <label for="nombre">Código y nombre de la cuenta</label>
-              <select name="selectDebe"></select>
-            </div>
+  if (e.target.classList.contains("add-btn")){
 
-            <div class="form-group">
-              <label>Monto</label>
-              <input
-                type="number"
-                name="monto-cuenta-debe"
-                step="0.01"
-                placeholder="0.00"/>
-            </div>
-            <button type="button" class="remove-btn">x</button>
-          </div>
-        `;
+    const boton = e.target; // el botón que disparó el evento
+    console.log(boton);
+    const divPadre = boton.closest("div.entry-item"); // busca el div padre con clase entry-item
+    const idPadre = divPadre.id; // obtiene el id del div padre
 
-  contenedorDebe.appendChild(contenedorNuevo);
-  let nuevoSelect = contenedorNuevo.querySelector('select[name=selectDebe]');
+    console.log("id del div padre:", idPadre);
 
-  //Cargar el select de Debe
-  cargarCuentasEnSelect(nuevoSelect);
-}
+    const selectOriginal = divPadre.querySelector('select');
+    const opcionesHTML = selectOriginal.innerHTML;
 
-function agregarElementoHaber() {
+    if (idPadre === "contenedorDebe") {
 
-  let contenedorNuevo = document.createElement("div");
-  contenedorNuevo.classList.add("account-entries");
+      let contenedorNuevo = document.createElement("div");
+      contenedorNuevo.classList.add("account-entries", "mb-3");
 
-  contenedorNuevo.innerHTML = `
-            <div class="account-row mb-3 item-contenedor-haber">
-            
-            <div class="form-group">
-              <label for="nombre">Código y nombre de la cuenta</label>
-              <select name="selectHaber"></select>
-            </div>
+      contenedorNuevo.innerHTML = `
+      <div class="account-row mb-3 item-contenedor-debe">
+                    
+        <!-- DEBE -->
+        <div class="form-group">
+          <label for="selectDebe">Código y nombre de la cuenta</label>
+          <select name="selectDebe" required>
+            ${opcionesHTML}
+          </select>
+        </div>
+                    
+        <div class="form-group">
+          <label for="monto">Monto</label>
+          <input type="number" name="monto-cuenta-debe" step="0.01" placeholder="0.00" min="1" required/>
+        </div>
+        <button type="button" class="remove-btn">x</button>
+      </div>
+      `;
+      contenedorDebe.appendChild(contenedorNuevo);
+    }
+    else {
+      
+      let contenedorNuevo = document.createElement("div");
+      contenedorNuevo.classList.add("account-entries");
 
-            <div class="form-group">
-              <label>Monto</label>
-              <input
-                type="number"
-                name="monto-cuenta-haber"
-                step="0.01"
-                placeholder="0.00"
-              />
-            </div>
-            <button type="button" class="remove-btn">x</button>
-          </div>
-          `;
+      contenedorNuevo.innerHTML = `
+      <div class="account-row mb-3 item-contenedor-haber">
+                    
+        <!-- HABER -->
+        <div class="form-group">
+          <label for="selectHaber">Código y nombre de la cuenta</label>
+          <select name="selectHaber" required>
+            ${opcionesHTML}
+          </select>
+        </div>
+                    
+        <div class="form-group">
+          <label for="monto">Monto</label>
+          <input type="number" name="monto-cuenta-haber" step="0.01" placeholder="0.00" min="1" required/>
+        </div>
+        <button type="button" class="remove-btn">x</button>
+      </div>
+      `;
+      contenedorHaber.appendChild(contenedorNuevo);
+    }
+  } 
 
-  contenedorHaber.appendChild(contenedorNuevo);
-  let nuevoSelect = contenedorNuevo.querySelector('select[name=selectHaber]');
+  //eliminar una fila
+  else if (e.target.classList.contains("remove-btn")) {
 
-  //Cargar el select de Haber
-  cargarCuentasEnSelect(nuevoSelect);
-}
+    const bloquesDebe = contenedorDebe.querySelectorAll(".account-entries");
+    const bloquesHaber = contenedorHaber.querySelectorAll(".account-entries");
+    
+    console.log(bloquesDebe.length, bloquesHaber.length);
 
-//------------ FUNCIONALIDAD DEL BOTON DE ELIMINAR DE CADA DIV --------------------
-document.addEventListener("click", function (event) {
-  const bloquesDebe = contenedorDebe.querySelectorAll(".account-entries");
-  const bloquesHaber = contenedorHaber.querySelectorAll(".account-entries");
+    const fila = e.target.closest(".account-entries"); //encontrar la fila a quiere eliminar
 
-  if (bloquesDebe.length > 0 || bloquesHaber.length > 0) {
-    if (event.target.classList.contains("remove-btn")) {
-      const fila = event.target.closest(".account-entries");
+    if (!fila) return;
 
-      if (fila) {
-        fila.remove();
-      }
+    //determinar a qué contenedor padre pertenece esta fila
+    const contenedorPadre = fila.closest(".entry-item"); //busca hacia arriba el div contenedor principal
+
+    if (!contenedorPadre) return;
+
+    const idContenedorPadre = contenedorPadre.id;
+
+    let puedeEliminar = false; // validar según el lado específico
+
+    if (idContenedorPadre === "contenedorDebe") {
+      const cantidadActualDebe = contenedorPadre.querySelectorAll(".account-entries").length;
+      puedeEliminar = cantidadActualDebe > 1;
+    }
+    else if (idContenedorPadre === "contenedorHaber") {
+      const cantidadActualHaber = contenedorPadre.querySelectorAll(".account-entries").length; //recalcular las filas del debe
+      puedeEliminar = cantidadActualHaber > 1; //calcular si solo hay 1
+    }
+
+    //eliminar fila
+    if (puedeEliminar) {
+      fila.remove();
+      console.log("Fila eliminada del " + idContenedorPadre.replace("contenedor", ""));
+    } else {
+      alert("Debe mantener al menos una cuenta en cada lado.");
     }
   }
 });
-
-//------------ CARGAR SELECTS DE LAS CUENTAS CUANDO CARGUE EL DOM --------------------
-document.addEventListener("DOMContentLoaded", function () {
-  // Cargar cuentas en ambos selects
-
-  let selectHaberInicio = document.querySelector("select[name=selectHaber]");
-  let selectDebeinicio = document.querySelector("select[name=selectDebe]");
-
-  cargarCuentasEnSelect(selectHaberInicio);
-  cargarCuentasEnSelect(selectDebeinicio);
-});
-
-function cargarCuentasEnSelect(select) {
-
-  fetch("/api/cuentas")
-    .then((response) => response.json())
-    .then((cuentas) => {
-
-      select.innerHTML = '<option value="">Seleccione una cuenta</option>';
-
-        cuentas.forEach((cuenta) => {
-          let option = document.createElement("option");
-
-          option.value = cuenta.idCuenta;
-          option.textContent = `${cuenta.codigo} - ${cuenta.nombre}`;
-          option.dataset.codigo = cuenta.codigo;
-          option.dataset.nombre = cuenta.nombre;
-
-          select.appendChild(option);
-        });
-    })
-    .catch((error) => console.error("Error:", error));
-}
-
-
 
 //------------ CALCULAR LOS TOTALES DEL DEBE Y HABER --------------------
 let reg_partida = document.getElementById("reg_partida");
 
 reg_partida.addEventListener("click", (e) => {
 
-  e.preventDefault();
+  //e.preventDefault();
 
   let fecha = document.getElementById('fecha_partida').value;
   let descripcion = document.getElementById('descripcion_partida').value;
@@ -165,8 +154,6 @@ reg_partida.addEventListener("click", (e) => {
   let montosDebe = contenedorDebe.querySelectorAll('input[name="monto-cuenta-debe"]');
   let montosHaber = contenedorHaber.querySelectorAll('input[name="monto-cuenta-haber"]');
   let tbody = document.getElementById("detalle_partida");
-
-  console.log(contenedorDebe.length, contenedorHaber.length);
 
   //calculo para los totales de los montos
   let totalDebe = 0;
@@ -188,29 +175,10 @@ reg_partida.addEventListener("click", (e) => {
   let tdDescripcion = document.createElement('td');
   tdDescripcion.innerText = descripcion;
 
-  console.log(cuentasDebe.length, cuentasHaber.length);
-
-  // tr.appendChild(tdFecha);
-  // tr.appendChild(tdDescripcion);
-
   let selectCuentasDebe = contenedorDebe.querySelectorAll('select[name=selectDebe]');
   let montosFilaDebe = contenedorDebe.querySelectorAll('input[name=monto-cuenta-debe]');
 
-  console.log("selectCuentasDebe:", selectCuentasDebe);
-  console.log("montosFilaDebe:", montosFilaDebe);
-
-  selectCuentasDebe.forEach((el, i) => console.log("SELECT", i, el));
-  montosFilaDebe.forEach((el, i) => console.log("INPUT", i, el));
-
   for (let i = 0; i < selectCuentasDebe.length; i++) {
-
-    let select = selectCuentasDebe[i];
-    let input = montosFilaDebe[i];
-
-    if (!select || !input) {
-      console.warn("Faltan elementos en la fila", i);
-      continue;
-    }
   
     let tr = document.createElement("tr");
   
@@ -239,24 +207,10 @@ reg_partida.addEventListener("click", (e) => {
     tbody.appendChild(tr);
   }
 
-  let selectCuentasHaber = contenedorHaber.querySelectorAll('select[name=selectHaber]');
-  let montosFilaHaber = contenedorHaber.querySelectorAll('input[name=monto-cuenta-haber]');
-
-  console.log("selectCuentashaber:", selectCuentasHaber);
-console.log("montosFilaHaber:", montosFilaHaber);
-
-selectCuentasHaber.forEach((el, i) => console.log("SELECT", i, el));
-montosFilaHaber.forEach((el, i) => console.log("INPUT", i, el));
+let selectCuentasHaber = contenedorHaber.querySelectorAll('select[name=selectHaber]');
+let montosFilaHaber = contenedorHaber.querySelectorAll('input[name=monto-cuenta-haber]');
 
   for (let i = 0; i < selectCuentasHaber.length; i++) {
-
-    let select = selectCuentasDebe[i];
-    let input = montosFilaHaber[i];
-
-    if (!select || !input) {
-      console.warn("Faltan elementos en la fila", i);
-      continue;
-    }
 
     let tr = document.createElement("tr");
     // celda fecha
@@ -297,4 +251,8 @@ montosFilaHaber.forEach((el, i) => console.log("INPUT", i, el));
   tbody.appendChild(trTotal);
 
   console.log("Total Debe:", totalDebe, "Total Haber:", totalHaber);
+
+  formPartida.reset();
+  limpiarContenedor('contenedorDebe');
+  limpiarContenedor('contenedorHaber');
 });

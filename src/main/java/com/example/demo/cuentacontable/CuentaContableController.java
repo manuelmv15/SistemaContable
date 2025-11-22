@@ -13,26 +13,43 @@ public class CuentaContableController {
 
     private final CuentaContableService service;
 
-    public CuentaContableController(CuentaContableService service) { this.service = service; }
+    public CuentaContableController(CuentaContableService service) {
+        this.service = service;
+    }
 
+    // GET /api/cuentas?periodoId=&hasta=&q=&tipoId=
     @GetMapping
-    public List<CuentaContable> listar(@RequestParam(required = false) String q,
-                                       @RequestParam(required = false) Long tipoId) {
-        if (tipoId != null) return service.porTipo(tipoId);
-        return service.buscar(q);
+    public List<CuentaContable> listar(
+            @RequestParam(required = false) Long periodoId,
+            @RequestParam(required = false) String hasta,
+            @RequestParam(required = false) String q,
+            @RequestParam(required = false) Long tipoId
+    ) {
+        if (tipoId != null) {
+            return service.porTipo(tipoId);          // ajusta si tu firma es distinta
+        }
+        if (periodoId != null || q != null || hasta != null) {
+            return service.buscar(periodoId, q, hasta); // ajusta si tu firma es distinta
+        }
+        return service.listar();                     // lista todo
     }
 
     @GetMapping("/{id}")
-    public CuentaContable get(@PathVariable Long id) { return service.obtener(id); }
+    public CuentaContable get(@PathVariable Long id) {
+        return service.obtener(id);
+    }
 
     @PostMapping
     public ResponseEntity<CuentaContable> crear(@Validated @RequestBody CuentaContable dto) {
         var saved = service.crear(dto);
-        return ResponseEntity.created(URI.create("/api/cuentas/" + saved.getIdCuenta())).body(saved);
+        return ResponseEntity
+                .created(URI.create("/api/cuentas/" + saved.getIdCuenta()))
+                .body(saved);
     }
 
     @PutMapping("/{id}")
-    public CuentaContable actualizar(@PathVariable Long id, @Validated @RequestBody CuentaContable dto) {
+    public CuentaContable actualizar(@PathVariable Long id,
+                                     @Validated @RequestBody CuentaContable dto) {
         return service.actualizar(id, dto);
     }
 
