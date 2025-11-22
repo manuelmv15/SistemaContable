@@ -7,40 +7,29 @@ import com.example.demo.usuarios.usuarioModel;
 import com.example.demo.usuarios.usuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class PartidaService {
 
-    private final PartidaRepository partidaRepo;
+    private final PartidaRepository partidaRepository;
     private final DetallePartidaService detalleService;
-    private final usuarioRepository usuarioRepo;
+    private final usuarioRepository userRepo;
 
-    @Transactional
-    public Partida crearDesdeDTO(PartidaRequestDTO dto) {
-        // validar fecha
-        java.sql.Date fechaSql;
-        try {
-            fechaSql = java.sql.Date.valueOf(dto.getFecha());
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Fecha inválida. Use formato YYYY-MM-DD");
-        }
+    public Partida guardarPartida(PartidaRequestDTO dto) {
 
-        usuarioModel usuario = usuarioRepo.findById(dto.getUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + dto.getUsuarioId()));
+        usuarioModel usuario = userRepo.findById(dto.getUsuarioId().longValue())
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        Partida p = new Partida();
-        p.setFecha(fechaSql);
-        p.setConcepto(dto.getConcepto());
-        p.setUsuario(usuario);
+        Partida partida = new Partida();
+        partida.setFecha(java.sql.Date.valueOf(dto.getFecha()));
+        partida.setConcepto(dto.getConcepto());
+        partida.setUsuario(usuario);
 
-        Partida guardada = partidaRepo.save(p);
+        Partida guardada = partidaRepository.save(partida);
 
-        if (dto.getDetalles() != null) {
-            for (DetallePartidaDTO det : dto.getDetalles()) {
-                detalleService.guardarDetalle(guardada, det);
-            }
+        for (DetallePartidaDTO det : dto.getDetalles()) {
+            detalleService.guardarDetalle(guardada, det);
         }
 
         return guardada;
