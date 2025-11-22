@@ -58,19 +58,14 @@ document.addEventListener('click', (e) => {
         <!-- DEBE -->
         <div class="form-group">
           <label for="selectDebe">Código y nombre de la cuenta</label>
-          <select name="selectDebe" class="">
+          <select name="selectDebe" required>
             ${opcionesHTML}
           </select>
         </div>
                     
         <div class="form-group">
           <label for="monto">Monto</label>
-          <input
-            type="number"
-             name="monto-cuenta-debe"
-            step="0.01"
-            placeholder="0.00"
-          />
+          <input type="number" name="monto-cuenta-debe" step="0.01" placeholder="0.00" min="1" required/>
         </div>
         <button type="button" class="remove-btn">x</button>
       </div>
@@ -88,19 +83,14 @@ document.addEventListener('click', (e) => {
         <!-- HABER -->
         <div class="form-group">
           <label for="selectHaber">Código y nombre de la cuenta</label>
-          <select name="selectHaber" class="">
+          <select name="selectHaber" required>
             ${opcionesHTML}
           </select>
         </div>
                     
         <div class="form-group">
           <label for="monto">Monto</label>
-          <input
-            type="number"
-             name="monto-cuenta-haber"
-            step="0.01"
-            placeholder="0.00"
-          />
+          <input type="number" name="monto-cuenta-haber" step="0.01" placeholder="0.00" min="1" required/>
         </div>
         <button type="button" class="remove-btn">x</button>
       </div>

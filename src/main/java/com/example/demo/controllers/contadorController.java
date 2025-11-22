@@ -55,7 +55,12 @@ public class contadorController {
 
     //Referencia de ruta a la vista /contador/libroMayor.html
     @GetMapping("/contador/libro-mayor")
-    public String libroMayor(){
+    public String libroMayor(Model model){
+        
+        List<CuentaContable> cuentas = cuentaService.listar(); //obtener cuentas
+
+        model.addAttribute("todasLasCuentas", cuentas); //nombre para llamar desde el front
+
         return "contador/libroMayor";
     }    
 }
