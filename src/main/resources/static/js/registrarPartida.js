@@ -1,34 +1,32 @@
 //------------ FUNCIONALIDAD DEL BOTON DE CANCELAR --------------------
-let botonCancelar = document.getElementById("cancelar");
+const botonCancelar = document.getElementById("cancelar");
+const formPartida = document.querySelector('.entry-form');
 
-let selectHaber = document.querySelectorAll('select[name=selectHaber]');
-let selectDebe = document.querySelectorAll('select[name=selectDebe]');
+//función auxiliar para limpiar un contenedor específico
+//dejará solo el primer elemento con clase '.account-entries' y borrará el resto
+function limpiarContenedor(contenedorId) {
+
+    const contenedor = document.getElementById(contenedorId);
+    if (!contenedor) return;
+
+    const filas = contenedor.querySelectorAll('.account-entries');
+
+    for (let i = filas.length - 1; i > 0; i--) {
+        filas[i].remove();
+    }
+
+    const primerSelect = filas[0].querySelector('select');
+    if (primerSelect) primerSelect.selectedIndex = 0;
+}
 
 botonCancelar.addEventListener("click", () => {
-  let campos = document.querySelectorAll("input, textarea");
 
-  campos.forEach((campo) => {
-    campo.value = "";
-  });
+  formPartida.reset();
 
-  // Dejar solo el primero y vaciarlo
-  selectDebe.forEach((select, index) => {
-    if (index === 0) {
-      select.innerHTML = ""; // limpia las opciones
-      cargarCuentasEnSelect(select); // recarga las cuentas
-    } else {
-      select.parentElement.parentElement.remove(); // elimina el bloque extra
-    }
-  });
+  limpiarContenedor('contenedorDebe');
+  limpiarContenedor('contenedorHaber');
 
-  selectHaber.forEach((select, index) => {
-    if (index === 0) {
-      select.innerHTML = "";
-      cargarCuentasEnSelect(select);
-    } else {
-      select.parentElement.parentElement.remove();
-    }
-  });
+  console.log("formulario reseteado a su estado inicial.");
 });
 
 //-------------------------- FUNCIONALIDAD DE LOS BOTONES DE AGREGAR----------------------------
@@ -36,8 +34,6 @@ let contenedorDebe = document.getElementById("contenedorDebe");
 let contenedorHaber = document.getElementById("contenedorHaber");
 
 document.addEventListener('click', (e) => {
-
-  console.log(bloquesDebe.length, bloquesHaber.length);
 
   if (e.target.classList.contains("add-btn")){
 
@@ -59,19 +55,19 @@ document.addEventListener('click', (e) => {
       contenedorNuevo.innerHTML = `
       <div class="account-row mb-3 item-contenedor-debe">
                     
-        <!-- HABER -->
+        <!-- DEBE -->
         <div class="form-group">
-          <label for="selectHaber">Código y nombre de la cuenta</label>
-          <select name="selectHaber" class="">
+          <label for="selectDebe">Código y nombre de la cuenta</label>
+          <select name="selectDebe" class="">
             ${opcionesHTML}
           </select>
         </div>
                     
         <div class="form-group">
-          <label>Monto</label>
+          <label for="monto">Monto</label>
           <input
             type="number"
-             name="monto-cuenta-haber"
+             name="monto-cuenta-debe"
             step="0.01"
             placeholder="0.00"
           />
@@ -98,7 +94,7 @@ document.addEventListener('click', (e) => {
         </div>
                     
         <div class="form-group">
-          <label>Monto</label>
+          <label for="monto">Monto</label>
           <input
             type="number"
              name="monto-cuenta-haber"
@@ -119,6 +115,8 @@ document.addEventListener('click', (e) => {
     const bloquesDebe = contenedorDebe.querySelectorAll(".account-entries");
     const bloquesHaber = contenedorHaber.querySelectorAll(".account-entries");
     
+    console.log(bloquesDebe.length, bloquesHaber.length);
+
     const fila = e.target.closest(".account-entries"); //encontrar la fila a quiere eliminar
 
     if (!fila) return;
@@ -156,7 +154,7 @@ let reg_partida = document.getElementById("reg_partida");
 
 reg_partida.addEventListener("click", (e) => {
 
-  e.preventDefault();
+  //e.preventDefault();
 
   let fecha = document.getElementById('fecha_partida').value;
   let descripcion = document.getElementById('descripcion_partida').value;
@@ -263,4 +261,8 @@ let montosFilaHaber = contenedorHaber.querySelectorAll('input[name=monto-cuenta-
   tbody.appendChild(trTotal);
 
   console.log("Total Debe:", totalDebe, "Total Haber:", totalHaber);
+
+  formPartida.reset();
+  limpiarContenedor('contenedorDebe');
+  limpiarContenedor('contenedorHaber');
 });

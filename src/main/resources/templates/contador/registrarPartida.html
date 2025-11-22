@@ -69,7 +69,7 @@
                     <div class="account-row mb-3 item-contenedor-debe">
                       <div class="form-group">
                         <label>Código y nombre de la cuenta</label>
-                        <select name="selectHaber" id="selectHaber" class="">
+                        <select name="selectDebe">
                           <option value="" selected disabled>Seleccione una cuenta</option>
                           <option th:each="cuenta : ${todasLasCuentas}" th:value="${cuenta.idCuenta}"
                             th:text="${cuenta.codigo + ' - ' + cuenta.nombre}">
@@ -78,7 +78,7 @@
                       </div>
 
                       <div class="form-group">
-                        <label>Monto</label>
+                        <label for="monto">Monto</label>
                         <input
                           type="number"
                           name="monto-cuenta-debe"
@@ -112,7 +112,7 @@
                       <!-- HABER -->
                       <div class="form-group">
                         <label for="selectHaber">Código y nombre de la cuenta</label>
-                        <select name="selectHaber" id="selectHaber" class="">
+                        <select name="selectHaber">
                           <option value="" selected disabled>Seleccione una cuenta</option>
                           <option th:each="cuenta : ${todasLasCuentas}" th:value="${cuenta.idCuenta}"
                             th:text="${cuenta.codigo + ' - ' + cuenta.nombre}"></option>
@@ -120,7 +120,7 @@
                       </div>
                     
                       <div class="form-group">
-                        <label>Monto</label>
+                        <label for="monto">Monto</label>
                         <input
                           type="number"
                           name="monto-cuenta-haber"
