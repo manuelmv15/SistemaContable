@@ -1,211 +1,136 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Registrar partidas</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
-      crossorigin="anonymous"
-    />
-    <link rel="stylesheet" href="/css/registrar-partida.css" />
-    <link rel="icon" href="/icons/dashboard.png" sizes="96x96" />
-  </head>
+<head>
+  <meta charset="UTF-8" />
+  <title>Registrar partidas</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="/css/registrar-partida.css" />
+  <link rel="icon" href="/icons/dashboard.png" sizes="96x96" />
+</head>
 
-  <body class="bg-light" style="overflow: hidden">
+<body class="bg-light" style="overflow: hidden">
 
-    <div class="row g-0">
-      <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px">
-        <div th:replace="contador/fragments/sidebar :: sidebar"></div>
+  <div class="row g-0">
+    <div class="row min-vh-100 min-vw-100" style="padding: 0; margin: 0">
+      <div th:replace="contador/fragments/sidebar :: sidebar"></div>
 
-        <!-- ¿ cooking o cooked ? -->
+      <main class="col p-4 overflow-auto" style="max-height: 100vh">
+        <div class="container-fluid">
+          <form class="entry-form">
 
-        <main class="col p-4 overflow-auto" style="max-height: 100vh">
-          <div class="container-fluid">
-            <form class="entry-form">
-              <div class="form-section">
-                <h2 class="text-center">Información de partida</h2>
+            <!-- Información de partida -->
+            <div class="form-section">
+              <h2 class="text-center">Información de partida</h2>
 
-                <div class="form-grid">
-                  <!-- CAMPOS DE LA PARTIDA -->
+              <div class="form-grid">
+                <div class="form-group span-2">
+                  <label for="fecha_partida">Ingrese la fecha</label>
+                  <input type="date" id="fecha_partida" required />
+                </div>
 
-                  <div class="form-group span-2">
-                    <label for="date">Ingrese la fecha</label>
-                    <input type="date" id="fecha_partida" required />
-                  </div>
-
-                  <div class="form-group span-2">
-                    <label for="descripcion">Descripción o concepto</label>
-                    <textarea
-                      id="descripcion_partida"
-                      rows="3"
-                      placeholder="Descripción detallada de la operación"
-                      required
-                    ></textarea>
-                  </div>
+                <div class="form-group span-2">
+                  <label for="descripcion_partida">Descripción o concepto</label>
+                  <textarea id="descripcion_partida" rows="3" required></textarea>
                 </div>
               </div>
+            </div>
 
-              <div class="form-section row">
+            <!-- DETALLE -->
+            <div class="form-section row">
 
-                <h2>Detalle de partida</h2>
+              <!-- DEBE -->
+              <div id="contenedorDebe" class="entry-item col">
 
-                <div id="contenedorDebe" class="entry-item col">
-                  
-                  <div class="entry-header">
-                    <h3>Debe</h3>
-                    <button
-                      type="button"
-                      id="agregarCuentaDebe"
-                      class="add-btn"
-                    >
-                      Agregar Cuenta
-                    </button>
-                  </div>
+                <div class="entry-header">
+                  <h3>Debe</h3>
+                  <button type="button" id="agregarCuentaDebe" class="add-btn">Agregar Cuenta</button>
+                </div>
 
-                  <!-- CAMPOS DEL DEBE  -->
+                <div class="account-entries">
 
-                  <div class="account-entries">
-                    <div class="account-row ">
-                      <!-- <div class="form-group">
-                        <label>Código de Cuenta</label>
-                        <input
-                          type="text"
-                          name="codigo-cuenta-debe"
-                          id="codigoCuenta_Debe"
-                          placeholder="Ej: 1105"
-                        />
-                      </div> -->
-
-                      <!-- <div class="form-group">
-                        <label>Nombre de Cuenta</label>
-                        <input
-                          type="text"
-                          name="nombre-cuenta"
-                          id="nombre-cuenta-debe"
-                          placeholder="Ej: Caja General"
-                        />
-
-                      </div> -->
-
-                      <div class="form-group">
-                        <label for="nombre">Código y nombre de la cuenta</label>
-                        <select name="selectDebe" id="selectDebe"></select>
-                      </div>
-
-                      <div class="form-group">
-                        <label>Monto</label>
-                        <input
-                          type="number"
-                          name="monto-cuenta-debe"
-                          step="0.01"
-                          placeholder="0.00"
-                        />
-                      </div>
-
-                      <button type="button" class="remove-btn">x</button>
+                  <!-- Fila inicial corregida -->
+                  <div class="account-row">
+                    <div class="form-group">
+                      <label>Cuenta</label>
+                      <select class="select-cuenta"></select>
                     </div>
-                  </div>
-                </div>
 
-                <div id="contenedorHaber" class="entry-item col">
-                  <!-- CAMPOS DEL HABER -->
-                  <div class="entry-header">
-                    <h3>Haber</h3>
-                    <button
-                      type="button"
-                      id="agregarCuentaHaber"
-                      class="add-btn"
-                    >
-                      Agregar Cuenta
-                    </button>
-                  </div>
-
-                  <div class="account-entries">
-                    <div class="account-row">
-
-                      <!--<div class="form-group">
-                        <label>Código de Cuenta</label>
-                        <input
-                          type="text"
-                          name="codigo-cuenta-haber"
-                          placeholder="Ej: 4105"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label>Nombre de Cuenta</label>
-                        <input
-                          type="text"
-                          name="nombre-cuenta-haber"
-                          placeholder="Ej: Ingresos por Ventas"
-                        />
-                      </div> -->
-
-                      <div class="form-group">
-                        <label for="nombre">Código y nombre de la cuenta</label>
-                        <select name="selectHaber" id="selectHaber"></select>
-                      </div>
-
-                      <div class="form-group">
-                        <label>Monto</label>
-                        <input
-                          type="number"
-                          name="monto-cuenta-haber"
-                          step="0.01"
-                          placeholder="0.00"
-                        />
-                      </div>
-                      <button type="button" class="remove-btn">x</button>
+                    <div class="form-group">
+                      <label>Monto</label>
+                      <input type="number" step="0.01" class="monto" placeholder="0.00" />
                     </div>
-                  </div>
-                </div>
-              </div>
 
-              <!-- SECCION DE TOTALES -->
-              <div class="form-section">
-
-                <div class="balance-summary">
-
-                  <div class="balance-item">
-                    <span>Total Debe:</span>
-                    <span class="amount" id="totalDebe">$0.00</span>
-                  </div>
-
-                  <div class="balance-item">
-                    <span>Total Haber:</span>
-                    <span class="amount" id="totalHaber">$0.00</span>
-                  </div>
-
-                  <div class="balance-item balance-difference">
-                    <span>Diferencia:</span>
-                    <span id="diferencia" class="amount">$0.00</span>
+                    <button type="button" class="remove-btn">x</button>
                   </div>
 
                 </div>
               </div>
 
-              <!-- Actions -->
-              <div class="form-actions">
-                <button type="button" id="cancelar" class="cancel-btn">
-                  Cancelar
-                </button>
-                <button type="submit" class="submit-btn" id="btnTotales">
-                  Registrar Partida
-                </button>
+              <!-- HABER -->
+              <div id="contenedorHaber" class="entry-item col">
+
+                <div class="entry-header">
+                  <h3>Haber</h3>
+                  <button type="button" id="agregarCuentaHaber" class="add-btn">Agregar Cuenta</button>
+                </div>
+
+                <div class="account-entries">
+
+                  <!-- Fila inicial corregida -->
+                  <div class="account-row">
+                    <div class="form-group">
+                      <label>Cuenta</label>
+                      <select class="select-cuenta"></select>
+                    </div>
+
+                    <div class="form-group">
+                      <label>Monto</label>
+                      <input type="number" step="0.01" class="monto" placeholder="0.00" />
+                    </div>
+
+                    <button type="button" class="remove-btn">x</button>
+                  </div>
+
+                </div>
               </div>
-            </form>
-          </div>
-        </main>
-      </div>
+
+            </div>
+
+            <!-- TOTALES -->
+            <div class="form-section">
+              <div class="balance-summary">
+                <div class="balance-item">
+                  <span>Total Debe:</span>
+                  <span class="amount" id="totalDebe">$0.00</span>
+                </div>
+
+                <div class="balance-item">
+                  <span>Total Haber:</span>
+                  <span class="amount" id="totalHaber">$0.00</span>
+                </div>
+
+                <div class="balance-item balance-difference">
+                  <span>Diferencia:</span>
+                  <span id="diferencia" class="amount">$0.00</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- ACCIONES -->
+            <div class="form-actions">
+              <button type="button" id="cancelar" class="cancel-btn">Cancelar</button>
+              <button type="submit" class="submit-btn" id="btnTotales">Registrar Partida</button>
+            </div>
+
+          </form>
+        </div>
+      </main>
     </div>
+  </div>
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
-      crossorigin="anonymous"
-    ></script>
-
-    <script src="/js/registrarPartida.js"></script>
-  </body>
+  <script src="/js/registrarPartida.js"></script>
+</body>
 </html>
