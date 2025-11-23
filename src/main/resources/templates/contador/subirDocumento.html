@@ -16,92 +16,77 @@
             <div th:replace="contador/fragments/sidebar :: sidebar"></div>
 
             <!-- MAIN CONTENT -->
-            <main class="col overflow-auto" style="max-height: 100vh">
-                <div class="container">
-
-                    <!-- FORM DE SUBIR ARCHIVOS -->
-                    <div class="upload-section">
-                        <h2>Seleccionar Archivo</h2>
-
-                        <div class="upload-area">
-                            <div class="upload-dropzone">
-                                <h3>Arrastra tu archivo PDF aquí</h3>
-                                <p>o haz clic para seleccionar</p>
-                                <input type="file" id="fileInput" accept=".pdf" hidden>
-                                <button type="button" class="select-file-btn"
-                                    onclick="document.getElementById('fileInput').click()">
-                                    Seleccionar Archivo
-                                </button>
-                            </div>
+            <main class="col p-4 overflow-auto" style="max-height: 100vh">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="m-0">Subir documentos</h3>
+                </div>
+            
+                <!-- FORM DE SUBIR ARCHIVOS -->
+                <div class="row">
+            
+                    <!-- AREA DE SUBIR DOCUMENTOS -->
+                    <div class="col-12 col-lg-3">
+                        <div class="d-flex flex-column justify-content-center align-items-center upload-dropzone h-100 bg-white p-3 mb-3">
+                            <h3>Arrastra tu archivo PDF aquí</h3>
+                            <p>o haz clic para seleccionar</p>
+                            <input type="file" id="fileInput" accept=".pdf" hidden>
+                            <button type="button" class="btn btn-outline-primary btn-lg" onclick="document.getElementById('fileInput').click()">
+                                Seleccionar Archivo
+                            </button>
                         </div>
-
-                        <!-- FORM DE INFORMACION DEL DOCUMENTO -->
-                        <form class="document-form">
-                            <div class="form-section">
-                                <h3>Información del Documento</h3>
-                                <div class="form-grid">
-                                    <div class="form-group">
-                                        <label for="docName">Nombre del
-                                            Documento</label>
-                                        <input type="text" id="docName" placeholder="Ej: Factura 001-2024" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="docType">Tipo de
-                                            Documento</label>
-                                        <select id="docType" required>
-                                            <option value>Seleccionar
-                                                tipo</option>
-                                            <option value="factura">Factura</option>
-                                            <option value="recibo">Recibo</option>
-                                            <option value="comprobante">Comprobante</option>
-                                            <option value="contrato">Contrato</option>
-                                            <option value="balance">Balance</option>
-                                            <option value="estado_financiero">Estado
-                                                Financiero</option>
-                                            <option value="otro">Otro</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="docDate">Fecha del
-                                            Documento</label>
-                                        <input type="date" id="docDate" required>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label for="docAmount">Monto
-                                            (opcional)</label>
-                                        <input type="number" id="docAmount" step="0.01" placeholder="0.00">
-                                    </div>
-
-                                    <div class="form-group span-2">
-                                        <label for="docDescription">Descripción</label>
-                                        <textarea id="docDescription" rows="3"
-                                            placeholder="Descripción detallada del documento"></textarea>
-                                    </div>
-
-                                    <div class="form-group span-2">
-                                        <label for="docTags">Etiquetas
-                                            (separadas por comas)</label>
-                                        <input type="text" id="docTags" placeholder="Ej: ventas, enero, cliente-abc">
-                                    </div>
+                    </div>
+    
+                    <div class="col-12 col-lg-9 ms-auto">
+                        <form class="bg-white p-3 rounded-4 shadow-sm">
+                            <h3 class="pt-4 ps-4 fs-4"><strong>Información del documento</strong></h3>
+                            <div class="form-grid p-4">
+                                <div class="form-group">
+                                    <label for="docName">Nombre del Documento</label>
+                                    <input type="text" id="docName" placeholder="Ej: Factura 001-2024" required>
                                 </div>
-                            </div>
-
-                            <div class="upload-progress" style="display: none;">
-                                <h3>Subiendo archivo...</h3>
-                                <div class="progress-bar">
-                                    <div class="progress-fill"></div>
+                    
+                                <div class="form-group">
+                                    <label for="docType">Tipo de Documento</label>
+                                    <select id="docType" required>
+                                        <option value>Seleccionar tipo</option>
+                                        <option value="factura">Factura</option>
+                                        <option value="recibo">Recibo</option>
+                                        <option value="comprobante">Comprobante</option>
+                                        <option value="contrato">Contrato</option>
+                                        <option value="balance">Balance</option>
+                                        <option value="estado_financiero">Estado
+                                            Financiero</option>
+                                        <option value="otro">Otro</option>
+                                    </select>
                                 </div>
-                                <p class="progress-text">0%</p>
+                    
+                                <div class="form-group">
+                                    <label for="docDate">Fecha del Documento</label>
+                                    <input type="date" id="docDate" required>
+                                </div>
+                    
+                                <div class="form-group">
+                                    <label for="docAmount">Monto
+                                        (opcional)</label>
+                                    <input type="number" id="docAmount" step="0.01" placeholder="0.00">
+                                </div>
+                    
+                                <div class="form-group span-2">
+                                    <label for="docDescription">Descripción</label>
+                                    <textarea id="docDescription" rows="3" placeholder="Descripción detallada del documento"></textarea>
+                                </div>
+                    
+                                <div class="form-group span-2 col-12">
+                                    <label for="docTags">Etiquetas
+                                        (separadas por comas)</label>
+                                    <input type="text" id="docTags" placeholder="Ej: ventas, enero, cliente-abc">
+                                </div>
                             </div>
 
                             <!-- ACCIONES -->
-                            <div class="form-actions">
-                                <button type="button" class="cancel-btn">Cancelar</button>
-                                <button type="submit" class="upload-btn">Subir
-                                    Documento</button>
+                            <div class="d-flex flex-row justify-content-end gap-3 p-4 ">
+                                <button type="button" class="btn btn-outline-secondary">Cancelar</button>
+                                <button type="submit" class="btn btn-outline-success">Subir Documento</button>
                             </div>
                         </form>
                     </div>
