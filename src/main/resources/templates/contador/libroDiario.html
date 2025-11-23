@@ -16,167 +16,81 @@
             <div th:replace="contador/fragments/sidebar :: sidebar"></div>
 
             <!-- MAIN CONTENT -->
-            <main class="col overflow-auto" style="max-height: 100vh">
-                <header class="top-header">
-                    <h1 class="page-title">Libro Diario</h1>
-                </header>
-                <div class="content">
-                    <div class="container">
+            <main class="col-md-9 col-lg-10 p-4" style="max-height: 100vh">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="m-0">Libro diario</h3>
+                    <div class="btn-group">
+                        <a class="btn btn-outline-primary btn-sm"
+                           th:href="@{/contador/libro-diario/export(tipo='pdf', periodoId=${periodoId}, desde=${desde}, hasta=${hasta})}">PDF</a>
+                        <a class="btn btn-outline-success btn-sm"
+                           th:href="@{/contador/libro-diario/export(tipo='csv', periodoId=${periodoId}, desde=${desde}, hasta=${hasta})}">CSV</a>
+                    </div>
+                </div>
 
-                        <!-- FILTROS -->
-                        <div class="filters-card">
-                            <h2>Filtros de Búsqueda</h2>
-                            <div class="filters-grid">
-                                <div class="filter-group">
-                                    <label for="date-from">Fecha
-                                        Desde</label>
-                                    <input type="date" id="date-from">
-                                </div>
-                                <div class="filter-group">
-                                    <label for="date-to">Fecha Hasta</label>
-                                    <input type="date" id="date-to">
-                                </div>
-                                <div class="filter-group">
-                                    <label for="search">Buscar por
-                                        Descripción</label>
-                                    <input type="text" id="search" placeholder="Ej: Venta de mercancía">
-                                </div>
-                                <div class="filter-group">
-                                    <label for="reference">Número de
-                                        Referencia</label>
-                                    <input type="text" id="reference" placeholder="Ej: AST-001">
-                                </div>
-                            </div>
-                            <div class="filter-actions">
-                                <button class="btn-secondary">Limpiar</button>
-                                <button class="btn-primary">Buscar</button>
-                            </div>
+                <!-- Filtros -->
+                <form class="card card-body mb-3" method="get" th:action="@{/contador/libro-diario}">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Período</label>
+                            <select name="periodoId" class="form-select">
+                                <option value="">— Todos —</option>
+                                <option th:each="per : ${periodos}"
+                                        th:value="${per.idPeriodo}"
+                                        th:selected="${periodoId} == ${per.idPeriodo}"
+                                        th:text="${#temporals.format(per.fechaInicio,'yyyy-MM-dd')} + ' a ' + ${#temporals.format(per.fechaFin,'yyyy-MM-dd')}">
+                                </option>
+                            </select>
                         </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Desde</label>
+                            <input type="date" class="form-control" name="desde" th:value="${desde}">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Hasta</label>
+                            <input type="date" class="form-control" name="hasta" th:value="${hasta}">
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button class="btn btn-primary w-100">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
 
-                        <!-- TABLA DE INFORMACION -->
-                        <div class="table-card">
-                            <div class="table-header">
-                                <h2>Registro de Partidas Contables</h2>
-                            </div>
-
-                            <div class="table-container">
-                                <table class="entries-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Fecha</th>
-                                            <th>Referencia</th>
-                                            <th>Descripción</th>
-                                            <th>Cuenta</th>
-                                            <th class="text-right">Debe</th>
-                                            <th class="text-right">Haber</th>
-                                            <th>Acciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <tr class="entry-row">
-                                            <td rowspan="3" class="date-cell">15/03/2025</td>
-                                            <td rowspan="3" class="ref-cell">AST-001</td>
-                                            <td rowspan="3" class="desc-cell">Venta de
-                                                mercancía al contado</td>
-                                            <td>1105 - Caja General</td>
-                                            <td class="text-right amount">$5,000.00</td>
-                                            <td class="text-right">-</td>
-                                            <td rowspan="3" class="actions-cell">
-                                                <button class="btn-icon" title="Ver detalles">👁️</button>
-                                                <button class="btn-icon" title="Editar">✏️</button>
-                                            </td>
-                                        </tr>
-                                        <tr class="entry-row">
-                                            <td>4135 - Ingresos por
-                                                Ventas</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right amount">$4,200.00</td>
-                                        </tr>
-                                        <tr class="entry-row last-in-group">
-                                            <td>2408 - IVA por Pagar</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right amount">$800.00</td>
-                                        </tr>
-
-                                        <tr class="entry-row">
-                                            <td rowspan="2" class="date-cell">15/03/2025</td>
-                                            <td rowspan="2" class="ref-cell">AST-002</td>
-                                            <td rowspan="2" class="desc-cell">Pago de
-                                                servicio de publicidad</td>
-                                            <td>5120 - Gastos de
-                                                Publicidad</td>
-                                            <td class="text-right amount">$1,500.00</td>
-                                            <td class="text-right">-</td>
-                                            <td rowspan="2" class="actions-cell">
-                                                <button class="btn-icon" title="Ver detalles">👁️</button>
-                                                <button class="btn-icon" title="Editar">✏️</button>
-                                            </td>
-                                        </tr>
-                                        <tr class="entry-row last-in-group">
-                                            <td>1105 - Caja General</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right amount">$1,500.00</td>
-                                        </tr>
-
-                                        <tr class="entry-row">
-                                            <td rowspan="2" class="date-cell">16/03/2025</td>
-                                            <td rowspan="2" class="ref-cell">AST-003</td>
-                                            <td rowspan="2" class="desc-cell">Compra de
-                                                inventario a crédito</td>
-                                            <td>1435 - Inventario de
-                                                Mercancía</td>
-                                            <td class="text-right amount">$8,500.00</td>
-                                            <td class="text-right">-</td>
-                                            <td rowspan="2" class="actions-cell">
-                                                <button class="btn-icon" title="Ver detalles">👁️</button>
-                                                <button class="btn-icon" title="Editar">✏️</button>
-                                            </td>
-                                        </tr>
-                                        <tr class="entry-row last-in-group">
-                                            <td>2205 - Proveedores
-                                                Nacionales</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right amount">$8,500.00</td>
-                                        </tr>
-
-                                        <tr class="entry-row">
-                                            <td rowspan="2" class="date-cell">16/03/2025</td>
-                                            <td rowspan="2" class="ref-cell">AST-004</td>
-                                            <td rowspan="2" class="desc-cell">Pago de
-                                                nómina quincenal</td>
-                                            <td>5105 - Sueldos y
-                                                Salarios</td>
-                                            <td class="text-right amount">$12,000.00</td>
-                                            <td class="text-right">-</td>
-                                            <td rowspan="2" class="actions-cell">
-                                                <button class="btn-icon" title="Ver detalles">👁️</button>
-                                                <button class="btn-icon" title="Editar">✏️</button>
-                                            </td>
-                                        </tr>
-                                        <tr class="entry-row last-in-group">
-                                            <td>1110 - Bancos</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right amount">$12,000.00</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- PAGINACION -->
-                            <div class="pagination">
-                                <button class="pagination-btn">←
-                                    Anterior</button>
-                                <div class="pagination-info">
-                                    <span class="pagination-page active">1</span>
-                                    <span class="pagination-page">2</span>
-                                    <span class="pagination-page">3</span>
-                                    <span class="pagination-ellipsis">...</span>
-                                    <span class="pagination-page">10</span>
-                                </div>
-                                <button class="pagination-btn">Siguiente
-                                    →</button>
-                            </div>
+                <!-- Tabla -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Partida</th>
+                                    <th>Cuenta</th>
+                                    <th>Descripción</th>
+                                    <th class="text-end">Debe</th>
+                                    <th class="text-end">Haber</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="m : ${movimientos}">
+                                    <td th:text="${#temporals.format(m.fecha,'yyyy-MM-dd')}">2025-01-01</td>
+                                    <td th:text="${m.partidaCodigo}">P-0001</td>
+                                    <td th:text="${m.cuentaCodigo} + ' - ' + ${m.cuentaNombre}">1101 Caja</td>
+                                    <td th:text="${m.descripcion}">-</td>
+                                    <td class="text-end" th:text="${#numbers.formatDecimal(m.debe,1,2)}">0.00</td>
+                                    <td class="text-end" th:text="${#numbers.formatDecimal(m.haber,1,2)}">0.00</td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(movimientos)}">
+                                    <td colspan="6" class="text-center text-muted">Sin asientos en el rango seleccionado.</td>
+                                </tr>
+                                </tbody>
+                                <tfoot th:if="${!#lists.isEmpty(movimientos)}">
+                                <tr>
+                                    <th colspan="4" class="text-end">Totales</th>
+                                    <th class="text-end" th:text="${#numbers.formatDecimal(totalDebe,1,2)}">0.00</th>
+                                    <th class="text-end" th:text="${#numbers.formatDecimal(totalHaber,1,2)}">0.00</th>
+                                </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>

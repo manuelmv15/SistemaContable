@@ -16,211 +16,85 @@
             <div th:replace="contador/fragments/sidebar :: sidebar"></div>
 
             <!-- MAIN CONTENT -->
-            <main class="col overflow-auto" style="max-height: 100vh">
-                <header class="top-header">
-                    <h1 class="page-title">Libro Mayor</h1>
-                </header>
-                <div class="content">
-                    <div class="container">
-                        
-                        <!-- SELECTOR DE CUENTA -->
-                        <div class="selector-card">
-                            <h2>Seleccionar Cuenta Contable</h2>
-                            <div class="selector-grid">
-                                <div class="selector-group">
-                                    <label for="account-code">Código de
-                                        Cuenta</label>
-                                    <select id="account-code">
-                                        <option value="" disabled>Seleccione una cuenta</option>
-                                        <option th:each="cuenta : ${todasLasCuentas}" th:value="${cuenta.idCuenta}"
-                                            th:text="${cuenta.codigo + ' - ' + cuenta.nombre}">
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="selector-group">
-                                    <label for="date-from">Fecha
-                                        Desde</label>
-                                    <input type="date" id="date-from">
-                                </div>
-                                <div class="selector-group">
-                                    <label for="date-to">Fecha Hasta</label>
-                                    <input type="date" id="date-to">
-                                </div>
-                                <div class="selector-actions">
-                                    <button class="btn-primary">Consultar</button>
-                                </div>
-                            </div>
+            <main class="col-md-9 col-lg-10 p-4" style="max-height: 100vh">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="m-0">Libro mayor</h3>
+                    <div class="btn-group">
+                        <a class="btn btn-outline-primary btn-sm"
+                           th:href="@{/contador/libro-mayor/export(tipo='pdf', periodoId=${periodoId}, cuentaId=${cuentaId})}">PDF</a>
+                        <a class="btn btn-outline-success btn-sm"
+                           th:href="@{/contador/libro-mayor/export(tipo='csv', periodoId=${periodoId}, cuentaId=${cuentaId})}">CSV</a>
+                    </div>
+                </div>
+
+                <!-- Filtros -->
+                <form class="card card-body mb-3" method="get" th:action="@{/contador/libro-mayor}">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Período</label>
+                            <select name="periodoId" class="form-select">
+                                <option value="">— Seleccione —</option>
+                                <option th:each="per : ${periodos}"
+                                        th:value="${per.idPeriodo}"
+                                        th:selected="${periodoId} == ${per.idPeriodo}"
+                                        th:text="${#temporals.format(per.fechaInicio,'yyyy-MM-dd')} + ' a ' + ${#temporals.format(per.fechaFin,'yyyy-MM-dd')}">
+                                </option>
+                            </select>
                         </div>
-
-                        <!-- TARJETA DE INFORMACION DE CUENTAS -->
-                        <div class="account-info-card">
-                            <div class="account-header">
-                                <div>
-                                    <h2>Caja General</h2>
-                                    <p class="account-code">Código: 1105</p>
-                                </div>
-                            </div>
-
-                            <div class="balance-grid">
-                                <div class="balance-item">
-                                    <span class="balance-label">Saldo
-                                        Anterior:</span>
-                                    <span class="balance-amount">$25,000.00</span>
-                                </div>
-                                <div class="balance-item">
-                                    <span class="balance-label">Total
-                                        Débitos:</span>
-                                    <span class="balance-amount debit">$35,500.00</span>
-                                </div>
-                                <div class="balance-item">
-                                    <span class="balance-label">Total
-                                        Créditos:</span>
-                                    <span class="balance-amount credit">$28,000.00</span>
-                                </div>
-                                <div class="balance-item highlight">
-                                    <span class="balance-label">Saldo
-                                        Final:</span>
-                                    <span class="balance-amount">$32,500.00</span>
-                                </div>
-                            </div>
+                        <div class="col-md-5">
+                            <label class="form-label">Cuenta contable</label>
+                            <select name="cuentaId" class="form-select">
+                                <option value="">— Todas —</option>
+                                <option th:each="c : ${cuentas}"
+                                        th:value="${c.idCuenta}"
+                                        th:selected="${cuentaId} == ${c.idCuenta}"
+                                        th:text="${c.codigo} + ' - ' + ${c.nombre}">
+                                </option>
+                            </select>
                         </div>
+                        <div class="col-md-3 d-flex align-items-end">
+                            <button class="btn btn-primary w-100">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
 
-                        <!-- TABLA DE MOVIMIENTOS -->
-                        <div class="table-card">
-                            <h2>Movimientos de la Cuenta</h2>
-
-                            <div class="table-container">
-                                <table class="movements-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Fecha</th>
-                                            <th>Referencia</th>
-                                            <th>Descripción</th>
-                                            <th class="text-right">Débito</th>
-                                            <th class="text-right">Crédito</th>
-                                            <th class="text-right">Saldo</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr class="balance-row">
-                                            <td colspan="3"><strong>Saldo
-                                                    Inicial</strong></td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right balance-amount"><strong>$25,000.00</strong></td>
-                                        </tr>
-                                        <tr class="movement-row">
-                                            <td>15/03/2025</td>
-                                            <td class="ref-cell">AST-001</td>
-                                            <td>Venta de mercancía al
-                                                contado</td>
-                                            <td class="text-right amount debit">$5,000.00</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right balance-amount">$30,000.00</td>
-                                        </tr>
-                                        <tr class="movement-row">
-                                            <td>15/03/2025</td>
-                                            <td class="ref-cell">AST-002</td>
-                                            <td>Pago de servicio de
-                                                publicidad</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right amount credit">$1,500.00</td>
-                                            <td class="text-right balance-amount">$28,500.00</td>
-                                        </tr>
-                                        <tr class="movement-row">
-                                            <td>16/03/2025</td>
-                                            <td class="ref-cell">AST-005</td>
-                                            <td>Cobro a cliente
-                                                nacional</td>
-                                            <td class="text-right amount debit">$8,500.00</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right balance-amount">$37,000.00</td>
-                                        </tr>
-                                        <tr class="movement-row">
-                                            <td>17/03/2025</td>
-                                            <td class="ref-cell">AST-006</td>
-                                            <td>Pago de servicios
-                                                públicos</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right amount credit">$850.00</td>
-                                            <td class="text-right balance-amount">$36,150.00</td>
-                                        </tr>
-                                        <tr class="movement-row">
-                                            <td>18/03/2025</td>
-                                            <td class="ref-cell">AST-007</td>
-                                            <td>Venta de mercancía al
-                                                contado</td>
-                                            <td class="text-right amount debit">$3,200.00</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right balance-amount">$39,350.00</td>
-                                        </tr>
-                                        <tr class="movement-row">
-                                            <td>19/03/2025</td>
-                                            <td class="ref-cell">AST-008</td>
-                                            <td>Compra de suministros de
-                                                oficina</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right amount credit">$450.00</td>
-                                            <td class="text-right balance-amount">$38,900.00</td>
-                                        </tr>
-                                        <tr class="movement-row">
-                                            <td>20/03/2025</td>
-                                            <td class="ref-cell">AST-009</td>
-                                            <td>Venta de mercancía al
-                                                contado</td>
-                                            <td class="text-right amount debit">$4,800.00</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right balance-amount">$43,700.00</td>
-                                        </tr>
-                                        <tr class="movement-row">
-                                            <td>21/03/2025</td>
-                                            <td class="ref-cell">AST-010</td>
-                                            <td>Pago de alquiler
-                                                mensual</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right amount credit">$5,200.00</td>
-                                            <td class="text-right balance-amount">$38,500.00</td>
-                                        </tr>
-                                        <tr class="movement-row">
-                                            <td>22/03/2025</td>
-                                            <td class="ref-cell">AST-011</td>
-                                            <td>Cobro a cliente
-                                                nacional</td>
-                                            <td class="text-right amount debit">$14,000.00</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right balance-amount">$52,500.00</td>
-                                        </tr>
-                                        <tr class="movement-row">
-                                            <td>23/03/2025</td>
-                                            <td class="ref-cell">AST-012</td>
-                                            <td>Pago de prestaciones
-                                                sociales</td>
-                                            <td class="text-right">-</td>
-                                            <td class="text-right amount credit">$20,000.00</td>
-                                            <td class="text-right balance-amount">$32,500.00</td>
-                                        </tr>
-                                        <tr class="totals-row">
-                                            <td colspan="3"><strong>TOTALES</strong></td>
-                                            <td class="text-right"><strong>$35,500.00</strong></td>
-                                            <td class="text-right"><strong>$28,000.00</strong></td>
-                                            <td class="text-right"><strong>$32,500.00</strong></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <!-- PAGINACION -->
-                            <div class="pagination">
-                                <button class="pagination-btn" disabled>←
-                                    Anterior</button>
-                                <div class="pagination-info">
-                                    <span class="pagination-page active">1</span>
-                                    <span class="pagination-page">2</span>
-                                    <span class="pagination-page">3</span>
-                                </div>
-                                <button class="pagination-btn">Siguiente
-                                    →</button>
-                            </div>
+                <!-- Mayor por cuenta -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Partida</th>
+                                    <th>Descripción</th>
+                                    <th class="text-end">Debe</th>
+                                    <th class="text-end">Haber</th>
+                                    <th class="text-end">Saldo</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="l : ${mayores}">
+                                    <td th:text="${#temporals.format(l.fecha,'yyyy-MM-dd')}">2025-01-01</td>
+                                    <td th:text="${l.partidaCodigo}">P-0001</td>
+                                    <td th:text="${l.descripcion}">-</td>
+                                    <td class="text-end" th:text="${#numbers.formatDecimal(l.debe,1,2)}">0.00</td>
+                                    <td class="text-end" th:text="${#numbers.formatDecimal(l.haber,1,2)}">0.00</td>
+                                    <td class="text-end" th:text="${#numbers.formatDecimal(l.saldo,1,2)}">0.00</td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(mayores)}">
+                                    <td colspan="6" class="text-center text-muted">Sin movimientos para los filtros.</td>
+                                </tr>
+                                </tbody>
+                                <tfoot th:if="${!#lists.isEmpty(mayores)}">
+                                <tr>
+                                    <th colspan="3" class="text-end">Saldos finales</th>
+                                    <th class="text-end" th:text="${#numbers.formatDecimal(totalDebe,1,2)}">0.00</th>
+                                    <th class="text-end" th:text="${#numbers.formatDecimal(totalHaber,1,2)}">0.00</th>
+                                    <th class="text-end" th:text="${#numbers.formatDecimal(saldoFinal,1,2)}">0.00</th>
+                                </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
                 </div>

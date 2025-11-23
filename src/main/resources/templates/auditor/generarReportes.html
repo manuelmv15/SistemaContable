@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,105 +8,97 @@
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="icon" href="/icons/dashboard.png" sizes="96x96">
 </head>
-
-<body class="bg-light" style="overflow: hidden">
-
+<body class="bg-light">
     <div class="row g-0">
-
         <div class="row min-vh-100 min-vw-100" style="padding: 0px; margin: 0px;">
+            
+            <!-- SIDEBAR -->
             <div th:replace="auditor/fragments/sidebar :: sidebar"></div>
-
-                <main class="col-md-9 col-lg-10 p-4 overflow-auto" style="max-height: 100vh">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h3 class="m-0">Generar reportes</h3>
-
+            <!-- CONTENT MAIN -->
+            <main class="col-md-9 col-lg-10 p-4 overflow-auto" style="max-height: 100vh">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="m-0">Generar reportes</h3>
+                </div>
+                <div th:if="${ok}" class="alert alert-success" th:text="${ok}"></div>
+                <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+            
+                <!-- Filtros -->
+                <form class="card card-body mb-3" method="get" th:action="@{/auditor/reportes}">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Período contable</label>
+                            <select name="periodoId" class="form-select">
+                                <option value="">— Todos —</option>
+                                <option th:each="per : ${periodos}" th:value="${per.idPeriodo}"
+                                    th:selected="${periodoId} == ${per.idPeriodo}"
+                                    th:text="${#temporals.format(per.fechaInicio,'yyyy-MM-dd')} + ' a ' + ${#temporals.format(per.fechaFin,'yyyy-MM-dd')}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Desde</label>
+                            <input type="date" class="form-control" name="desde" th:value="${desde}">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label">Hasta</label>
+                            <input type="date" class="form-control" name="hasta" th:value="${hasta}">
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button class="btn btn-primary w-100">Aplicar</button>
+                        </div>
                     </div>
-
-                    <div th:if="${ok}" class="alert alert-success" th:text="${ok}"></div>
-                    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-
-                    <!-- Filtros -->
-                    <form class="card card-body mb-3" method="get" th:action="@{/auditor/reportes}">
-                        <div class="row g-3">
-                            <div class="col-md-4">
-                                <label class="form-label">Período contable</label>
-                                <select name="periodoId" class="form-select">
-                                    <option value="">— Todos —</option>
-                                    <option th:each="per : ${periodos}"
-                                            th:value="${per.idPeriodo}"
-                                            th:selected="${periodoId} == ${per.idPeriodo}"
-                                            th:text="${#temporals.format(per.fechaInicio,'yyyy-MM-dd')} + ' a ' + ${#temporals.format(per.fechaFin,'yyyy-MM-dd')}">
-                                    </option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Desde</label>
-                                <input type="date" class="form-control" name="desde" th:value="${desde}">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Hasta</label>
-                                <input type="date" class="form-control" name="hasta" th:value="${hasta}">
-                            </div>
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button class="btn btn-primary w-100">Aplicar</button>
+                </form>
+            
+                <!-- Resultados -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <h6 class="m-0">Resultados</h6>
+                            <div class="btn-group">
+                                <a class="btn btn-outline-primary btn-sm"
+                                    th:href="@{/auditor/reportes/export(tipo='pdf', periodoId=${periodoId}, desde=${desde}, hasta=${hasta})}">
+                                    Exportar PDF
+                                </a>
+                                <a class="btn btn-outline-success btn-sm"
+                                    th:href="@{/auditor/reportes/export(tipo='csv', periodoId=${periodoId}, desde=${desde}, hasta=${hasta})}">
+                                    Exportar CSV
+                                </a>
                             </div>
                         </div>
-                    </form>
-
-                    <!-- Resultados -->
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <h6 class="m-0">Resultados</h6>
-                                <div class="btn-group">
-                                    <a class="btn btn-outline-primary btn-sm"
-                                       th:href="@{/auditor/reportes/export(tipo='pdf', periodoId=${periodoId}, desde=${desde}, hasta=${hasta})}">
-                                        Exportar PDF
-                                    </a>
-                                    <a class="btn btn-outline-success btn-sm"
-                                       th:href="@{/auditor/reportes/export(tipo='csv', periodoId=${periodoId}, desde=${desde}, hasta=${hasta})}">
-                                        Exportar CSV
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="table-responsive">
-                                <table class="table table-sm align-middle">
-                                    <thead>
+            
+                        <div class="table-responsive">
+                            <table class="table table-sm align-middle">
+                                <thead>
                                     <tr>
                                         <th>Código</th>
                                         <th>Nombre</th>
                                         <th>Tipo</th>
                                     </tr>
-                                    </thead>
-
-                                    <tbody>
-                                <tr th:each="r : ${reportes}">
-                                    <td th:text="${r.codigo}">1101</td>
-                                    <td th:text="${r.nombre}">Caja</td>
-                                    <td th:text="${r.tipo != null ? r.tipo.nombre : '—'}">Activo</td>
-                                </tr>
-                                <tr th:if="${#lists.isEmpty(reportes)}">
-                                    <td colspan="3" class="text-muted">Sin resultados</td>
-                                </tr>
+                                </thead>
+            
+                                <tbody>
+                                    <tr th:each="r : ${reportes}">
+                                        <td th:text="${r.codigo}">1101</td>
+                                        <td th:text="${r.nombre}">Caja</td>
+                                        <td th:text="${r.tipo != null ? r.tipo.nombre : '—'}">Activo</td>
+                                    </tr>
+                                    <tr th:if="${#lists.isEmpty(reportes)}">
+                                        <td colspan="3" class="text-muted">Sin resultados</td>
+                                    </tr>
                                 </tbody>
-
-                                    <tfoot th:if="${!#lists.isEmpty(reportes)}">
+            
+                                <tfoot th:if="${!#lists.isEmpty(reportes)}">
                                     <tr>
                                         <th colspan="3" class="text-end">Totales</th>
                                         <th class="text-end" th:text="${#numbers.formatDecimal(totalDebe,1,2)}">0.00</th>
                                         <th class="text-end" th:text="${#numbers.formatDecimal(totalHaber,1,2)}">0.00</th>
                                     </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
-                </main>
-
-                
-
-
+                </div>
+            </main>
         </div>
     </div>
 
@@ -115,5 +106,4 @@
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"></script>
 </body>
-
 </html>

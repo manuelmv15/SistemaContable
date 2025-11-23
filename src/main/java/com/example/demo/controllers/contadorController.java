@@ -5,17 +5,21 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.cuentacontable.CuentaContable;
 import com.example.demo.cuentacontable.CuentaContableService;
+import com.example.demo.perdiodoContable.PeriodoContableService;
 
 @Controller
 public class contadorController {
 
     private final CuentaContableService cuentaService;
+    private final PeriodoContableService periodosService;
 
-    public contadorController(CuentaContableService cuentaService) {
+    public contadorController(CuentaContableService cuentaService, PeriodoContableService periodosService) {
         this.cuentaService = cuentaService;
+        this.periodosService = periodosService;
     }
 
     //Referencia de ruta a la vista /contador/dashboard.html
@@ -43,7 +47,21 @@ public class contadorController {
 
     //Referencia de ruta a la vista /contador/generarReportes.html
     @GetMapping("/contador/generar-reportes")
-    public String generarReportes(){
+    public String generarReportes(@RequestParam(required = false) Long periodoId,
+                                  @RequestParam(required = false) String desde,
+                                  @RequestParam(required = false) String hasta,
+                                  Model model){
+
+        //mapeo del los campos 
+        model.addAttribute("titulo", "Generar reportes");
+        model.addAttribute("periodos", periodosService.listar());
+        model.addAttribute("periodoId", periodoId);
+        model.addAttribute("desde", desde);
+        model.addAttribute("hasta", hasta);
+
+        var reportes = cuentaService.buscar(periodoId, desde, hasta);
+        model.addAttribute("reportes", reportes);
+        
         return "contador/generarReportes";
     }
 

@@ -23,6 +23,7 @@ public class PeriodoContableService {
         return repo.findById(id).orElse(null);
     }
 
+    //aqui se recibe la caja y se desempaqueta
     @Transactional
     public PeriodoContable crear(PeriodoContableDTO dto) {
         validarRango(dto);
