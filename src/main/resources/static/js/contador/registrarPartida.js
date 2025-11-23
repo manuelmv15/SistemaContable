@@ -35,7 +35,7 @@ let contenedorHaber = document.getElementById("contenedorHaber");
 
 document.addEventListener('click', (e) => {
 
-  if (e.target.classList.contains("add-btn")){
+  if (e.target.classList.contains("agregar")){
 
     const boton = e.target; // el botón que disparó el evento
     console.log(boton);
