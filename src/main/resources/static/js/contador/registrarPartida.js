@@ -149,98 +149,169 @@ reg_partida.addEventListener("click", (e) => {
   let fecha = document.getElementById('fecha_partida').value;
   let descripcion = document.getElementById('descripcion_partida').value;
 
+  if(!fecha || !descripcion){
+    alert('Hay campos vacios');
+  }
+
   let cuentasDebe = contenedorDebe.querySelectorAll(".item-contenedor-debe");
   let cuentasHaber = contenedorHaber.querySelectorAll(".item-contenedor-haber");
-  let montosDebe = contenedorDebe.querySelectorAll('input[name="monto-cuenta-debe"]');
-  let montosHaber = contenedorHaber.querySelectorAll('input[name="monto-cuenta-haber"]');
-  let tbody = document.getElementById("detalle_partida");
 
-  //calculo para los totales de los montos
-  let totalDebe = 0;
-  let totalHaber = 0;
+  let isFullDebe = true;
+  let isFullHaber = true;
 
-  montosDebe.forEach((input) => {
-    totalDebe += parseFloat(input.value) || 0;
-  });
+  console.log(cuentasDebe.length, cuentasHaber.length);
 
-  montosHaber.forEach((input) => {
-    totalHaber += parseFloat(input.value) || 0;
-  });
+  if (cuentasDebe.length === 0) isFullDebe = false;
+  if (cuentasHaber.length === 0) isFullHaber = false;
 
-  //capturar la fecha
-  let tdFecha = document.createElement('td');
-  tdFecha.innerText = fecha;
+  cuentasDebe.forEach((cuenta) => {
 
-  //capturar el texto de la descripcion
-  let tdDescripcion = document.createElement('td');
-  tdDescripcion.innerText = descripcion;
-
-  let selectCuentasDebe = contenedorDebe.querySelectorAll('select[name=selectDebe]');
-  let montosFilaDebe = contenedorDebe.querySelectorAll('input[name=monto-cuenta-debe]');
-
-  for (let i = 0; i < selectCuentasDebe.length; i++) {
-  
-    let tr = document.createElement("tr");
-  
-    // celda fecha
-    tr.appendChild(tdFecha.cloneNode(true));
-    // celda descripción
-    tr.appendChild(tdDescripcion.cloneNode(true));
-
-    // celda cuenta
-    let tdCuenta = document.createElement("td");
-    tdCuenta.textContent =
-      selectCuentasDebe[i].options[selectCuentasDebe[i].selectedIndex].text;
-    tr.appendChild(tdCuenta);
-
-    // celda monto debe
-    let tdMontoDebe = document.createElement("td");
-    tdMontoDebe.textContent = `$${montosFilaDebe[i].value}`;
-    tr.appendChild(tdMontoDebe);
-
-    // celda monto haber
-    let tdMontoHaber = document.createElement("td");
-    tdMontoHaber.textContent = "$0.00";
-    tr.appendChild(tdMontoHaber);
-
-    // agregar fila al tbody
-    tbody.appendChild(tr);
-  }
-
-let selectCuentasHaber = contenedorHaber.querySelectorAll('select[name=selectHaber]');
-let montosFilaHaber = contenedorHaber.querySelectorAll('input[name=monto-cuenta-haber]');
-
-  for (let i = 0; i < selectCuentasHaber.length; i++) {
-
-    let tr = document.createElement("tr");
-    // celda fecha
-    tr.appendChild(tdFecha.cloneNode(true));
-    // celda descripción
-    tr.appendChild(tdDescripcion.cloneNode(true));
-
-    // celda cuenta
-    let tdCuenta = document.createElement("td");
-    tdCuenta.textContent =
-      selectCuentasHaber[i].options[selectCuentasHaber[i].selectedIndex].text;
-    tr.appendChild(tdCuenta);
+    let select = cuenta.querySelector('select[name=selectDebe]');
+    let monto = cuenta.querySelector('input[name=monto-cuenta-debe]');
     
-    // celda monto debe
-    let tdMontoHaber = document.createElement("td");
-    tdMontoHaber.textContent = "$0.00";
-    tr.appendChild(tdMontoHaber);
+    console.debug(select.options.selectedIndex);
 
-    // celda monto haber
-    let tdMontoDebe = document.createElement("td");
-    tdMontoDebe.textContent = `$${montosFilaHaber[i].value}`;
-    tr.appendChild(tdMontoDebe);
+    if(select.options.selectedIndex === 0 || !monto.value > 0 || parseFloat(monto.value) <= 0){
+      isFullDebe = false;
 
-    // agregar fila al tbody
-    tbody.appendChild(tr);
-  }
+      //indicar al usuario cual falta
+      select.style.borderColor = "red"; 
+      monto.style.borderColor = "red";
+    }
 
-  let trTotal = document.createElement('tr');
+    else{
+      select.style.borderColor = ""; 
+      monto.style.borderColor = "";
+    }
+  });
 
-  trTotal.innerHTML = `
+  cuentasHaber.forEach((cuenta) => {
+
+    let select = cuenta.querySelector('select[name=selectHaber');
+    let monto = cuenta.querySelector('input[name=monto-cuenta-haber]');
+
+    console.debug(select.selectedIndex);
+      
+    if(select.options.selectedIndex === 0 || !monto.value > 0 || parseFloat(monto.value) <= 0){
+      isFullHaber = false;
+
+      //indicar al usuario cual falta
+      select.style.borderColor = "red";
+      monto.style.borderColor = "red";
+    }
+
+    else{
+    select.style.borderColor = ""; 
+    monto.style.borderColor = "";
+    }
+  });
+
+  if (!isFullDebe || !isFullHaber) {
+    alert("Rellene todos los campos");
+  } 
+  else {
+    console.debug("todo esta bien");
+
+    let montosDebe = contenedorDebe.querySelectorAll(
+      'input[name="monto-cuenta-debe"]'
+    );
+    let montosHaber = contenedorHaber.querySelectorAll(
+      'input[name="monto-cuenta-haber"]'
+    );
+    let tbody = document.getElementById("detalle_partida");
+
+    //calculo para los totales de los montos
+    let totalDebe = 0;
+    let totalHaber = 0;
+
+    montosDebe.forEach((input) => {
+      totalDebe += parseFloat(input.value) || 0;
+    });
+
+    montosHaber.forEach((input) => {
+      totalHaber += parseFloat(input.value) || 0;
+    });
+
+    //capturar la fecha
+    let tdFecha = document.createElement("td");
+    tdFecha.innerText = fecha;
+
+    //capturar el texto de la descripcion
+    let tdDescripcion = document.createElement("td");
+    tdDescripcion.innerText = descripcion;
+
+    let selectCuentasDebe = contenedorDebe.querySelectorAll(
+      "select[name=selectDebe]"
+    );
+    let montosFilaDebe = contenedorDebe.querySelectorAll(
+      "input[name=monto-cuenta-debe]"
+    );
+
+    for (let i = 0; i < selectCuentasDebe.length; i++) {
+      let tr = document.createElement("tr");
+
+      // celda fecha
+      tr.appendChild(tdFecha.cloneNode(true));
+      // celda descripción
+      tr.appendChild(tdDescripcion.cloneNode(true));
+
+      // celda cuenta
+      let tdCuenta = document.createElement("td");
+      tdCuenta.textContent =
+        selectCuentasDebe[i].options[selectCuentasDebe[i].selectedIndex].text;
+      tr.appendChild(tdCuenta);
+
+      // celda monto debe
+      let tdMontoDebe = document.createElement("td");
+      tdMontoDebe.textContent = `$${montosFilaDebe[i].value}`;
+      tr.appendChild(tdMontoDebe);
+
+      // celda monto haber
+      let tdMontoHaber = document.createElement("td");
+      tdMontoHaber.textContent = "$0.00";
+      tr.appendChild(tdMontoHaber);
+
+      // agregar fila al tbody
+      tbody.appendChild(tr);
+    }
+
+    let selectCuentasHaber = contenedorHaber.querySelectorAll(
+      "select[name=selectHaber]"
+    );
+    let montosFilaHaber = contenedorHaber.querySelectorAll(
+      "input[name=monto-cuenta-haber]"
+    );
+
+    for (let i = 0; i < selectCuentasHaber.length; i++) {
+      let tr = document.createElement("tr");
+      // celda fecha
+      tr.appendChild(tdFecha.cloneNode(true));
+      // celda descripción
+      tr.appendChild(tdDescripcion.cloneNode(true));
+
+      // celda cuenta
+      let tdCuenta = document.createElement("td");
+      tdCuenta.textContent =
+        selectCuentasHaber[i].options[selectCuentasHaber[i].selectedIndex].text;
+      tr.appendChild(tdCuenta);
+
+      // celda monto debe
+      let tdMontoHaber = document.createElement("td");
+      tdMontoHaber.textContent = "$0.00";
+      tr.appendChild(tdMontoHaber);
+
+      // celda monto haber
+      let tdMontoDebe = document.createElement("td");
+      tdMontoDebe.textContent = `$${montosFilaHaber[i].value}`;
+      tr.appendChild(tdMontoDebe);
+
+      // agregar fila al tbody
+      tbody.appendChild(tr);
+    }
+
+    let trTotal = document.createElement("tr");
+
+    trTotal.innerHTML = `
         <td><strong>Total</strong></td>
         <td></td>
         <td></td>
@@ -248,11 +319,12 @@ let montosFilaHaber = contenedorHaber.querySelectorAll('input[name=monto-cuenta-
         <td><strong>$${totalHaber}</strong></td>
   `;
 
-  tbody.appendChild(trTotal);
+    tbody.appendChild(trTotal);
 
-  console.log("Total Debe:", totalDebe, "Total Haber:", totalHaber);
+    console.log("Total Debe:", totalDebe, "Total Haber:", totalHaber);
 
-  formPartida.reset();
-  limpiarContenedor('contenedorDebe');
-  limpiarContenedor('contenedorHaber');
+    formPartida.reset();
+    limpiarContenedor("contenedorDebe");
+    limpiarContenedor("contenedorHaber");
+  }
 });
